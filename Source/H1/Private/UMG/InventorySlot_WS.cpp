@@ -426,7 +426,7 @@ bool UInventorySlot_WS::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 {
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 
-	//UItemDragDrop* ItemDragDropOperation = Cast<UItemDragDrop>(InOperation);
+	//UH1ItemDragDrop* ItemDragDropOperation = Cast<UH1ItemDragDrop>(InOperation);
 	//if (!IsValid(ItemDragDropOperation))
 	//	return false;
 
@@ -435,22 +435,20 @@ bool UInventorySlot_WS::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 	//	return true;
 	//}
 
-	//Apractice_umgPlayerController* practice_umgPlayerController = Cast<Apractice_umgPlayerController>(GetOwningPlayer());
-	//if (!IsValid(practice_umgPlayerController))
+	//AH1PlayerController* H1PlayerController = Cast<AH1PlayerController>(GetOwningPlayer());
+	//if (!IsValid(H1PlayerController))
 	//	return false;
 
 	//if (ItemDragDropOperation->Split)
 	//{
-	//	practice_umgPlayerController->SplitInventoryItem(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef, InventoryItemRef, this);
+	//	H1PlayerController->SplitInventoryItem(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef, InventoryItemRef, this);
 	//}
 	//else
 	//{
-	//	practice_umgPlayerController->ExchangeInventorySlot(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef, InventoryItemRef, this);
+	//	H1PlayerController->ExchangeInventorySlot(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef, InventoryItemRef, this);
 	//}
 
 	//ItemImage->SetOpacity(1.0f);
-
-
 	return true;
 }
 

@@ -11,8 +11,7 @@
 #include "UMG/Exit_WS.h"
 #include "UMG/Inventory_WS.h"
 #include "UMG/H1ItemDesc_WS.h"
-//#include "UMG/WidgetDragDrop.h"
-//#include "UMG/ItemDragDrop.h"
+#include "UMG/H1ItemDragDrop.h"
 #include "UMG/InventorySlot_WS.h"
 #include "Item/H1InventoryItem.h"
 #include "../Source/H1/H1PlayerController.h"
@@ -81,18 +80,19 @@ bool UH1HUDContainer_WS::OpenWidget(UUserWidget* Widget, FAnchors Anchors, FVect
 bool UH1HUDContainer_WS::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
 	// 이 함수는 아이템 드래그N드롭 구현할 때에 사용한다.
-	
-	//Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+	// 자세한 내용은 선언부에
+	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 
-	//UItemDragDrop* ItemDragDropOperation = Cast<UItemDragDrop>(InOperation);
-	//if (!IsValid(ItemDragDropOperation))
-	//	return false;
+	UH1ItemDragDrop* ItemDragDropOperation = Cast<UH1ItemDragDrop>(InOperation);
+	if (!IsValid(ItemDragDropOperation))
+		return false;
 
-	//Apractice_umgPlayerController* practice_umgPlayerController = Cast<Apractice_umgPlayerController>(GetOwningPlayer());
-	//if (!IsValid(practice_umgPlayerController))
-	//	return false;
+	AH1PlayerController* H1PlayerController = Cast<AH1PlayerController>(GetOwningPlayer());
+	if (!IsValid(H1PlayerController))
+		return false;
 
-	//practice_umgPlayerController->OnclieckedContextThrow(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef);
+	// 아이템 버리는 함수 직접 호출.
+	H1PlayerController->OnclieckedContextThrow(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef);
 
 	return true;
 }

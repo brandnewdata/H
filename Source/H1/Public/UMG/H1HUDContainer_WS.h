@@ -29,6 +29,7 @@ public:
 	bool OpenWidget(UUserWidget* Widget, FAnchors Anchors, FVector2D Alignment, FVector2D Position);
 
 protected:
+	// 인벤토리 외부로 아이템을 드랍하면 처리하는 함수.
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
 public:
