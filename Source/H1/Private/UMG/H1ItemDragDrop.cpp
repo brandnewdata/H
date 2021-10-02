@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "UMG/H1ItemDragDrop.h"
+#include "Item/H1InventoryItem.h"
+#include "UMG/InventorySlot_WS.h"
 

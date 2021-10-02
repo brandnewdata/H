@@ -24,8 +24,8 @@
 #include "UMG/H1InventorySlotContextMenu_WS.h"
 #include "UMG/H1ItemDesc_WS.h"
 #include "UMG/H1HUDContainer_WS.h"
-//#include "UMG/ItemDragDrop.h"
-//#include "UMG/DragingItem_WS.h"
+#include "UMG/H1ItemDragDrop.h"
+#include "UMG/DraggedItem_WS.h"
 
 // 내가고치는 그
 #include "Runtime/UMG/Public/Components/Button.h"
@@ -378,31 +378,40 @@ void UInventorySlot_WS::NativeOnDragDetected(const FGeometry& InGeometry, const 
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
 
-	//UItemDragDrop* ItemDragDropOperation = Cast<UItemDragDrop>(UWidgetBlueprintLibrary::CreateDragDropOperation(UItemDragDrop::StaticClass()));
-	//if (!IsValid(ItemDragDropOperation))
-	//	return;
+	// 드래그 드롭 연산 생성
+	UH1ItemDragDrop* ItemDragDropOperation = Cast<UH1ItemDragDrop>(UWidgetBlueprintLibrary::CreateDragDropOperation(UH1ItemDragDrop::StaticClass()));
+	if (!IsValid(ItemDragDropOperation))
+		return;
 
-	//UDragingItem_WS* DragingItemWidget = CreateWidget<UDragingItem_WS>(GetOwningPlayer(), UDragingItem_WS::GetWidgetClassStatic());
-	//if (IsValid(DragingItemWidget))
-	//{
-	//	const FItemTableRow* ItemTableRow = InventoryItemRef->GetItemTableRow();
-	//	if (nullptr != ItemTableRow)
-	//	{
-	//		DragingItemWidget->SetItemImage(ItemTableRow->ItemThumb);
-	//	}
+	// TODO : 아이템 슬롯에 아이템이 없어도 드래그 드롭이 발동 됩니다.
+	// 여기보다 먼저 시점에서 이 것을 체크해서 드래그 드롭을 막아야 합니다.
+	if (InventoryItemRef == nullptr)
+		return;
 
-	//	ItemDragDropOperation->DefaultDragVisual = DragingItemWidget;
-	//}
+	// 드래그로 이동하는 아이템 이미지 생성 
+	UDraggedItem_WS* DragingItemWidget = CreateWidget<UDraggedItem_WS>(GetOwningPlayer(), UDraggedItem_WS::GetWidgetClassStatic());
+	if (IsValid(DragingItemWidget))
+	{
+		const FItemTableRow* ItemTableRow = InventoryItemRef->GetItemTableRow();
+		if (nullptr != ItemTableRow)
+		{
+			DragingItemWidget->SetItemImage(ItemTableRow->ItemThumb);
+		}
 
-	//ItemDragDropOperation->Split = InMouseEvent.IsShiftDown();
-	//ItemDragDropOperation->FromInventorySlotRef = this;
-	//ItemDragDropOperation->InventoryItemRef = InventoryItemRef;
-	//ItemDragDropOperation->Pivot = EDragPivot::MouseDown;
+		// 드래그 연산의 대상으로 이 위젯을 지정함.
+		ItemDragDropOperation->DefaultDragVisual = DragingItemWidget;
+	}
 
-	//OutOperation = ItemDragDropOperation;
+	ItemDragDropOperation->Split = InMouseEvent.IsShiftDown(); // 절반은 원래 슬롯에 있고 1/2만 드래그 아이템으로 만들어 진다.
+	ItemDragDropOperation->FromInventorySlotRef = this;	// 출발지 슬롯 위치 설정
+	ItemDragDropOperation->InventoryItemRef = InventoryItemRef; // 드래그하는 인벤토리 아이템의 포인터
+	ItemDragDropOperation->Pivot = EDragPivot::MouseDown; // 드래그드롭하는 위젯이 마우스 보다 위냐 아래냐 z오더 문제로 보임.
 
-	//LButtonDown = false;
-	//RButtonDown = false;
+	OutOperation = ItemDragDropOperation; // 출력 매개변수
+
+	// 마우스 버튼업시에 클릭이나 버튼업에 묶인 이벤트가 발생하지 않게 처리함.
+	LButtonDown = false;
+	RButtonDown = false;
 }
 
 void UInventorySlot_WS::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
