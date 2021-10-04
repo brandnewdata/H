@@ -79,9 +79,12 @@ protected:
 	// DragNDrop Functions
 	//
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+	// 드래깅이 취소되면 호출되는 함수 인데 아직 그런 경우가 없음.
 	virtual void NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	// 현재는 슬롯위로 다른 슬롯의 아이템이 드래그 상태로 들어오면 현재 지나고 있는 슬롯의 투명도가 0.5가됨
 	virtual void NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	// 슬롯 위로 지나가던 드래그가 끝나면 슬롯의 투명도를 원래 1.0으로 되돌린다.
 	virtual void NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
 private:
@@ -111,6 +114,7 @@ public:
 	FTimerHandle TimerHandle;
 
 public:
+	// 인벤토리의 빈 슬롯으로 아이템을 이동 시키려면 빈 슬롯의 인덱스가 필요함.
 	int SlotIndex = INDEX_NONE;
 
 private:

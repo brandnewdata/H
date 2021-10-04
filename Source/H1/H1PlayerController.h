@@ -82,13 +82,14 @@ public:
 	UFUNCTION()
 	void GetEquipedInventoryItem(EItemEquipSlot ItemEquipSlot, UH1InventoryItem*& InventoryItem, UInventorySlot_WS*& InventorySlot);
 
-	//// 컨텍스트 메뉴의 버리기 처리
+	// 컨텍스트 메뉴의 버리기 처리
 	UFUNCTION()
 	void OnclieckedContextThrow(UH1InventoryItem* InventoryItem, UInventorySlot_WS* InventorySlot);
 
-	//void ExchangeInventorySlot(UH1InventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UH1InventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot);
-
-	//void SplitInventoryItem(UH1InventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UH1InventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot);
+	// 서로 다른 아이템 슬롯 간의 내용물 교체
+	void ExchangeInventorySlot(UH1InventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UH1InventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot);
+	// 슬롯의 아이템이 1개 이상이면 절반만 드래그 아이템으로 생성. 
+	void SplitInventoryItem(UH1InventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UH1InventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot);
 
 
 //------------------------------------------------------------------------------------------------------------
@@ -107,6 +108,7 @@ public:
 	TArray<UH1InventoryItem*> InventoryItems;
 
 private:
+	//
 	const int MaxInventorySlotCount = 8;
 };
 

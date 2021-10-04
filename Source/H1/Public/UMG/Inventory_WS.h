@@ -58,7 +58,10 @@ private:
 	UInventorySlot_WS* InventorySlot_7;
 
 	UPROPERTY()
-	TArray<UInventorySlot_WS*> InventorySlots;
+	TArray<UInventorySlot_WS*> array_InventorySlots;
 
 	bool Showing = false;
+
+	UPROPERTY()
+	int flag = 0;
 };

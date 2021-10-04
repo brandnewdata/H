@@ -529,114 +529,126 @@ void AH1PlayerController::OnclieckedContextThrow(UH1InventoryItem* InventoryItem
 }
 
 
-//void Apractice_umgPlayerController::ExchangeInventorySlot(UInventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UInventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot)
-//{
-//	if (!IsValid(SrcInventoryItem))
-//		return;
-//
-//	int32 srcInvenIndex = InventoryItems.Find(SrcInventoryItem);
-//	if (INDEX_NONE == srcInvenIndex)
-//		return;
-//
-//	int32 DestInvenIndex = INDEX_NONE;
-//
-//	if (!IsValid(DestInventoryItem))
-//	{
-//		DestInvenIndex = DestInventorySlot->SlotIndex;
-//		if (INDEX_NONE == DestInvenIndex)
-//			return;
-//
-//		InventoryItems[DestInvenIndex] = SrcInventoryItem;
-//		InventoryItems[srcInvenIndex] = nullptr;
-//
-//		SrcInventorySlot->CleanUp();
-//
-//		DestInventorySlot->CleanUp();
-//		DestInventorySlot->SetItemInfo(SrcInventoryItem);
-//		DestInventorySlot->UpdateSlot();
-//		DestInventorySlot->OnCliekedInventorySlot.AddDynamic(this, &Apractice_umgPlayerController::OnclieckedInventorySlot);
-//		DestInventorySlot->OnCliekedInventoryContext.AddDynamic(this, &Apractice_umgPlayerController::OnclieckedContextThrow);
-//	}
-//	else
-//	{
-//		if (SrcInventoryItem->ItemClassID == DestInventoryItem->ItemClassID && SrcInventoryItem->GetItemTableRow()->ItemType == EItemType::Consume)
-//		{
-//			DestInvenIndex = InventoryItems.Find(DestInventoryItem);
-//			if (INDEX_NONE == DestInvenIndex)
-//				return;
-//
-//			DestInventoryItem->StackCount += SrcInventoryItem->StackCount;
-//			InventoryItems[srcInvenIndex] = nullptr;
-//
-//			SrcInventorySlot->CleanUp();
-//			DestInventorySlot->UpdateSlot();
-//		}
-//		else
-//		{
-//			DestInvenIndex = InventoryItems.Find(DestInventoryItem);
-//			if (INDEX_NONE == DestInvenIndex)
-//				return;
-//
-//			InventoryItems[DestInvenIndex] = SrcInventoryItem;
-//			InventoryItems[srcInvenIndex] = DestInventoryItem;
-//
-//			SrcInventorySlot->SetItemInfo(DestInventoryItem);
-//			SrcInventorySlot->UpdateSlot();
-//
-//			DestInventorySlot->SetItemInfo(SrcInventoryItem);
-//			DestInventorySlot->UpdateSlot();
-//		}
-//	}
-//}
+void AH1PlayerController::ExchangeInventorySlot(UH1InventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UH1InventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot)
+{
+	if (!IsValid(SrcInventoryItem))
+		return;
 
-//void Apractice_umgPlayerController::SplitInventoryItem(UInventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UInventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot)
-//{
-//	if (!IsValid(SrcInventoryItem))
-//		return;
-//
-//	int32 srcInvenIndex = InventoryItems.Find(SrcInventoryItem);
-//	if (INDEX_NONE == srcInvenIndex)
-//		return;
-//
-//	int HalfStackCount = SrcInventoryItem->StackCount / 2.0f;
-//	if (0 == HalfStackCount)
-//		return;
-//
-//	if (!IsValid(DestInventoryItem))
-//	{
-//		int DestInvenSlotIndex = DestInventorySlot->SlotIndex;
-//		if (INDEX_NONE == DestInvenSlotIndex)
-//			return;
-//
-//		SrcInventoryItem->StackCount -= HalfStackCount;
-//		SrcInventorySlot->UpdateSlot();
-//
-//		UInventoryItem* NewInventoryItem = NewObject<UInventoryItem>();
-//		NewInventoryItem->SetItemInfo(SrcInventoryItem->ItemClassID, HalfStackCount);
-//		InventoryItems[DestInvenSlotIndex] = NewInventoryItem;
-//
-//		DestInventorySlot->CleanUp();
-//		DestInventorySlot->SetItemInfo(NewInventoryItem);
-//		DestInventorySlot->UpdateSlot();
-//		DestInventorySlot->OnCliekedInventorySlot.AddDynamic(this, &Apractice_umgPlayerController::OnclieckedInventorySlot);
-//		DestInventorySlot->OnCliekedInventoryContext.AddDynamic(this, &Apractice_umgPlayerController::OnclieckedContextThrow);
-//	}
-//	else
-//	{
-//		if (SrcInventoryItem->ItemClassID == DestInventoryItem->ItemClassID)
-//		{
-//			SrcInventoryItem->StackCount -= HalfStackCount;
-//			SrcInventorySlot->UpdateSlot();
-//
-//			DestInventoryItem->StackCount += HalfStackCount;
-//			DestInventorySlot->UpdateSlot();
-//		}
-//		else
-//		{
-//			ExchangeInventorySlot(SrcInventoryItem, SrcInventorySlot, DestInventoryItem, DestInventorySlot);
-//		}
-//	}
-//}
+	// 인벤토리 아이템 포인터로 배열에서 인벤토리 슬롯의 인덱스를 얻어옴.
+	int32 srcInvenIndex = InventoryItems.Find(SrcInventoryItem);
+	if (INDEX_NONE == srcInvenIndex)
+		return;
+
+	// 목적지 인덱스의 기본값 -1. 비어 있다면 이 값과 같음. 초기화.
+	int32 DestInvenIndex = INDEX_NONE;
+
+	if (!IsValid(DestInventoryItem))	// 목적지 인벤토리가 슬롯이 빈칸이라면, 빈칸으로 아이템을 이동 시킨다.
+	{
+		// 슬롯의 인덱스를 얻어와서
+		DestInvenIndex = DestInventorySlot->SlotIndex;
+		if (INDEX_NONE == DestInvenIndex) // 슬롯의 인덱스가 유효한지 확인하고
+			return;
+		// 아이템을 빈칸에 복사한다.(포인터)
+		InventoryItems[DestInvenIndex] = SrcInventoryItem; 
+		InventoryItems[srcInvenIndex] = nullptr; // 기존의 아이템 칸을 비운다. 
+
+		SrcInventorySlot->CleanUp(); // 기존의 아이템이 들어있던 슬롯을 정리한다.
+
+		DestInventorySlot->CleanUp(); // 새로 아이템이 들어갈 스롯을 정리한다.
+		DestInventorySlot->SetItemInfo(SrcInventoryItem); // 아이테의 정보를 슬롯에 업데이트 한다.
+		DestInventorySlot->UpdateSlot(); // 새로 아이템이 생긴 슬롯을 업데이트 한다.(외형)
+		// 아이템 사용 처리 함수 바인드
+		DestInventorySlot->OnCliekedInventorySlot.AddDynamic(this, &AH1PlayerController::OnclieckedInventorySlot);
+		// 아이템 버리기 처리 함수 바인드
+		DestInventorySlot->OnCliekedInventoryContext.AddDynamic(this, &AH1PlayerController::OnclieckedContextThrow);
+	}
+	else // 만약 빈칸이 아니면 현재 칸에 아이템 스택을 증가 시키거나 두 슬롯의 아이템을 서로 교환한다.
+	{
+		// 출발지 슬롯과 목적지 슬롯의 아이템이 같고 아이템이 소모성이면 쌓아라.
+		if (SrcInventoryItem->ItemClassID == DestInventoryItem->ItemClassID && SrcInventoryItem->GetItemTableRow()->ItemType == EItemType::Consume)
+		{
+			// 컨트롤러의 인벤토리배열에서 대상슬롯의 아이템과 포인터가 같은 아이템의 인덱스를 구함.
+			DestInvenIndex = InventoryItems.Find(DestInventoryItem);
+			if (INDEX_NONE == DestInvenIndex)
+				return;
+
+			// 아이템 개수를 합침.
+			DestInventoryItem->StackCount += SrcInventoryItem->StackCount;
+			InventoryItems[srcInvenIndex] = nullptr;			
+			SrcInventorySlot->CleanUp();	// 슬롯 정리
+			DestInventorySlot->UpdateSlot(); // 슬롯 업데이트
+		}
+		else
+		{
+			// 컨트롤러의 인벤토리배열에서 대상슬롯의 아이템과 포인터가 같은 아이템의 인덱스를 구함.
+			DestInvenIndex = InventoryItems.Find(DestInventoryItem);
+			if (INDEX_NONE == DestInvenIndex)
+				return;
+
+			// 슬롯 서로 교환
+			InventoryItems[DestInvenIndex] = SrcInventoryItem;
+			InventoryItems[srcInvenIndex] = DestInventoryItem;
+
+			// 슬롯 각각 업데이트
+			SrcInventorySlot->SetItemInfo(DestInventoryItem);
+			SrcInventorySlot->UpdateSlot();
+
+			DestInventorySlot->SetItemInfo(SrcInventoryItem);
+			DestInventorySlot->UpdateSlot();
+		}
+	}
+}
+
+void AH1PlayerController::SplitInventoryItem(UH1InventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UH1InventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot)
+{
+	if (!IsValid(SrcInventoryItem))
+		return; 
+
+	int32 srcInvenIndex = InventoryItems.Find(SrcInventoryItem);
+	if (INDEX_NONE == srcInvenIndex)
+		return;
+
+	// 절반을 나눔. 나눠서 0개면 분할되는 아이템도 0개. 묵시적 형변환
+	int HalfStackCount = SrcInventoryItem->StackCount / 2.0f;
+	if (0 == HalfStackCount)
+		return;
+
+	if (!IsValid(DestInventoryItem)) // 대상 슬롯이 비어있음
+	{
+		int DestInvenSlotIndex = DestInventorySlot->SlotIndex;
+		if (INDEX_NONE == DestInvenSlotIndex)
+			return;
+
+		SrcInventoryItem->StackCount -= HalfStackCount;
+		SrcInventorySlot->UpdateSlot();
+
+		UH1InventoryItem* NewInventoryItem = NewObject<UH1InventoryItem>();
+		NewInventoryItem->SetItemInfo(SrcInventoryItem->ItemClassID, HalfStackCount);
+		InventoryItems[DestInvenSlotIndex] = NewInventoryItem;
+
+		DestInventorySlot->CleanUp();
+		DestInventorySlot->SetItemInfo(NewInventoryItem);
+		DestInventorySlot->UpdateSlot();
+		DestInventorySlot->OnCliekedInventorySlot.AddDynamic(this, &AH1PlayerController::OnclieckedInventorySlot);
+		DestInventorySlot->OnCliekedInventoryContext.AddDynamic(this, &AH1PlayerController::OnclieckedContextThrow);
+	}
+	else // 대상 슬롯에 아이템이 있음
+	{
+		// 슬롯의 아이템이 같으면 겹친다.
+		if (SrcInventoryItem->ItemClassID == DestInventoryItem->ItemClassID)
+		{
+			SrcInventoryItem->StackCount -= HalfStackCount;
+			SrcInventorySlot->UpdateSlot();
+
+			DestInventoryItem->StackCount += HalfStackCount;
+			DestInventorySlot->UpdateSlot();
+		}
+		else // 슬롯의 아이템이 서로 다르면 서로 위치를 바꿈. // 분할된 드대그 드롭 아이템뿐만 아니라 출발지 슬롯과 목적지 슬롯의 아이템이 교체됨.
+		{
+			ExchangeInventorySlot(SrcInventoryItem, SrcInventorySlot, DestInventoryItem, DestInventorySlot);
+		}
+	}
+}
 
 
 

@@ -418,61 +418,66 @@ void UInventorySlot_WS::NativeOnDragCancelled(const FDragDropEvent& InDragDropEv
 {
 	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
 
-	//LButtonDown = false;
-	//RButtonDown = false;
+	LButtonDown = false;
+	RButtonDown = false;
 }
 
 bool UInventorySlot_WS::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 
-	//UH1ItemDragDrop* ItemDragDropOperation = Cast<UH1ItemDragDrop>(InOperation);
-	//if (!IsValid(ItemDragDropOperation))
-	//	return false;
+	// 드래그 operation이 유효하다면
+	UH1ItemDragDrop* ItemDragDropOperation = Cast<UH1ItemDragDrop>(InOperation);
+	if (!IsValid(ItemDragDropOperation))
+		return false;
+	
+	// 오퍼레이션이 드래그 중인 아이템이 해당 슬롯의 아이템이 맞다면 // 그냥 아무런 일도 없다.
+	if (this == ItemDragDropOperation->FromInventorySlotRef)
+	{
+		return true;
+	}
 
-	//if (this == ItemDragDropOperation->FromInventorySlotRef)
-	//{
-	//	return true;
-	//}
+	// 다른 슬롯의 아이템이 슬롯에서 드랍되었다면.
+	// TODO:디커플링! // 컨트롤러
+	AH1PlayerController* H1PlayerController = Cast<AH1PlayerController>(GetOwningPlayer());
+	if (!IsValid(H1PlayerController))
+		return false;
 
-	//AH1PlayerController* H1PlayerController = Cast<AH1PlayerController>(GetOwningPlayer());
-	//if (!IsValid(H1PlayerController))
-	//	return false;
+	// split이 활성화 상태라면 아이템 분할후 추가, 아니라면 슬롯의 아이템 서로 교환
+	if (ItemDragDropOperation->Split)
+	{
+		H1PlayerController->SplitInventoryItem(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef, InventoryItemRef, this);
+	}
+	else
+	{
+		H1PlayerController->ExchangeInventorySlot(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef, InventoryItemRef, this);
+	}
 
-	//if (ItemDragDropOperation->Split)
-	//{
-	//	H1PlayerController->SplitInventoryItem(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef, InventoryItemRef, this);
-	//}
-	//else
-	//{
-	//	H1PlayerController->ExchangeInventorySlot(ItemDragDropOperation->InventoryItemRef, ItemDragDropOperation->FromInventorySlotRef, InventoryItemRef, this);
-	//}
-
-	//ItemImage->SetOpacity(1.0f);
+	ItemImage->SetOpacity(1.0f);
 	return true;
 }
 
 void UInventorySlot_WS::NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
 	Super::NativeOnDragEnter(InGeometry, InDragDropEvent, InOperation);
+	// 현재는 슬롯위로 다른 슬롯의 아이템이 드래그 상태로 들어오면 현재 지나고 있는 슬롯의 투명도가 0.5가됨
+	UH1ItemDragDrop* ItemDragDropOperation = Cast<UH1ItemDragDrop>(InOperation);
+	if (!IsValid(ItemDragDropOperation))
+		return;
 
-	//UItemDragDrop* ItemDragDropOperation = Cast<UItemDragDrop>(InOperation);
-	//if (!IsValid(ItemDragDropOperation))
-	//	return;
-
-	//if (false == IsEmpty && this != ItemDragDropOperation->FromInventorySlotRef)
-	//	ItemImage->SetOpacity(0.5f);
+	if (false == IsEmpty && this != ItemDragDropOperation->FromInventorySlotRef)
+		ItemImage->SetOpacity(0.5f);
 }
 
 void UInventorySlot_WS::NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
 	Super::NativeOnDragLeave(InDragDropEvent, InOperation);
+	// 슬롯 위로 지나가던 드래그가 끝나면 슬롯의 투명도를 원래 1.0으로 되돌린다.
+	UH1ItemDragDrop* ItemDragDropOperation = Cast<UH1ItemDragDrop>(InOperation);
+	if (!IsValid(ItemDragDropOperation))
+		return;
 
-	//UItemDragDrop* ItemDragDropOperation = Cast<UItemDragDrop>(InOperation);
-	//if (!IsValid(ItemDragDropOperation))
-	//	return;
-
-	//ItemImage->SetOpacity(1.0f);
+	ItemImage->SetOpacity(1.0f);
 }
 
 
