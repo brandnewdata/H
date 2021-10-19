@@ -86,6 +86,9 @@ AH1Character::AH1Character()
 	// 컨트롤 모드 설정 >> 초기값: GTA -> CDO : 디아블로
 	SetControlMode(EPlayerControlMode::GTA);
 
+	// 점프 높이를 설정함.
+	GetCharacterMovement()->JumpZVelocity = 500.0f;
+
 	// 카메라 시점변환 장식성 코드
 	ArmLengthSpeed = 3.f;		// 틱당 location이 3씩 이동함
 	ArmRotationSpeed = 10.f;	// 틱당 각도가 10도씩 돌아감
@@ -242,6 +245,9 @@ void AH1Character::SetupPlayerInputComponent(UInputComponent* playerInputCompone
 	// GTA식 플레이어 캐릭터 조작일 경우에는 마우스 XY로 시점 변환 
 	playerInputComponent->BindAxis(TEXT("Turn"), this, &AH1Character::Turn);
 	playerInputComponent->BindAxis(TEXT("LookUp"), this, &AH1Character::LookUp);
+
+	// 점프키 처리 함수 바인드, 상속받은 함수를 그대로 사용함.
+	playerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 }
 
 float AH1Character::Heal(float AmountOfHeal)
