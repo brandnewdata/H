@@ -7,3 +7,16 @@ UH1AnimInstance::UH1AnimInstance()
 {
 	CurrentPawnSpeed = 0.f;
 }
+
+void UH1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
+{
+	Super::NativeUpdateAnimation(DeltaSeconds);
+
+	// TryGEtPawnOwner 현재 애니메이션 BP를 사용중인 Pawn의 포인터를 얻어온다.
+	auto Pawn = TryGetPawnOwner();
+	if(::IsValid(Pawn)) // Pawn 유효하다면
+	{
+		// Pawn으로부터 속도 -> 속력을 얻어온다.
+		CurrentPawnSpeed = Pawn->GetVelocity().Size();
+	}
+}

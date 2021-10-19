@@ -16,7 +16,10 @@ class H1_API UH1AnimInstance : public UAnimInstance
 	
 public:
 	UH1AnimInstance();
+	// @ 수행할 애니메이션 세트를 결정하기 위해서 애니메이션 관련 속성들을 업데이트 합니다.
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
+	// State를 바꾸는데 필요한 character property 복사본
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Pawn, Meta=(AllowPrivateAccess=true))
 	float CurrentPawnSpeed;
