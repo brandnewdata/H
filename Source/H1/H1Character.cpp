@@ -232,7 +232,6 @@ void AH1Character::SetControlMode(EPlayerControlMode NewControlMode)
 	
 }
 
-
 void AH1Character::SetupPlayerInputComponent(UInputComponent* playerInputComponent)
 {
 	Super::SetupPlayerInputComponent(playerInputComponent);
@@ -248,7 +247,16 @@ void AH1Character::SetupPlayerInputComponent(UInputComponent* playerInputCompone
 
 	// 점프키 처리 함수 바인드, 상속받은 함수를 그대로 사용함.
 	playerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
+
+	// Attack키에 처리 함수 바인드
+	playerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AH1Character::Attack);
 }
+
+void AH1Character::Attack()
+{
+	H1LOG_S(Warning);
+}
+
 
 float AH1Character::Heal(float AmountOfHeal)
 {

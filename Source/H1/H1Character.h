@@ -67,10 +67,10 @@ protected:
 		DIABLO
 	};
 
-	
 	void ViewChange(); 
 	void SetControlMode(EPlayerControlMode NewControlMode);
-	
+	void Attack();
+
 	// 기본 컨트롤 모드는 GTA
 	EPlayerControlMode CurrentControlMode = EPlayerControlMode::GTA;
 
