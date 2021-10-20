@@ -53,7 +53,7 @@ AH1Pawn::AH1Pawn()
 	Mesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 
 	// BP Class 가져올때는 끝에 _C 잊이말고 붙이자.. 
-	static ConstructorHelpers::FClassFinder<UAnimInstance> ROBO_ANIM(TEXT("/Game/H1/Animations/AMBP_PC.AMBP_PC_C"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> ROBO_ANIM(TEXT("/Game/H1/PlayerAnims/AMBP_PC.AMBP_PC_C"));
 
 	// 클래스를 찾았다면
 	if (ROBO_ANIM.Succeeded())
