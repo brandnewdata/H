@@ -38,7 +38,7 @@ AH1Character::AH1Character()
 	// Skeletal Mesh에 애니메이션 블루프린트 세팅하기.
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 
-	static ConstructorHelpers::FClassFinder<UAnimInstance> ROBO_ANIM(TEXT("/Game/H1/Animations/AMBP_PC.AMBP_PC_C"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> ROBO_ANIM(TEXT("/Game/H1/PlayerAnims/AMBP_PC.AMBP_PC_C"));
 	if (SK_ROBO.Succeeded())
 	{
 		GetMesh()->SetAnimInstanceClass(ROBO_ANIM.Class);
