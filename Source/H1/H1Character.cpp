@@ -18,6 +18,8 @@
 #include "Item/H1InventoryItem.h"
 #include "ITem/H1ItemTableDef.h"
 
+#include "Animation/H1AnimInstance.h"
+
 AH1Character::AH1Character()
 {
 	// Set size for player capsule
@@ -254,7 +256,12 @@ void AH1Character::SetupPlayerInputComponent(UInputComponent* playerInputCompone
 
 void AH1Character::Attack()
 {
-	H1LOG_S(Warning);
+	// 애니메이션 블루프린트 포인터를 얻어옴
+	auto AnimInst = Cast<UH1AnimInstance>(GetMesh()->GetAnimInstance());
+	if (nullptr == AnimInst) return;
+
+	// 애니메이션BP 포인터로 몽타주 재생.
+	AnimInst->playAttackMontage();
 }
 
 

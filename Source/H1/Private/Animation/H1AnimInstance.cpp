@@ -7,6 +7,13 @@ UH1AnimInstance::UH1AnimInstance()
 {
 	CurrentPawnSpeed = 0.f;
 	bInAir = false;
+
+	// 몽타주 애셋 로드.
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> ATTACK_MONTAGE(TEXT("/Game/H1/PlayerAnims/H1_PC_AttackMontage.H1_PC_AttackMontage"));
+	if(ATTACK_MONTAGE.Succeeded())
+	{
+		AttackMontage = ATTACK_MONTAGE.Object;
+	}
 }
 
 void UH1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -25,5 +32,15 @@ void UH1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			// 캐릭터로 부터 공중인지 여부를 받아온다.
 			bInAir = Character->GetMovementComponent()->IsFalling();
 		}
+	}
+}
+
+void UH1AnimInstance::playAttackMontage()
+{
+	// 애니메이션 몽타주가 재생 중 인지 확인, 아니라면 재생 시작
+	if(Montage_IsPlaying(AttackMontage) == false)
+	{
+		// 초당 1번 입력 가능
+		Montage_Play(AttackMontage, 1.0f);
 	}
 }
