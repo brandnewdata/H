@@ -254,14 +254,26 @@ void AH1Character::SetupPlayerInputComponent(UInputComponent* playerInputCompone
 	playerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AH1Character::Attack);
 }
 
+void AH1Character::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	auto AnimInst = Cast<UH1AnimInstance>(GetMesh()->GetAnimInstance());
+	AnimInst->OnMontageEnded.AddDynamic(this, &AH1Character::OnAttackMontageEnded); // 이렇게 하면 모든 몽타주가 끝날때마다 호출됨
+	// 몽타주가 여러개가 되면 처리 함수에서 분기처리가 필요하다.
+}
+
 void AH1Character::Attack()
 {
+	if(IsAttacking) return; // 공격중이면 이 함수는 바로 반환한다.
+
 	// 애니메이션 블루프린트 포인터를 얻어옴
 	auto AnimInst = Cast<UH1AnimInstance>(GetMesh()->GetAnimInstance());
 	if (nullptr == AnimInst) return;
 
 	// 애니메이션BP 포인터로 몽타주 재생.
 	AnimInst->playAttackMontage();
+
+	IsAttacking = true; // 공격 애니메이션이 시작 된다.
 }
 
 
@@ -341,6 +353,12 @@ FVector AH1Character::GetFootLocation()
 
 	// 발아래 오브젝트가 없다면 현재 캐릭터의 위치를 반환해서 그 위치에 아이템을 드랍한다.
 	return GetActorLocation();
+}
+
+void AH1Character::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	// Attack Montage가 끝난 것을 Character의 property set에 apply
+	IsAttacking = false;
 }
 
 void AH1Character::UpDown(float NewAxisValue)

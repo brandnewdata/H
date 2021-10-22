@@ -37,10 +37,6 @@ void UH1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 void UH1AnimInstance::playAttackMontage()
 {
-	// 애니메이션 몽타주가 재생 중 인지 확인, 아니라면 재생 시작
-	if(Montage_IsPlaying(AttackMontage) == false)
-	{
-		// 초당 1번 입력 가능
-		Montage_Play(AttackMontage, 1.0f);
-	}
+	// 이 함수 Character의 IsAttacking == false일 때만 호출 됩니다.	
+	Montage_Play(AttackMontage);
 }

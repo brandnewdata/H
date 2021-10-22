@@ -21,6 +21,10 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* playerInputComponent) override;
 
+	// 상속 받은 함수들
+public:
+	virtual void PostInitializeComponents() override;
+
 	// Getter, Setter
 public:
 	// 
@@ -50,6 +54,10 @@ public:
 	UFUNCTION()
 	FVector GetFootLocation();
 
+	// Bound to Anim Instance to 'process End Of Attack Anim Montage.'
+	UFUNCTION()
+	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
 protected:
 
 	// 방향키 이동을 위한 함수 추가
@@ -77,6 +85,7 @@ protected:
 	// 플레이어가 입력한 방향값을 저장해서 이동하는 로직에서 사용한다 (디아블로 방식)
 	FVector DirectionToMove = FVector::ZeroVector;
 
+// 
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -90,15 +99,12 @@ private:
 	/**  */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Equipmentable, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* m_Weapon;
-
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* WeaponBack;
-
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* WeaponRightHand;
-
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* WeaponLeftHand;
@@ -108,15 +114,19 @@ private:
 	FRotator ArmRotationTo = FRotator::ZeroRotator;
 	float ArmLengthSpeed = 0.f;
 	float ArmRotationSpeed = 0.f;
-
-	UPROPERTY()
-	float HP = 500.0f;
-
-	UPROPERTY()
-	float MaxHP = 1000.0f;
-
+;
+	// Game Play Property
 public:
 	UPROPERTY()
 	class UArrowComponent* FootLocate;
+	UPROPERTY()
+	float HP = 500.0f;
+	UPROPERTY()
+	float MaxHP = 1000.0f;
+
+	// Character States
+private:
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
+	bool IsAttacking;
 };
 
