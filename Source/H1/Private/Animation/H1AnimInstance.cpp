@@ -38,5 +38,5 @@ void UH1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 void UH1AnimInstance::playAttackMontage()
 {
 	// 이 함수 Character의 IsAttacking == false일 때만 호출 됩니다.	
-	Montage_Play(AttackMontage);
+	Montage_Play(AttackMontage, 1.0f);
 }

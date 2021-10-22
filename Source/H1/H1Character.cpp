@@ -257,8 +257,12 @@ void AH1Character::SetupPlayerInputComponent(UInputComponent* playerInputCompone
 void AH1Character::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	auto AnimInst = Cast<UH1AnimInstance>(GetMesh()->GetAnimInstance());
-	AnimInst->OnMontageEnded.AddDynamic(this, &AH1Character::OnAttackMontageEnded); // 이렇게 하면 모든 몽타주가 끝날때마다 호출됨
+
+	H1AnimInst = Cast<UH1AnimInstance>(GetMesh()->GetAnimInstance());
+
+	H1CHECK(H1AnimInst != nullptr )
+
+	H1AnimInst->OnMontageEnded.AddDynamic(this, &AH1Character::OnAttackMontageEnded); // 이렇게 하면 모든 몽타주가 끝날때마다 호출됨
 	// 몽타주가 여러개가 되면 처리 함수에서 분기처리가 필요하다.
 }
 

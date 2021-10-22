@@ -108,6 +108,8 @@ private:
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* WeaponLeftHand;
+	UPROPERTY()
+	class UH1AnimInstance* H1AnimInst;
 
 	// 카메라 시점변환에 필요한 속성들
 	float ArmLengthTo = 0.f;
