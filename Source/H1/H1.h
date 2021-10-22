@@ -11,3 +11,5 @@ DECLARE_LOG_CATEGORY_EXTERN(H1_Custom, Log, All);
 #define H1LOG_CALLINFO (FString(__FUNCTION__) + TEXT("(")+FString::FromInt(__LINE__) + TEXT(")"))
 #define H1LOG_S(Verbosity) UE_LOG(H1_Custom, Verbosity, TEXT("%s"), *H1LOG_CALLINFO)
 #define H1LOG(Verbosity, Format, ...) UE_LOG(H1_Custom, Verbosity, TEXT("%s : %s"), *H1LOG_CALLINFO, *FString::Printf(Format, ##__VA_ARGS__))
+
+#define H1CHECK(Expr, ...) {if(!(Expr)) {H1LOG(Error, TEXT("ASSERTION : %s"), TEXT(""#Expr"")); return __VA_ARGS__; } }

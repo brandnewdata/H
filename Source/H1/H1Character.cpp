@@ -357,6 +357,8 @@ FVector AH1Character::GetFootLocation()
 
 void AH1Character::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
+	// IsAttacking이 false인 상태로 이 함수가 호출되면 분명히 버그가 있는 것.
+	H1CHECK(IsAttacking);
 	// Attack Montage가 끝난 것을 Character의 property set에 apply
 	IsAttacking = false;
 }
