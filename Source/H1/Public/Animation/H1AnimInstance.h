@@ -21,7 +21,9 @@ public:
 
 	void playAttackMontage();
 
-
+private:
+	UFUNCTION()
+	void AnimNotify_AttackHitCheck();
 
 	// State를 바꾸는데 필요한 character property 복사본
 private:
