@@ -67,6 +67,9 @@ private:
 	void Turn(float NewAxisValue);
 	void LookUp(float NewAxisValue);
 
+	// Combo Attack Methods
+	void AttackStartComboState();
+	void AttackEndComboState();
 
 protected:
 	enum class EPlayerControlMode
@@ -77,7 +80,7 @@ protected:
 
 	void ViewChange(); 
 	void SetControlMode(EPlayerControlMode NewControlMode);
-	void Attack();
+	void Attack(); // 인풋에 바인드 되어 있는 함수
 
 	// 기본 컨트롤 모드는 GTA
 	EPlayerControlMode CurrentControlMode = EPlayerControlMode::GTA;
@@ -101,13 +104,13 @@ private:
 	class UStaticMeshComponent* m_Weapon;
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* WeaponBack;
+	class UStaticMeshComponent* WeaponBack;
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* WeaponRightHand;
+	class UStaticMeshComponent* WeaponRightHand;
 	/** A decal that projects to the cursor location. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* WeaponLeftHand;
+	class UStaticMeshComponent* WeaponLeftHand;
 	UPROPERTY()
 	class UH1AnimInstance* H1AnimInst;
 
@@ -130,5 +133,14 @@ public:
 private:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 	bool IsAttacking;
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
+	bool bCanNextCombo;
+	// 다음 콤보를 위한 플레이어의 입력이 있었는가? // 없다면 콤보가 끊긴다. // 이어지는 콤보어택은 OnNextAttackCheck에서 발동시킵니다.
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
+	bool bIsComboInputOn;
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
+	int32 CurrentComboIndex;
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
+	int32 FinalComboIndex;
 };
 

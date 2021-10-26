@@ -41,7 +41,24 @@ void UH1AnimInstance::playAttackMontage()
 	Montage_Play(AttackMontage, 1.0f);
 }
 
+void UH1AnimInstance::JumpToOtherAttackMontageSection(int32 NewSection)
+{
+	H1CHECK(Montage_IsPlaying(AttackMontage)); // 몽타주 플레이중에만 몽타주 섹션 변경이 적절함.
+	Montage_JumpToSection(GetAttackMontageSectionName(NewSection), AttackMontage);
+}
+
 void UH1AnimInstance::AnimNotify_AttackHitCheck()
 {
-	H1LOG_S(Warning);
+	OnAttackHitCheck.Broadcast();
+}
+
+void UH1AnimInstance::AnimNotify_NextAttackCheck()
+{
+	OnNextAttackCheck.Broadcast();
+}
+
+FName UH1AnimInstance::GetAttackMontageSectionName(int32 Section)
+{
+	H1CHECK(FMath::IsWithinInclusive<int32>(Section, 1, 4), NAME_None);
+	return FName(*FString::Printf(TEXT("Attack%d"), Section));
 }

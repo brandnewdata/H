@@ -6,6 +6,8 @@
 #include "Animation/AnimInstance.h"
 #include "H1AnimInstance.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FOnNextAttackCheckDelegate);
+DECLARE_MULTICAST_DELEGATE(FOnAttackHitCheckDelegate);
 /**
  * 
  */
@@ -13,17 +15,29 @@ UCLASS()
 class H1_API UH1AnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
-	
+	// 
 public:
 	UH1AnimInstance();
 	// @ 수행할 애니메이션 세트를 결정하기 위해서 애니메이션 관련 속성들을 업데이트 합니다.
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 	void playAttackMontage();
+	void JumpToOtherAttackMontageSection(int32 NewSection);
+
 
 private:
+	// Anim Notify Check Methods
 	UFUNCTION()
 	void AnimNotify_AttackHitCheck();
+	UFUNCTION()
+	void AnimNotify_NextAttackCheck();
+	FName GetAttackMontageSectionName(int32 Section);
+
+	// Delegates
+public:
+	// Combo Attack Delegate
+	FOnNextAttackCheckDelegate OnNextAttackCheck;
+	FOnAttackHitCheckDelegate OnAttackHitCheck;
 
 	// State를 바꾸는데 필요한 character property 복사본
 private:
@@ -32,5 +46,5 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool bInAir;
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
-		UAnimMontage* AttackMontage;
+	UAnimMontage* AttackMontage;
 };

@@ -94,6 +94,10 @@ AH1Character::AH1Character()
 	// 카메라 시점변환 장식성 코드
 	ArmLengthSpeed = 3.f;		// 틱당 location이 3씩 이동함
 	ArmRotationSpeed = 10.f;	// 틱당 각도가 10도씩 돌아감
+
+	// combo attack initialization
+	FinalComboIndex = 4;
+	AttackEndComboState();
 }
 
 void AH1Character::Tick(float DeltaSeconds)
@@ -254,32 +258,44 @@ void AH1Character::SetupPlayerInputComponent(UInputComponent* playerInputCompone
 	playerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AH1Character::Attack);
 }
 
+void AH1Character::Turn(float NewAxisValue)
+{
+	switch (CurrentControlMode)
+	{
+		// GTA 모드인 경우에만 카메라 시점이 움직인다. 
+	case EPlayerControlMode::GTA:
+		AddControllerYawInput(NewAxisValue);
+		break;
+	}
+}
+
 void AH1Character::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
 	H1AnimInst = Cast<UH1AnimInstance>(GetMesh()->GetAnimInstance());
 
-	H1CHECK(H1AnimInst != nullptr )
+	H1CHECK(H1AnimInst != nullptr);
+
+	// 1. 이 람다 함수는 AnimMontage Notify_NextAttaCheck에 연결된 델리게이트를 통해서 호출 됩니다.
+	// 2. 몽타주 재생 중에  다음 콤보 입력이 있었는지 확인하고 있다면 다음 몽타주 섹션을 재생하도록 합니다.
+	// 3. 마지막 콤보어택에서는 NextAttackCheck 노티파이가 없습니다. 그래서 마지막 어택 후에는 애니메이션 종료까지 어택 입력이 무시됩니다.
+	H1AnimInst->OnNextAttackCheck.AddLambda([this]()->void
+	{
+		H1LOG(Warning, TEXT("OnNextAttackCheck"));
+		bCanNextCombo = false; // 콤보어택 시작
+
+		if (bIsComboInputOn) 
+		{
+			AttackStartComboState();
+			H1AnimInst->JumpToOtherAttackMontageSection(CurrentComboIndex);
+		}
+	}
+	);
 
 	H1AnimInst->OnMontageEnded.AddDynamic(this, &AH1Character::OnAttackMontageEnded); // 이렇게 하면 모든 몽타주가 끝날때마다 호출됨
 	// 몽타주가 여러개가 되면 처리 함수에서 분기처리가 필요하다.
 }
-
-void AH1Character::Attack()
-{
-	if(IsAttacking) return; // 공격중이면 이 함수는 바로 반환한다.
-
-	// 애니메이션 블루프린트 포인터를 얻어옴
-	auto AnimInst = Cast<UH1AnimInstance>(GetMesh()->GetAnimInstance());
-	if (nullptr == AnimInst) return;
-
-	// 애니메이션BP 포인터로 몽타주 재생.
-	AnimInst->playAttackMontage();
-
-	IsAttacking = true; // 공격 애니메이션이 시작 된다.
-}
-
 
 float AH1Character::Heal(float AmountOfHeal)
 {
@@ -359,14 +375,6 @@ FVector AH1Character::GetFootLocation()
 	return GetActorLocation();
 }
 
-void AH1Character::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
-{
-	// IsAttacking이 false인 상태로 이 함수가 호출되면 분명히 버그가 있는 것.
-	H1CHECK(IsAttacking);
-	// Attack Montage가 끝난 것을 Character의 property set에 apply
-	IsAttacking = false;
-}
-
 void AH1Character::UpDown(float NewAxisValue)
 {
 	switch (CurrentControlMode)
@@ -409,14 +417,60 @@ void AH1Character::LookUp(float NewAxisValue)
 	}
 }
 
-void AH1Character::Turn(float NewAxisValue)
+void AH1Character::Attack()
 {
-	switch (CurrentControlMode)
+	// 애니메이션BP nullptr 체크
+	if (H1AnimInst == nullptr) return;
+
+	if (IsAttacking)
 	{
-		// GTA 모드인 경우에만 카메라 시점이 움직인다. 
-	case EPlayerControlMode::GTA:
-		AddControllerYawInput(NewAxisValue);
-		break;
+		H1CHECK(FMath::IsWithinInclusive<int32>(CurrentComboIndex, 1, FinalComboIndex));
+		if (bCanNextCombo) // 콤보어택이 이미 진행 중이면 다음 어택을 허용해주는 로직을 실행합니다.
+		{
+			bIsComboInputOn = true;  
+		}
+	}
+	else
+	{
+		H1CHECK(CurrentComboIndex == 0);		// 새로운 콤보를 시작하는데 이미 콤보 인덱스가 늘어나 있으면 버그 입니다.
+		AttackStartComboState();				// 콤보 상태를 콤보 시작으로 설정 합니다.
+		H1AnimInst->playAttackMontage();		// 몽타주를 재생합니다.
+		H1AnimInst->JumpToOtherAttackMontageSection(CurrentComboIndex); // 지금 인덱스는 0 이므로 섹션 1번으로 점프합니다. (0번은 없음..)
+		IsAttacking = true;						// 이제부터 콤보 공격이 진행 중 입니다.
 	}
 }
+
+void AH1Character::AttackStartComboState()
+{
+	bCanNextCombo = true; // 콤보 입력 받을 수 있고
+	bIsComboInputOn = false; // 콤보 입력 
+
+	// FMath::IsWithinInclusive()
+	// 판별 대상 값이 특정 범위안에 속하는지 판정해서 bool 반환
+	// @param1 판별대상
+	// @param2 최소값
+	// @param3 최댓값
+	H1CHECK(FMath::IsWithinInclusive<int32>(CurrentComboIndex, 0, FinalComboIndex - 1));
+	// 콤보 인덱스를 +1하고 1~4로 값을 제한한다. // 5부터는 애니메이션이 없는 무효한 값이기 때문에.
+	CurrentComboIndex = FMath::Clamp<int32>(CurrentComboIndex + 1, 1, FinalComboIndex);
+}
+
+void AH1Character::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	// 공격을 시작하지 않고도 이 함수가 호출되면 분명히 버그가 있는 것.
+	H1CHECK(IsAttacking);
+	H1CHECK(CurrentComboIndex > 0);
+	// Attack Montage가 끝난 것을 Character의 property set에 apply
+	IsAttacking = false;
+	AttackEndComboState();
+}
+
+void AH1Character::AttackEndComboState()
+{
+	bIsComboInputOn = false;
+	bCanNextCombo = false;
+	CurrentComboIndex = 0; 
+}
+
+
 
