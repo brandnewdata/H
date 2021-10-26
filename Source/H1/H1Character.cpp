@@ -24,12 +24,12 @@ AH1Character::AH1Character()
 {
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-	// ¾ÆÀÌÅÛÀÇ ¹Ù¿îµå¸® ½ºÇÇ¾î¿Í Ãæµ¹ÇÏ¸é ÀÌ ÅÂ±×¸¦ °¡Á³´ÂÁö ¹°¾îº»´Ù ±×·¡¼­ ÇÊ¿äÇÔ
-	// Áö±İÀº µüÈ÷ ÇÊ¿ä ¾ø´Â °Í °°±âµµÇÑµ¥..? ¾Æ¸¶ Àû AIµéµµ pawnÀÌ´Ï±î ÇÃ·¹ÀÌ¾î ±¸ºĞÇÏ´Â ¿ëµµ ÀÎ µí.
-	// ÇÃ·¹ÀÌ¾î Àü¿ë Ãæµ¹ Ã¤³ÎÀ» °í·ÁÇØº¸ÀÚ.
+	// ì•„ì´í…œì˜ ë°”ìš´ë“œë¦¬ ìŠ¤í”¼ì–´ì™€ ì¶©ëŒí•˜ë©´ ì´ íƒœê·¸ë¥¼ ê°€ì¡ŒëŠ”ì§€ ë¬¼ì–´ë³¸ë‹¤ ê·¸ë˜ì„œ í•„ìš”í•¨
+	// ì§€ê¸ˆì€ ë”±íˆ í•„ìš” ì—†ëŠ” ê²ƒ ê°™ê¸°ë„í•œë°..? ì•„ë§ˆ ì  AIë“¤ë„ pawnì´ë‹ˆê¹Œ í”Œë ˆì´ì–´ êµ¬ë¶„í•˜ëŠ” ìš©ë„ ì¸ ë“¯.
+	// í”Œë ˆì´ì–´ ì „ìš© ì¶©ëŒ ì±„ë„ì„ ê³ ë ¤í•´ë³´ì.
 	GetCapsuleComponent()->ComponentTags.Add(FName("ItemPickingBoundary"));
 
-	// Skeletal Mesh ¼³Á¤ÇÏ±â
+	// Skeletal Mesh ì„¤ì •í•˜ê¸°
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.f, 0.f, -88.f), FRotator(0.f, -90, 0.f));
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_ROBO(TEXT("/Game/H1/PC_CharM_Robo/SK_CharM_Robo.SK_CharM_Robo"));
 	if (SK_ROBO.Succeeded())
@@ -37,7 +37,7 @@ AH1Character::AH1Character()
 		GetMesh()->SetSkeletalMesh(SK_ROBO.Object);
 	}
 
-	// Skeletal Mesh¿¡ ¾Ö´Ï¸ŞÀÌ¼Ç ºí·çÇÁ¸°Æ® ¼¼ÆÃÇÏ±â.
+	// Skeletal Meshì— ì• ë‹ˆë©”ì´ì…˜ ë¸”ë£¨í”„ë¦°íŠ¸ ì„¸íŒ…í•˜ê¸°.
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 
 	static ConstructorHelpers::FClassFinder<UAnimInstance> ROBO_ANIM(TEXT("/Game/H1/PlayerAnims/AMBP_PC.AMBP_PC_C"));
@@ -85,15 +85,15 @@ AH1Character::AH1Character()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	// ÄÁÆ®·Ñ ¸ğµå ¼³Á¤ >> ÃÊ±â°ª: GTA -> CDO : µğ¾Æºí·Î
+	// ì»¨íŠ¸ë¡¤ ëª¨ë“œ ì„¤ì • >> ì´ˆê¸°ê°’: GTA -> CDO : ë””ì•„ë¸”ë¡œ
 	SetControlMode(EPlayerControlMode::GTA);
 
-	// Á¡ÇÁ ³ôÀÌ¸¦ ¼³Á¤ÇÔ.
+	// ì í”„ ë†’ì´ë¥¼ ì„¤ì •í•¨.
 	GetCharacterMovement()->JumpZVelocity = 500.0f;
 
-	// Ä«¸Ş¶ó ½ÃÁ¡º¯È¯ Àå½Ä¼º ÄÚµå
-	ArmLengthSpeed = 3.f;		// Æ½´ç locationÀÌ 3¾¿ ÀÌµ¿ÇÔ
-	ArmRotationSpeed = 10.f;	// Æ½´ç °¢µµ°¡ 10µµ¾¿ µ¹¾Æ°¨
+	// ì¹´ë©”ë¼ ì‹œì ë³€í™˜ ì¥ì‹ì„± ì½”ë“œ
+	ArmLengthSpeed = 3.f;		// í‹±ë‹¹ locationì´ 3ì”© ì´ë™í•¨
+	ArmRotationSpeed = 10.f;	// í‹±ë‹¹ ê°ë„ê°€ 10ë„ì”© ëŒì•„ê°
 
 	// combo attack initialization
 	FinalComboIndex = 4;
@@ -104,9 +104,9 @@ void AH1Character::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 
-	// TODO : ´õ ¼º´ÉÁÁÀº ¹æ½Ä Ã£¾Æ¼­ °ËÁõÇÏ±â ... ¸ÅÆ½¸¶´Ù ¾÷µ¥ÀÌÆ® vs ¸Å Æ½¸¶´Ù float°ª È®ÀÎ(float¿ë equal ºñ±³ÇÔ¼ö »ç¿ë...)
-	// ¸ÅÆ½¸¶´Ù ¸ñÇ¥ À§Ä¡±îÁö Ä«¸Ş¶ó À§Ä¡°¡ ÀÌµ¿ÇÑ´Ù.(Ä«¸Ş¶ó ¸·´ë±â°¡ ±æ¾îÁü. ÃÖÁ¾ À§Ä¡¿¡ µµ´ŞÇØ°í °è¼Ó °°Àº °ªÀ¸·Î µ¤¾î¾²°ÔµÇ´Â ±¸Á¶)
-	// ¾îÂ÷ÇÇ 0,1ÀÎµ¥ ±×³É if¾²´Â°Ô ³ªÀ»Áöµµ. ´Ù¸¥ ½ÃÁ¡µµ Ãß°¡ÇÒ »ı°¢ÀÎ°¡?
+	// TODO : ë” ì„±ëŠ¥ì¢‹ì€ ë°©ì‹ ì°¾ì•„ì„œ ê²€ì¦í•˜ê¸° ... ë§¤í‹±ë§ˆë‹¤ ì—…ë°ì´íŠ¸ vs ë§¤ í‹±ë§ˆë‹¤ floatê°’ í™•ì¸(floatìš© equal ë¹„êµí•¨ìˆ˜ ì‚¬ìš©...)
+	// ë§¤í‹±ë§ˆë‹¤ ëª©í‘œ ìœ„ì¹˜ê¹Œì§€ ì¹´ë©”ë¼ ìœ„ì¹˜ê°€ ì´ë™í•œë‹¤.(ì¹´ë©”ë¼ ë§‰ëŒ€ê¸°ê°€ ê¸¸ì–´ì§. ìµœì¢… ìœ„ì¹˜ì— ë„ë‹¬í•´ê³  ê³„ì† ê°™ì€ ê°’ìœ¼ë¡œ ë®ì–´ì“°ê²Œë˜ëŠ” êµ¬ì¡°)
+	// ì–´ì°¨í”¼ 0,1ì¸ë° ê·¸ëƒ¥ ifì“°ëŠ”ê²Œ ë‚˜ì„ì§€ë„. ë‹¤ë¥¸ ì‹œì ë„ ì¶”ê°€í•  ìƒê°ì¸ê°€?
 	CameraBoom->TargetArmLength = FMath::FInterpTo(CameraBoom->TargetArmLength, ArmLengthTo, DeltaSeconds, ArmLengthSpeed);
 
 	switch (CurrentControlMode)
@@ -117,24 +117,24 @@ void AH1Character::Tick(float DeltaSeconds)
 	}
 
 
-	// ÇöÀç ¸ğµå¿¡ µû¶ó¼­ ´Ù¸¥Ã³¸®
+	// í˜„ì¬ ëª¨ë“œì— ë”°ë¼ì„œ ë‹¤ë¥¸ì²˜ë¦¬
 	switch (CurrentControlMode)
 	{
 	case EPlayerControlMode::DIABLO:
-		// »çÀÌÁî ½ºÄõµå ÀÌ°Å´Â ³»ÀûÀÎµ¥??
+		// ì‚¬ì´ì¦ˆ ìŠ¤ì¿¼ë“œ ì´ê±°ëŠ” ë‚´ì ì¸ë°??
 		if (DirectionToMove.SizeSquared() > 0.f)
 		{
-			// ÄÁÆ®·Ñ·¯ÀÇ È¸ÀüÀ» ÀúÀåÇØµĞ È¸Àü°ªÀ¸·Î ¼³Á¤ÇÑ´Ù.
+			// ì»¨íŠ¸ë¡¤ëŸ¬ì˜ íšŒì „ì„ ì €ì¥í•´ë‘” íšŒì „ê°’ìœ¼ë¡œ ì„¤ì •í•œë‹¤.
 			GetController()->SetControlRotation(FRotationMatrix::MakeFromX(DirectionToMove).Rotator());
 
-			// TODO : ±×·±µ¥ ÀÌ°Å ´ë°¢¼± ´©¸£¸é ¼Óµµ°¡ ¿Ã¶ó°¡´Â°Å ¾Æ´Ñ°¡?
-			// Å° ÀÌº¥Æ®·Î ÀÔ·Â¹ŞÀº ¹æÇâÅ° °ª¸¸Å­ Ä³¸¯ÅÍ¸¦ ÀÌµ¿ÇÑ´Ù.
+			// TODO : ê·¸ëŸ°ë° ì´ê±° ëŒ€ê°ì„  ëˆ„ë¥´ë©´ ì†ë„ê°€ ì˜¬ë¼ê°€ëŠ”ê±° ì•„ë‹Œê°€?
+			// í‚¤ ì´ë²¤íŠ¸ë¡œ ì…ë ¥ë°›ì€ ë°©í–¥í‚¤ ê°’ë§Œí¼ ìºë¦­í„°ë¥¼ ì´ë™í•œë‹¤.
 			AddMovementInput(DirectionToMove);
 		}
 		break;
 	}
 
-	// Ä¿¼­ À§Ä¡ ¾÷µ¥ÀÌÆ®¸¦ ¸Å Æ½¸¶´Ù Ã³¸®ÇÔ.
+	// ì»¤ì„œ ìœ„ì¹˜ ì—…ë°ì´íŠ¸ë¥¼ ë§¤ í‹±ë§ˆë‹¤ ì²˜ë¦¬í•¨.
 	if (CursorToWorld != nullptr)
 	{
 		if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
@@ -181,34 +181,34 @@ void AH1Character::ViewChange()
 
 void AH1Character::SetControlMode(EPlayerControlMode NewControlMode)
 {
-	// ÇöÀç ÄÁÆ®·Ñ ¸ğµå º¯°æ
+	// í˜„ì¬ ì»¨íŠ¸ë¡¤ ëª¨ë“œ ë³€ê²½
 	CurrentControlMode = NewControlMode;
 
-	// ÄÁÆ®·Ñ ¸ğµå¿¡ µû¶ó¼­ ´Ù¸£°Ô ¼ÂÆÃÇÔ
+	// ì»¨íŠ¸ë¡¤ ëª¨ë“œì— ë”°ë¼ì„œ ë‹¤ë¥´ê²Œ ì…‹íŒ…í•¨
 	switch (CurrentControlMode)
 	{
 	case EPlayerControlMode::GTA:
-		// ÀÌÁ¦ Ä«¸Ş¶ó À§Ä¡´Â ¸Å Æ½¸¶´Ù ¾÷µ¥ÀÌÆ® µË´Ï´Ù. 
+		// ì´ì œ ì¹´ë©”ë¼ ìœ„ì¹˜ëŠ” ë§¤ í‹±ë§ˆë‹¤ ì—…ë°ì´íŠ¸ ë©ë‹ˆë‹¤. 
 		// CameraBoom->TargetArmLength = 500.f;
 		// CameraBoom->SetRelativeRotation(FRotator::ZeroRotator);
 		ArmLengthTo = 450.f;
-		// Ä«¸Ş¶ó °¢µµ´Â ¿ø·¡ ÀÚÀ¯°¢µµ¶ó¼­ ¹«ÀÇ¹Ì
+		// ì¹´ë©”ë¼ ê°ë„ëŠ” ì›ë˜ ììœ ê°ë„ë¼ì„œ ë¬´ì˜ë¯¸
 
-		// Ä«¸Ş¶ó°¡ ÄÁÆ®·Î·¯¿¡ ÀÇÇØ¼­ È¸ÀüÇÑ´Ù.
+		// ì¹´ë©”ë¼ê°€ ì»¨íŠ¸ë¡œëŸ¬ì— ì˜í•´ì„œ íšŒì „í•œë‹¤.
 		CameraBoom->bUsePawnControlRotation = true;
 		CameraBoom->bInheritPitch = true;
 		CameraBoom->bInheritRoll = true;
 		CameraBoom->bInheritYaw = true;
 
-		// Ä«¸Ş¶ó°¡ À¯µ¿ÀûÀÌ¸é ¾ÈµÇ´Ï±î Ãæµ¹Ã³¸®ÇÔ
+		// ì¹´ë©”ë¼ê°€ ìœ ë™ì ì´ë©´ ì•ˆë˜ë‹ˆê¹Œ ì¶©ëŒì²˜ë¦¬í•¨
 		CameraBoom->bDoCollisionTest = true;
 		bUseControllerRotationYaw = false;
 
-		// Ä³¸¯ÅÍ°¡ È¸ÀüÇÏ´Â ¼Óµµ¸¦ »ç¿ëÇÔ
+		// ìºë¦­í„°ê°€ íšŒì „í•˜ëŠ” ì†ë„ë¥¼ ì‚¬ìš©í•¨
 		GetCharacterMovement()->bOrientRotationToMovement = true;
-		// TODO : ÀÌ°Å ¹ºµ¥? Ä³¸¯ÅÍ È¸Àü ÃµÃµÈ÷ µ¹¸±Áö »¡¸® µ¹¸±Áö¶û ¿¬°ü ÀÖ´Â µí. 
+		// TODO : ì´ê±° ë­”ë°? ìºë¦­í„° íšŒì „ ì²œì²œíˆ ëŒë¦´ì§€ ë¹¨ë¦¬ ëŒë¦´ì§€ë‘ ì—°ê´€ ìˆëŠ” ë“¯. 
 		GetCharacterMovement()->bUseControllerDesiredRotation = false;
-		// Ä³¸¯ÅÍ°¡ ÃÊ´ç 720µµ È¸Àü °¡´ÉÇÔ
+		// ìºë¦­í„°ê°€ ì´ˆë‹¹ 720ë„ íšŒì „ ê°€ëŠ¥í•¨
 		GetCharacterMovement()->RotationRate = FRotator(0.f, 720.f, 0.f);
 		break;
 	case EPlayerControlMode::DIABLO:
@@ -224,9 +224,9 @@ void AH1Character::SetControlMode(EPlayerControlMode NewControlMode)
 		CameraBoom->bInheritYaw = false;
 
 		// Don't want to pull camera in when it collides with level
-		// Ä«¸Ş¶ó°¡ °íÁ¤ÀÌ¶ó¼­ Ãæµ¹Ã³¸® ¤¤¤¤
+		// ì¹´ë©”ë¼ê°€ ê³ ì •ì´ë¼ì„œ ì¶©ëŒì²˜ë¦¬ ã„´ã„´
 		CameraBoom->bDoCollisionTest = false;
-		// ÄÁÆ®·Ñ·¯ÀÇ È¸ÀüÀ¸·Î Ä«¸Ş¶ó°¡ ¾Æ´Ï¶ó Ä³¸¯ÅÍ°¡ ¿òÁ÷ÀÓ.(¸¶¿ì½º ÀÌµ¿°ú ÀÏÄ¡ÇÔ)
+		// ì»¨íŠ¸ë¡¤ëŸ¬ì˜ íšŒì „ìœ¼ë¡œ ì¹´ë©”ë¼ê°€ ì•„ë‹ˆë¼ ìºë¦­í„°ê°€ ì›€ì§ì„.(ë§ˆìš°ìŠ¤ ì´ë™ê³¼ ì¼ì¹˜í•¨)
 		bUseControllerRotationYaw = false;
 
 		GetCharacterMovement()->bOrientRotationToMovement = false;
@@ -247,14 +247,14 @@ void AH1Character::SetupPlayerInputComponent(UInputComponent* playerInputCompone
 	playerInputComponent->BindAxis(TEXT("UpDown"), this, &AH1Character::UpDown);
 	playerInputComponent->BindAxis(TEXT("LeftRight"), this, &AH1Character::LeftRight);
 
-	// GTA½Ä ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ Á¶ÀÛÀÏ °æ¿ì¿¡´Â ¸¶¿ì½º XY·Î ½ÃÁ¡ º¯È¯ 
+	// GTAì‹ í”Œë ˆì´ì–´ ìºë¦­í„° ì¡°ì‘ì¼ ê²½ìš°ì—ëŠ” ë§ˆìš°ìŠ¤ XYë¡œ ì‹œì  ë³€í™˜ 
 	playerInputComponent->BindAxis(TEXT("Turn"), this, &AH1Character::Turn);
 	playerInputComponent->BindAxis(TEXT("LookUp"), this, &AH1Character::LookUp);
 
-	// Á¡ÇÁÅ° Ã³¸® ÇÔ¼ö ¹ÙÀÎµå, »ó¼Ó¹ŞÀº ÇÔ¼ö¸¦ ±×´ë·Î »ç¿ëÇÔ.
+	// ì í”„í‚¤ ì²˜ë¦¬ í•¨ìˆ˜ ë°”ì¸ë“œ, ìƒì†ë°›ì€ í•¨ìˆ˜ë¥¼ ê·¸ëŒ€ë¡œ ì‚¬ìš©í•¨.
 	playerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 
-	// AttackÅ°¿¡ Ã³¸® ÇÔ¼ö ¹ÙÀÎµå
+	// Attackí‚¤ì— ì²˜ë¦¬ í•¨ìˆ˜ ë°”ì¸ë“œ
 	playerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AH1Character::Attack);
 }
 
@@ -262,7 +262,7 @@ void AH1Character::Turn(float NewAxisValue)
 {
 	switch (CurrentControlMode)
 	{
-		// GTA ¸ğµåÀÎ °æ¿ì¿¡¸¸ Ä«¸Ş¶ó ½ÃÁ¡ÀÌ ¿òÁ÷ÀÎ´Ù. 
+		// GTA ëª¨ë“œì¸ ê²½ìš°ì—ë§Œ ì¹´ë©”ë¼ ì‹œì ì´ ì›€ì§ì¸ë‹¤. 
 	case EPlayerControlMode::GTA:
 		AddControllerYawInput(NewAxisValue);
 		break;
@@ -277,13 +277,13 @@ void AH1Character::PostInitializeComponents()
 
 	H1CHECK(H1AnimInst != nullptr);
 
-	// 1. ÀÌ ¶÷´Ù ÇÔ¼ö´Â AnimMontage Notify_NextAttaCheck¿¡ ¿¬°áµÈ µ¨¸®°ÔÀÌÆ®¸¦ ÅëÇØ¼­ È£Ãâ µË´Ï´Ù.
-	// 2. ¸ùÅ¸ÁÖ Àç»ı Áß¿¡  ´ÙÀ½ ÄŞº¸ ÀÔ·ÂÀÌ ÀÖ¾ú´ÂÁö È®ÀÎÇÏ°í ÀÖ´Ù¸é ´ÙÀ½ ¸ùÅ¸ÁÖ ¼½¼ÇÀ» Àç»ıÇÏµµ·Ï ÇÕ´Ï´Ù.
-	// 3. ¸¶Áö¸· ÄŞº¸¾îÅÃ¿¡¼­´Â NextAttackCheck ³ëÆ¼ÆÄÀÌ°¡ ¾ø½À´Ï´Ù. ±×·¡¼­ ¸¶Áö¸· ¾îÅÃ ÈÄ¿¡´Â ¾Ö´Ï¸ŞÀÌ¼Ç Á¾·á±îÁö ¾îÅÃ ÀÔ·ÂÀÌ ¹«½ÃµË´Ï´Ù.
+	// 1. ì´ ëŒë‹¤ í•¨ìˆ˜ëŠ” AnimMontage Notify_NextAttaCheckì— ì—°ê²°ëœ ë¸ë¦¬ê²Œì´íŠ¸ë¥¼ í†µí•´ì„œ í˜¸ì¶œ ë©ë‹ˆë‹¤.
+	// 2. ëª½íƒ€ì£¼ ì¬ìƒ ì¤‘ì—  ë‹¤ìŒ ì½¤ë³´ ì…ë ¥ì´ ìˆì—ˆëŠ”ì§€ í™•ì¸í•˜ê³  ìˆë‹¤ë©´ ë‹¤ìŒ ëª½íƒ€ì£¼ ì„¹ì…˜ì„ ì¬ìƒí•˜ë„ë¡ í•©ë‹ˆë‹¤.
+	// 3. ë§ˆì§€ë§‰ ì½¤ë³´ì–´íƒì—ì„œëŠ” NextAttackCheck ë…¸í‹°íŒŒì´ê°€ ì—†ìŠµë‹ˆë‹¤. ê·¸ë˜ì„œ ë§ˆì§€ë§‰ ì–´íƒ í›„ì—ëŠ” ì• ë‹ˆë©”ì´ì…˜ ì¢…ë£Œê¹Œì§€ ì–´íƒ ì…ë ¥ì´ ë¬´ì‹œë©ë‹ˆë‹¤.
 	H1AnimInst->OnNextAttackCheck.AddLambda([this]()->void
 	{
 		H1LOG(Warning, TEXT("OnNextAttackCheck"));
-		bCanNextCombo = false; // ÄŞº¸¾îÅÃ ½ÃÀÛ
+		bCanNextCombo = false; // ì½¤ë³´ì–´íƒ ì‹œì‘
 
 		if (bIsComboInputOn) 
 		{
@@ -293,17 +293,17 @@ void AH1Character::PostInitializeComponents()
 	}
 	);
 
-	H1AnimInst->OnMontageEnded.AddDynamic(this, &AH1Character::OnAttackMontageEnded); // ÀÌ·¸°Ô ÇÏ¸é ¸ğµç ¸ùÅ¸ÁÖ°¡ ³¡³¯¶§¸¶´Ù È£ÃâµÊ
-	// ¸ùÅ¸ÁÖ°¡ ¿©·¯°³°¡ µÇ¸é Ã³¸® ÇÔ¼ö¿¡¼­ ºĞ±âÃ³¸®°¡ ÇÊ¿äÇÏ´Ù.
+	H1AnimInst->OnMontageEnded.AddDynamic(this, &AH1Character::OnAttackMontageEnded); // ì´ë ‡ê²Œ í•˜ë©´ ëª¨ë“  ëª½íƒ€ì£¼ê°€ ëë‚ ë•Œë§ˆë‹¤ í˜¸ì¶œë¨
+	// ëª½íƒ€ì£¼ê°€ ì—¬ëŸ¬ê°œê°€ ë˜ë©´ ì²˜ë¦¬ í•¨ìˆ˜ì—ì„œ ë¶„ê¸°ì²˜ë¦¬ê°€ í•„ìš”í•˜ë‹¤.
 }
 
 float AH1Character::Heal(float AmountOfHeal)
 {
 	HP += AmountOfHeal;
-	// Ã¼·ÂÀÌ ÃÖ´ë Ã¼·Â ÀÌÇÏ°¡ µÇ¾ßÇÔ.
+	// ì²´ë ¥ì´ ìµœëŒ€ ì²´ë ¥ ì´í•˜ê°€ ë˜ì•¼í•¨.
 	HP = FMath::Clamp(HP, 0.0f, MaxHP);
 
-	// Ã¼·Â UI Ç¥½Ã¸¦ À§ÇØ¼­ ¸îÆÛ¼¾Æ®°¡ Â÷ÀÖ´ÂÁö ¹İÈ¯ÇÔ.
+	// ì²´ë ¥ UI í‘œì‹œë¥¼ ìœ„í•´ì„œ ëª‡í¼ì„¼íŠ¸ê°€ ì°¨ìˆëŠ”ì§€ ë°˜í™˜í•¨.
 	return HP / MaxHP;
 }
 
@@ -312,19 +312,19 @@ void AH1Character::EquipWeapon(UH1InventoryItem* InventoryItem)
 	if (!IsValid(InventoryItem))
 		return;
 
-	// ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀ» »ı¼ºÇÏ´Âµ¥ »ç¿ëÇÑ DT ÇàÀÇ Æ÷ÀÎÅÍ¸¦ ¹Ş¾Æ¿Â´Ù.
+	// ì¸ë²¤í† ë¦¬ ì•„ì´í…œì„ ìƒì„±í•˜ëŠ”ë° ì‚¬ìš©í•œ DT í–‰ì˜ í¬ì¸í„°ë¥¼ ë°›ì•„ì˜¨ë‹¤.
 	const FItemTableRow* ItemTableRow = InventoryItem->GetItemTableRow();
-	// nullptrÀÌ¸é ¹«È¿
+	// nullptrì´ë©´ ë¬´íš¨
 	if (nullptr == ItemTableRow)
 		return;
 
-	// µ¥ÀÌÅÍ Å×ÀÌºí Á¤º¸·Î ºÎÅÍ Àåºñ ¸Ş½¬¸¦ »ı¼ºÇÑ´Ù.
+	// ë°ì´í„° í…Œì´ë¸” ì •ë³´ë¡œ ë¶€í„° ì¥ë¹„ ë©”ì‰¬ë¥¼ ìƒì„±í•œë‹¤.
 	UStaticMesh* ItemMesh = Cast<UStaticMesh>(ItemTableRow->ItemModel.TryLoad());
 	if (!IsValid(ItemMesh))
 		return;
 
-	// Àåºñ ¾ÆÀÌÅÛÀÇ ¼ÒÄÏ À§Ä¡¿¡ µû¶ó¼­ Ä³¸¯ÅÍ¿¡ »ı¼ºµÇ¾îÀÖ´Â ¸Ş½¬ ÄÄÆ÷³ÍÆ®¿¡ ¸Ş½¬·Î ¼³Á¤ÇÑ´Ù.
-	// ¸Ş½¬ ÄÄÆ÷³ÍÆ®´Â ÀÌ¹Ì ¼ÒÄÏÀ§Ä¡¿¡ ºÎÂøµÇ¾î ÀÖ´Ù.
+	// ì¥ë¹„ ì•„ì´í…œì˜ ì†Œì¼“ ìœ„ì¹˜ì— ë”°ë¼ì„œ ìºë¦­í„°ì— ìƒì„±ë˜ì–´ìˆëŠ” ë©”ì‰¬ ì»´í¬ë„ŒíŠ¸ì— ë©”ì‰¬ë¡œ ì„¤ì •í•œë‹¤.
+	// ë©”ì‰¬ ì»´í¬ë„ŒíŠ¸ëŠ” ì´ë¯¸ ì†Œì¼“ìœ„ì¹˜ì— ë¶€ì°©ë˜ì–´ ìˆë‹¤.
 	switch (ItemTableRow->ItemEquipSlot)
 	{
 	case EItemEquipSlot::WeaponBack:
@@ -348,7 +348,7 @@ void AH1Character::ClearWeapon(UH1InventoryItem* InventoryItem)
 	if (nullptr == ItemTable)
 		return;
 
-	// ÇØ´çÇÏ´Â ¸Ş½¬ ÄÄÆ÷³ÍÆ®ÀÇ ¸Ş½¬¸¦ Á¦°ÅÇÑ´Ù.
+	// í•´ë‹¹í•˜ëŠ” ë©”ì‰¬ ì»´í¬ë„ŒíŠ¸ì˜ ë©”ì‰¬ë¥¼ ì œê±°í•œë‹¤.
 	switch (ItemTable->ItemEquipSlot)
 	{
 	case EItemEquipSlot::WeaponBack:
@@ -365,13 +365,13 @@ void AH1Character::ClearWeapon(UH1InventoryItem* InventoryItem)
 
 FVector AH1Character::GetFootLocation()
 {
-	// ¾ÆÀÌÅÛÀ» µå¶øÇÒ ¹ß¾Æ·¡ ¿ÀºêÁ§Æ®°¡ À¯È¿ÇÏ´Ù¸é ¹ß¾Æ·¡ ¿ÀºêÁ§Æ®¿¡¼­ µå¶øÇÒ À§Ä¡¸¦ °¡Á®¿Â´Ù.
+	// ì•„ì´í…œì„ ë“œëí•  ë°œì•„ë˜ ì˜¤ë¸Œì íŠ¸ê°€ ìœ íš¨í•˜ë‹¤ë©´ ë°œì•„ë˜ ì˜¤ë¸Œì íŠ¸ì—ì„œ ë“œëí•  ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 	if (IsValid(FootLocate))
 	{
 		return FootLocate->GetComponentTransform().GetLocation();
 	}
 
-	// ¹ß¾Æ·¡ ¿ÀºêÁ§Æ®°¡ ¾ø´Ù¸é ÇöÀç Ä³¸¯ÅÍÀÇ À§Ä¡¸¦ ¹İÈ¯ÇØ¼­ ±× À§Ä¡¿¡ ¾ÆÀÌÅÛÀ» µå¶øÇÑ´Ù.
+	// ë°œì•„ë˜ ì˜¤ë¸Œì íŠ¸ê°€ ì—†ë‹¤ë©´ í˜„ì¬ ìºë¦­í„°ì˜ ìœ„ì¹˜ë¥¼ ë°˜í™˜í•´ì„œ ê·¸ ìœ„ì¹˜ì— ì•„ì´í…œì„ ë“œëí•œë‹¤.
 	return GetActorLocation();
 }
 
@@ -379,11 +379,11 @@ void AH1Character::UpDown(float NewAxisValue)
 {
 	switch (CurrentControlMode)
 	{
-	// ÄÁÆ®·Ñ·¯·ÎºÎÅÍ È¸Àü°ªÀ» °¡Á®¿À°í È¸Àü°ªÀÇ XÁÂÇ¥¹æÇâ °ªÀ» ¾ò¾î¿Â´Ù. ±× ¹æÇâÀ¸·Î ÀÔ·Â¹ŞÀº °ª ¸¸Å­ ÀÌµ¿ÇÑ´Ù.
+	// ì»¨íŠ¸ë¡¤ëŸ¬ë¡œë¶€í„° íšŒì „ê°’ì„ ê°€ì ¸ì˜¤ê³  íšŒì „ê°’ì˜ Xì¢Œí‘œë°©í–¥ ê°’ì„ ì–»ì–´ì˜¨ë‹¤. ê·¸ ë°©í–¥ìœ¼ë¡œ ì…ë ¥ë°›ì€ ê°’ ë§Œí¼ ì´ë™í•œë‹¤.
 	case EPlayerControlMode::GTA:
 		AddMovementInput(FRotationMatrix(FRotator(0.f, GetControlRotation().Yaw, 0.f)).GetUnitAxis(EAxis::X), NewAxisValue);
 		break;
-	// XÃà¹æÇâ¿¡ °ªÃß°¡ ÀÌ °ªÀ¸·Î Tick¿¡¼­ ÀÌµ¿Ã³¸®ÇÔ.
+	// Xì¶•ë°©í–¥ì— ê°’ì¶”ê°€ ì´ ê°’ìœ¼ë¡œ Tickì—ì„œ ì´ë™ì²˜ë¦¬í•¨.
 	case EPlayerControlMode::DIABLO:
 		DirectionToMove.X = NewAxisValue;
 		break;
@@ -394,23 +394,23 @@ void AH1Character::LeftRight(float NewAxisValue)
 {
 	switch (CurrentControlMode)
 	{
-		// ÄÁÆ®·Ñ·¯·ÎºÎÅÍ È¸Àü°ªÀ» °¡Á®¿À°í È¸Àü°ªÀÇ YÁÂÇ¥¹æÇâ °ªÀ» ¾ò¾î¿Â´Ù. ±× ¹æÇâÀ¸·Î ÀÔ·Â¹ŞÀº °ª ¸¸Å­ ÀÌµ¿ÇÑ´Ù.
+		// ì»¨íŠ¸ë¡¤ëŸ¬ë¡œë¶€í„° íšŒì „ê°’ì„ ê°€ì ¸ì˜¤ê³  íšŒì „ê°’ì˜ Yì¢Œí‘œë°©í–¥ ê°’ì„ ì–»ì–´ì˜¨ë‹¤. ê·¸ ë°©í–¥ìœ¼ë¡œ ì…ë ¥ë°›ì€ ê°’ ë§Œí¼ ì´ë™í•œë‹¤.
 	case EPlayerControlMode::GTA:
 		AddMovementInput(FRotationMatrix(FRotator(0.f, GetControlRotation().Yaw, 0.f)).GetUnitAxis(EAxis::Y), NewAxisValue);
 		break;
-		// YÃà¹æÇâ¿¡ °ªÃß°¡ ÀÌ °ªÀ¸·Î Tick¿¡¼­ ÀÌµ¿Ã³¸®ÇÔ.
+		// Yì¶•ë°©í–¥ì— ê°’ì¶”ê°€ ì´ ê°’ìœ¼ë¡œ Tickì—ì„œ ì´ë™ì²˜ë¦¬í•¨.
 	case EPlayerControlMode::DIABLO:
 		DirectionToMove.Y = NewAxisValue;
 		break;
 	}
 }
 
-// Ä«¸Ş¶ó È¸Àü°ú Ä³¸¯ÅÍ È¸ÀüÀº ºĞ¸® µÇ¾î ÀÖÀ½
+// ì¹´ë©”ë¼ íšŒì „ê³¼ ìºë¦­í„° íšŒì „ì€ ë¶„ë¦¬ ë˜ì–´ ìˆìŒ
 void AH1Character::LookUp(float NewAxisValue)
 {
 	switch (CurrentControlMode)
 	{
-	// GTA ¸ğµåÀÎ °æ¿ì¿¡¸¸ Ä«¸Ş¶ó ½ÃÁ¡ÀÌ ¿òÁ÷ÀÎ´Ù. 
+	// GTA ëª¨ë“œì¸ ê²½ìš°ì—ë§Œ ì¹´ë©”ë¼ ì‹œì ì´ ì›€ì§ì¸ë‹¤. 
 	case EPlayerControlMode::GTA:
 		AddControllerPitchInput(NewAxisValue);
 		break;
@@ -419,48 +419,49 @@ void AH1Character::LookUp(float NewAxisValue)
 
 void AH1Character::Attack()
 {
-	// ¾Ö´Ï¸ŞÀÌ¼ÇBP nullptr Ã¼Å©
+	// ì• ë‹ˆë©”ì´ì…˜BP nullptr ì²´í¬
 	if (H1AnimInst == nullptr) return;
 
 	if (IsAttacking)
 	{
 		H1CHECK(FMath::IsWithinInclusive<int32>(CurrentComboIndex, 1, FinalComboIndex));
-		if (bCanNextCombo) // ÄŞº¸¾îÅÃÀÌ ÀÌ¹Ì ÁøÇà ÁßÀÌ¸é ´ÙÀ½ ¾îÅÃÀ» Çã¿ëÇØÁÖ´Â ·ÎÁ÷À» ½ÇÇàÇÕ´Ï´Ù.
+		if (bCanNextCombo) // ì½¤ë³´ì–´íƒì´ ì´ë¯¸ ì§„í–‰ ì¤‘ì´ë©´ ë‹¤ìŒ ì–´íƒì„ í—ˆìš©í•´ì£¼ëŠ” ë¡œì§ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
 		{
 			bIsComboInputOn = true;  
 		}
 	}
 	else
 	{
-		H1CHECK(CurrentComboIndex == 0);		// »õ·Î¿î ÄŞº¸¸¦ ½ÃÀÛÇÏ´Âµ¥ ÀÌ¹Ì ÄŞº¸ ÀÎµ¦½º°¡ ´Ã¾î³ª ÀÖÀ¸¸é ¹ö±× ÀÔ´Ï´Ù.
-		AttackStartComboState();				// ÄŞº¸ »óÅÂ¸¦ ÄŞº¸ ½ÃÀÛÀ¸·Î ¼³Á¤ ÇÕ´Ï´Ù.
-		H1AnimInst->playAttackMontage();		// ¸ùÅ¸ÁÖ¸¦ Àç»ıÇÕ´Ï´Ù.
-		H1AnimInst->JumpToOtherAttackMontageSection(CurrentComboIndex); // Áö±İ ÀÎµ¦½º´Â 0 ÀÌ¹Ç·Î ¼½¼Ç 1¹øÀ¸·Î Á¡ÇÁÇÕ´Ï´Ù. (0¹øÀº ¾øÀ½..)
-		IsAttacking = true;						// ÀÌÁ¦ºÎÅÍ ÄŞº¸ °ø°İÀÌ ÁøÇà Áß ÀÔ´Ï´Ù.
+		H1CHECK(CurrentComboIndex == 0);		// ìƒˆë¡œìš´ ì½¤ë³´ë¥¼ ì‹œì‘í•˜ëŠ”ë° ì´ë¯¸ ì½¤ë³´ ì¸ë±ìŠ¤ê°€ ëŠ˜ì–´ë‚˜ ìˆìœ¼ë©´ ë²„ê·¸ ì…ë‹ˆë‹¤.
+		AttackStartComboState();				// ì½¤ë³´ ìƒíƒœë¥¼ ì½¤ë³´ ì‹œì‘ìœ¼ë¡œ ì„¤ì • í•©ë‹ˆë‹¤.
+		H1AnimInst->playAttackMontage();		// ëª½íƒ€ì£¼ë¥¼ ì¬ìƒí•©ë‹ˆë‹¤.
+		H1AnimInst->JumpToOtherAttackMontageSection(CurrentComboIndex); // ì§€ê¸ˆ ì¸ë±ìŠ¤ëŠ” 0 ì´ë¯€ë¡œ ì„¹ì…˜ 1ë²ˆìœ¼ë¡œ ì í”„í•©ë‹ˆë‹¤. (0ë²ˆì€ ì—†ìŒ..)
+		IsAttacking = true;						// ì´ì œë¶€í„° ì½¤ë³´ ê³µê²©ì´ ì§„í–‰ ì¤‘ ì…ë‹ˆë‹¤.
 	}
 }
 
 void AH1Character::AttackStartComboState()
 {
-	bCanNextCombo = true; // ÄŞº¸ ÀÔ·Â ¹ŞÀ» ¼ö ÀÖ°í
-	bIsComboInputOn = false; // ÄŞº¸ ÀÔ·Â 
+	// UTF8
+	bCanNextCombo = true; // ì½¤ë³´ ì…ë ¥ ë°›ì„ ìˆ˜ ìˆê³ 
+	bIsComboInputOn = false; // ì½¤ë³´ ì…ë ¥ 
 
 	// FMath::IsWithinInclusive()
-	// ÆÇº° ´ë»ó °ªÀÌ Æ¯Á¤ ¹üÀ§¾È¿¡ ¼ÓÇÏ´ÂÁö ÆÇÁ¤ÇØ¼­ bool ¹İÈ¯
-	// @param1 ÆÇº°´ë»ó
-	// @param2 ÃÖ¼Ò°ª
-	// @param3 ÃÖ´ñ°ª
+	// íŒë³„ ëŒ€ìƒ ê°’ì´ íŠ¹ì • ë²”ìœ„ì•ˆì— ì†í•˜ëŠ”ì§€ íŒì •í•´ì„œ bool ë°˜í™˜
+	// @param1 íŒë³„ëŒ€ìƒ
+	// @param2 ìµœì†Œê°’
+	// @param3 ìµœëŒ“ê°’
 	H1CHECK(FMath::IsWithinInclusive<int32>(CurrentComboIndex, 0, FinalComboIndex - 1));
-	// ÄŞº¸ ÀÎµ¦½º¸¦ +1ÇÏ°í 1~4·Î °ªÀ» Á¦ÇÑÇÑ´Ù. // 5ºÎÅÍ´Â ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ¾ø´Â ¹«È¿ÇÑ °ªÀÌ±â ¶§¹®¿¡.
+	// ì½¤ë³´ ì¸ë±ìŠ¤ë¥¼ +1í•˜ê³  1~4ë¡œ ê°’ì„ ì œí•œí•œë‹¤. // 5ë¶€í„°ëŠ” ì• ë‹ˆë©”ì´ì…˜ì´ ì—†ëŠ” ë¬´íš¨í•œ ê°’ì´ê¸° ë•Œë¬¸ì—.
 	CurrentComboIndex = FMath::Clamp<int32>(CurrentComboIndex + 1, 1, FinalComboIndex);
 }
 
 void AH1Character::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
-	// °ø°İÀ» ½ÃÀÛÇÏÁö ¾Ê°íµµ ÀÌ ÇÔ¼ö°¡ È£ÃâµÇ¸é ºĞ¸íÈ÷ ¹ö±×°¡ ÀÖ´Â °Í.
+	// ê³µê²©ì„ ì‹œì‘í•˜ì§€ ì•Šê³ ë„ ì´ í•¨ìˆ˜ê°€ í˜¸ì¶œë˜ë©´ ë¶„ëª…íˆ ë²„ê·¸ê°€ ìˆëŠ” ê²ƒ.
 	H1CHECK(IsAttacking);
 	H1CHECK(CurrentComboIndex > 0);
-	// Attack Montage°¡ ³¡³­ °ÍÀ» CharacterÀÇ property set¿¡ apply
+	// Attack Montageê°€ ëë‚œ ê²ƒì„ Characterì˜ property setì— apply
 	IsAttacking = false;
 	AttackEndComboState();
 }
