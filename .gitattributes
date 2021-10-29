@@ -1,4 +1,12 @@
-'content/*.uasset' filter=lfs diff=lfs merge=lfs -text
 '*.uasset' filter=lfs diff=lfs merge=lfs -text
+'content/*.uasset' filter=lfs diff=lfs merge=lfs -text
 content/*.uasset filter=lfs diff=lfs merge=lfs -text
-content/*/*.uasset filter=lfs diff=lfs merge=lfs -text
+content/*/*.uasset filter=lfs diff=lfs merge=lfs -tex
+content/*/*/*.uasset filter=lfs diff=lfs merge=lfs -text
+content/*/*/*/*.uasset filter=lfs diff=lfs merge=lfs -tex
+content/*/*/*/*/*.uasset filter=lfs diff=lfs merge=lfs -tex
+content/*/*/*/*/*/*.uasset filter=lfs diff=lfs merge=lfs -tex
+content/*/*/*/*/*/*/*.uasset filter=lfs diff=lfs merge=lfs -tex
+content/*/*/*/*/*/*/*/*.uasset filter=lfs diff=lfs merge=lfs -tex
+content/*/*/*/*/*/*/*/*/*.uasset filter=lfs diff=lfs merge=lfs -tex
+content/*/*/*/*/*/*/*/*/*/*.uasset filter=lfs diff=lfs merge=lfs -tex
