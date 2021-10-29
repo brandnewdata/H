@@ -98,6 +98,9 @@ AH1Character::AH1Character()
 	// combo attack initialization
 	FinalComboIndex = 4;
 	AttackEndComboState();
+
+	// 전용 Collision preset으로 설정 합니다.
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("H1Character"));
 }
 
 void AH1Character::Tick(float DeltaSeconds)
