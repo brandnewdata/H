@@ -298,6 +298,9 @@ void AH1Character::PostInitializeComponents()
 
 	H1AnimInst->OnMontageEnded.AddDynamic(this, &AH1Character::OnAttackMontageEnded); // 이렇게 하면 모든 몽타주가 끝날때마다 호출됨
 	// 몽타주가 여러개가 되면 처리 함수에서 분기처리가 필요하다.
+
+	// 애니메이션의 노티파이가 타격 지점에 도달하면 대리자에 등록한 함수가 호출된다.  
+	H1AnimInst->OnAttackHitCheck.AddUObject(this, &AH1Character::AttackCheck);
 }
 
 float AH1Character::Heal(float AmountOfHeal)
@@ -474,6 +477,28 @@ void AH1Character::AttackEndComboState()
 	bIsComboInputOn = false;
 	bCanNextCombo = false;
 	CurrentComboIndex = 0; 
+}
+
+void AH1Character::AttackCheck()
+{
+	FHitResult HitResult;
+	FCollisionQueryParams Params(NAME_None, false, this); // 자신은 충돌검사 대상에서 제외한다, 단순 충돌체만 검사한다.
+	bool bResult = GetWorld()->SweepSingleByChannel(
+		HitResult,
+		GetActorLocation(),
+		GetActorLocation() + GetActorForwardVector() * 200.f,
+		FQuat::Identity, // 회전값 없음.
+		ECollisionChannel::ECC_EngineTraceChannel2,
+		FCollisionShape::MakeSphere(50.f),
+		Params);
+
+	if(bResult)
+	{
+		if(HitResult.Actor.IsValid())
+		{
+			H1LOG(Warning, TEXT("Hit Actor Name : %s"), *HitResult.Actor->GetName());
+		}
+	}
 }
 
 

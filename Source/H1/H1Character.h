@@ -13,7 +13,7 @@ class AH1Character : public ACharacter
 {
 	GENERATED_BODY()
 
-	// ÃÊ±âÈ­ ÇÔ¼öµé
+	// ì´ˆê¸°í™” í•¨ìˆ˜ë“¤
 public:
 	AH1Character();
 
@@ -21,7 +21,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* playerInputComponent) override;
 
-	// »ó¼Ó ¹ŞÀº ÇÔ¼öµé
+	// ìƒì† ë°›ì€ í•¨ìˆ˜ë“¤
 public:
 	virtual void PostInitializeComponents() override;
 
@@ -37,17 +37,17 @@ public:
 	UFUNCTION()
 	float GetCurrentHPRate() { return HP / MaxHP; }
 
-	// ±â´É ÇÔ¼öµé
+	// ê¸°ëŠ¥ í•¨ìˆ˜ë“¤
 public:
-	// Ã¼·ÂÀ» Ã¤¿ì°Å³ª ±ğ´Â´Ù.
+	// ì²´ë ¥ì„ ì±„ìš°ê±°ë‚˜ ê¹ëŠ”ë‹¤.
 	UFUNCTION()
 	float Heal(float AmountOfHeal);
 
-	// ¹«±â¸¦ ÀåÂøÇÏ´Ù.
+	// ë¬´ê¸°ë¥¼ ì¥ì°©í•˜ë‹¤.
 	UFUNCTION()
 	void EquipWeapon(UH1InventoryItem* InventoryItem);
 
-	// ¹«±â ÀåÂøÀ» ÇØÁ¦ÇÑ´Ù.
+	// ë¬´ê¸° ì¥ì°©ì„ í•´ì œí•œë‹¤.
 	UFUNCTION()
 	void ClearWeapon(UH1InventoryItem* InventoryItem);
 
@@ -58,9 +58,7 @@ public:
 	UFUNCTION()
 	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 
-protected:
-
-	// ¹æÇâÅ° ÀÌµ¿À» À§ÇÑ ÇÔ¼ö Ãß°¡
+	// ë°©í–¥í‚¤ ì´ë™ì„ ìœ„í•œ í•¨ìˆ˜ ì¶”ê°€
 private:
 	void UpDown(float NewAxisValue);
 	void LeftRight(float NewAxisValue);
@@ -70,6 +68,7 @@ private:
 	// Combo Attack Methods
 	void AttackStartComboState();
 	void AttackEndComboState();
+	void AttackCheck(); // @ ê³µê²©ë²”ìœ„ì— íƒ€ê²© ëŒ€ìƒì´ ìˆëŠ”ì§€ ì²´í¬í•˜ê³  ë°ë¯¸ì§€ë¥¼ ì ìš©í•œë‹¤.
 
 protected:
 	enum class EPlayerControlMode
@@ -80,12 +79,12 @@ protected:
 
 	void ViewChange(); 
 	void SetControlMode(EPlayerControlMode NewControlMode);
-	void Attack(); // ÀÎÇ²¿¡ ¹ÙÀÎµå µÇ¾î ÀÖ´Â ÇÔ¼ö
+	void Attack(); // ì¸í’‹ì— ë°”ì¸ë“œ ë˜ì–´ ìˆëŠ” í•¨ìˆ˜
 
-	// ±âº» ÄÁÆ®·Ñ ¸ğµå´Â GTA
+	// ê¸°ë³¸ ì»¨íŠ¸ë¡¤ ëª¨ë“œëŠ” GTA
 	EPlayerControlMode CurrentControlMode = EPlayerControlMode::GTA;
 
-	// ÇÃ·¹ÀÌ¾î°¡ ÀÔ·ÂÇÑ ¹æÇâ°ªÀ» ÀúÀåÇØ¼­ ÀÌµ¿ÇÏ´Â ·ÎÁ÷¿¡¼­ »ç¿ëÇÑ´Ù (µğ¾Æºí·Î ¹æ½Ä)
+	// í”Œë ˆì´ì–´ê°€ ì…ë ¥í•œ ë°©í–¥ê°’ì„ ì €ì¥í•´ì„œ ì´ë™í•˜ëŠ” ë¡œì§ì—ì„œ ì‚¬ìš©í•œë‹¤ (ë””ì•„ë¸”ë¡œ ë°©ì‹)
 	FVector DirectionToMove = FVector::ZeroVector;
 
 // 
@@ -114,7 +113,7 @@ private:
 	UPROPERTY()
 	class UH1AnimInstance* H1AnimInst;
 
-	// Ä«¸Ş¶ó ½ÃÁ¡º¯È¯¿¡ ÇÊ¿äÇÑ ¼Ó¼ºµé
+	// ì¹´ë©”ë¼ ì‹œì ë³€í™˜ì— í•„ìš”í•œ ì†ì„±ë“¤
 	float ArmLengthTo = 0.f;
 	FRotator ArmRotationTo = FRotator::ZeroRotator;
 	float ArmLengthSpeed = 0.f;
@@ -135,7 +134,7 @@ private:
 	bool IsAttacking;
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 	bool bCanNextCombo;
-	// ´ÙÀ½ ÄŞº¸¸¦ À§ÇÑ ÇÃ·¹ÀÌ¾îÀÇ ÀÔ·ÂÀÌ ÀÖ¾ú´Â°¡? // ¾ø´Ù¸é ÄŞº¸°¡ ²÷±ä´Ù. // ÀÌ¾îÁö´Â ÄŞº¸¾îÅÃÀº OnNextAttackCheck¿¡¼­ ¹ßµ¿½ÃÅµ´Ï´Ù.
+	// ë‹¤ìŒ ì½¤ë³´ë¥¼ ìœ„í•œ í”Œë ˆì´ì–´ì˜ ì…ë ¥ì´ ìˆì—ˆëŠ”ê°€? // ì—†ë‹¤ë©´ ì½¤ë³´ê°€ ëŠê¸´ë‹¤. // ì´ì–´ì§€ëŠ” ì½¤ë³´ì–´íƒì€ OnNextAttackCheckì—ì„œ ë°œë™ì‹œí‚µë‹ˆë‹¤.
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 	bool bIsComboInputOn;
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
