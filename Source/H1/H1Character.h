@@ -87,7 +87,9 @@ protected:
 	// 플레이어가 입력한 방향값을 저장해서 이동하는 로직에서 사용한다 (디아블로 방식)
 	FVector DirectionToMove = FVector::ZeroVector;
 
-// 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Character Components
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -112,14 +114,19 @@ private:
 	class UStaticMeshComponent* WeaponLeftHand;
 	UPROPERTY()
 	class UH1AnimInstance* H1AnimInst;
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Character Utils
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// 카메라 시점변환에 필요한 속성들
 	float ArmLengthTo = 0.f;
 	FRotator ArmRotationTo = FRotator::ZeroRotator;
 	float ArmLengthSpeed = 0.f;
 	float ArmRotationSpeed = 0.f;
 ;
-	// Game Play Property
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Character Status
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// Todo : private로 만드세요. // Game Play Property // Character Status
 public:
 	UPROPERTY()
 	class UArrowComponent* FootLocate;
@@ -127,9 +134,14 @@ public:
 	float HP = 500.0f;
 	UPROPERTY()
 	float MaxHP = 1000.0f;
-
-	// Character States
 private:
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
+	float AttackRange;
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
+	float AttackRadius;
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Character States
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 	bool IsAttacking;
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))

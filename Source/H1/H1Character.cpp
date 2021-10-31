@@ -20,6 +20,8 @@
 
 #include "Animation/H1AnimInstance.h"
 
+#include "DrawDebugHelpers.h"
+
 AH1Character::AH1Character()
 {
 	// Set size for player capsule
@@ -101,6 +103,10 @@ AH1Character::AH1Character()
 
 	// 전용 Collision preset으로 설정 합니다.
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("H1Character"));
+
+	// Initialize Character Status
+	AttackRange = 200.f;
+	AttackRadius = 50.f;
 }
 
 void AH1Character::Tick(float DeltaSeconds)
@@ -491,6 +497,24 @@ void AH1Character::AttackCheck()
 		ECollisionChannel::ECC_EngineTraceChannel2,
 		FCollisionShape::MakeSphere(50.f),
 		Params);
+
+#if ENABLE_DRAW_DEBUG
+	FVector TraceVec = GetActorForwardVector() * AttackRange; // 전방 벡터 방향 * 사정거리
+	FVector Center = GetActorLocation() + TraceVec * 0.5; // 공격 시작위치와 최대 사정거리의 중간점 벡터
+	float HalfHeight = AttackRange * 0.5 + AttackRadius; // 중간지점에서 공격 반경 지름만큰 더한 스칼라 값
+	FQuat CapsulRot = FRotationMatrix::MakeFromZ(TraceVec).ToQuat(); // TODO : 캐릭터 시섬 방향을 Z축으로 하게 회전행렬을 생성함, 쿼터니온이랑 회전행렬 복습해.
+	FColor DrawColor = bResult ? FColor::Green : FColor::Red; // 타격이 성공했으면 녹색 디버그 라인 // 실패했으면 빨간색 디버그 라인
+	float DebugLifeTime = 4.f;
+
+	DrawDebugCapsule(GetWorld(),
+		Center,
+		HalfHeight,
+		AttackRadius,
+		CapsulRot,
+		DrawColor,
+		false,
+		DebugLifeTime);
+#endif
 
 	if(bResult)
 	{
