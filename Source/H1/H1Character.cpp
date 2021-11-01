@@ -521,8 +521,19 @@ void AH1Character::AttackCheck()
 		if(HitResult.Actor.IsValid())
 		{
 			H1LOG(Warning, TEXT("Hit Actor Name : %s"), *HitResult.Actor->GetName());
+
+			FDamageEvent DamageEvent;
+			HitResult.Actor->TakeDamage(50.f, DamageEvent, GetController(), this);
 		}
 	}
+}
+
+float AH1Character::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	H1LOG(Warning, TEXT("Actor : %s took Damage : %f"), *GetName(), FinalDamage)
+		return FinalDamage;
 }
 
 

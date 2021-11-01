@@ -37,7 +37,9 @@ public:
 	UFUNCTION()
 	float GetCurrentHPRate() { return HP / MaxHP; }
 
-	// 기능 함수들
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// H1Character GamePlay Methods
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 public:
 	// 체력을 채우거나 깎는다.
 	UFUNCTION()
@@ -69,6 +71,9 @@ private:
 	void AttackStartComboState();
 	void AttackEndComboState();
 	void AttackCheck(); // @ 공격범위에 타격 대상이 있는지 체크하고 데미지를 적용한다.
+
+	// Unreal Damage Framework
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 protected:
 	enum class EPlayerControlMode
