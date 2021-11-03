@@ -7,8 +7,9 @@ UH1AnimInstance::UH1AnimInstance()
 {
 	CurrentPawnSpeed = 0.f;
 	bInAir = false;
+	IsDead = false;
 
-	// ¸ùÅ¸ÁÖ ¾Ö¼Â ·Îµå.
+	// ëª½íƒ€ì£¼ ì• ì…‹ ë¡œë“œ.
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> ATTACK_MONTAGE(TEXT("/Game/H1/PlayerAnims/H1_PC_AttackMontage.H1_PC_AttackMontage"));
 	if(ATTACK_MONTAGE.Succeeded())
 	{
@@ -20,16 +21,18 @@ void UH1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
-	// TryGEtPawnOwner ÇöÀç ¾Ö´Ï¸ŞÀÌ¼Ç BP¸¦ »ç¿ëÁßÀÎ PawnÀÇ Æ÷ÀÎÅÍ¸¦ ¾ò¾î¿Â´Ù.
+	// TryGEtPawnOwner í˜„ì¬ ì• ë‹ˆë©”ì´ì…˜ BPë¥¼ ì‚¬ìš©ì¤‘ì¸ Pawnì˜ í¬ì¸í„°ë¥¼ ì–»ì–´ì˜¨ë‹¤.
 	auto Pawn = TryGetPawnOwner();
-	if(::IsValid(Pawn)) // Pawn À¯È¿ÇÏ´Ù¸é
+	if (!::IsValid(Pawn)) return;
+
+	if(!IsDead)
 	{
-		// PawnÀ¸·ÎºÎÅÍ ¼Óµµ -> ¼Ó·ÂÀ» ¾ò¾î¿Â´Ù.
+		// Pawnìœ¼ë¡œë¶€í„° ì†ë„ -> ì†ë ¥ì„ ì–»ì–´ì˜¨ë‹¤.
 		CurrentPawnSpeed = Pawn->GetVelocity().Size();
 		auto Character = Cast<ACharacter>(Pawn);
 		if(Character)
 		{
-			// Ä³¸¯ÅÍ·Î ºÎÅÍ °øÁßÀÎÁö ¿©ºÎ¸¦ ¹Ş¾Æ¿Â´Ù.
+			// ìºë¦­í„°ë¡œ ë¶€í„° ê³µì¤‘ì¸ì§€ ì—¬ë¶€ë¥¼ ë°›ì•„ì˜¨ë‹¤.
 			bInAir = Character->GetMovementComponent()->IsFalling();
 		}
 	}
@@ -37,13 +40,15 @@ void UH1AnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 void UH1AnimInstance::playAttackMontage()
 {
-	// ÀÌ ÇÔ¼ö CharacterÀÇ IsAttacking == falseÀÏ ¶§¸¸ È£Ãâ µË´Ï´Ù.	
+	H1CHECK(!IsDead);
+	// ì´ í•¨ìˆ˜ Characterì˜ IsAttacking == falseì¼ ë•Œë§Œ í˜¸ì¶œ ë©ë‹ˆë‹¤.	
 	Montage_Play(AttackMontage, 1.0f);
 }
 
 void UH1AnimInstance::JumpToOtherAttackMontageSection(int32 NewSection)
 {
-	H1CHECK(Montage_IsPlaying(AttackMontage)); // ¸ùÅ¸ÁÖ ÇÃ·¹ÀÌÁß¿¡¸¸ ¸ùÅ¸ÁÖ ¼½¼Ç º¯°æÀÌ ÀûÀıÇÔ.
+	H1CHECK(!IsDead);
+	H1CHECK(Montage_IsPlaying(AttackMontage)); // ëª½íƒ€ì£¼ í”Œë ˆì´ì¤‘ì—ë§Œ ëª½íƒ€ì£¼ ì„¹ì…˜ ë³€ê²½ì´ ì ì ˆí•¨.
 	Montage_JumpToSection(GetAttackMontageSectionName(NewSection), AttackMontage);
 }
 

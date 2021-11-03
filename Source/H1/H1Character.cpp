@@ -532,8 +532,15 @@ float AH1Character::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	AActor* DamageCauser)
 {
 	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	H1LOG(Warning, TEXT("Actor : %s took Damage : %f"), *GetName(), FinalDamage)
-		return FinalDamage;
+	H1LOG(Warning, TEXT("Actor : %s took Damage : %f"), *GetName(), FinalDamage);
+
+	if (FinalDamage > 0.f) // 받은 데미지가 0보다 크면 바로 사망하게 테스트용 설정함.
+	{
+		H1AnimInst->SetDeadAnim();
+		SetActorEnableCollision(false); // 죽은 캐릭터의 충돌을 비활성화
+	}
+
+	return FinalDamage;
 }
 
 

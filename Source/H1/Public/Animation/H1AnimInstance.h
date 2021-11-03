@@ -18,7 +18,7 @@ class H1_API UH1AnimInstance : public UAnimInstance
 	// 
 public:
 	UH1AnimInstance();
-	// @ ¼öÇàÇÒ ¾Ö´Ï¸ŞÀÌ¼Ç ¼¼Æ®¸¦ °áÁ¤ÇÏ±â À§ÇØ¼­ ¾Ö´Ï¸ŞÀÌ¼Ç °ü·Ã ¼Ó¼ºµéÀ» ¾÷µ¥ÀÌÆ® ÇÕ´Ï´Ù.
+	// @ ìˆ˜í–‰í•  ì• ë‹ˆë©”ì´ì…˜ ì„¸íŠ¸ë¥¼ ê²°ì •í•˜ê¸° ìœ„í•´ì„œ ì• ë‹ˆë©”ì´ì…˜ ê´€ë ¨ ì†ì„±ë“¤ì„ ì—…ë°ì´íŠ¸ í•©ë‹ˆë‹¤.
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 	void playAttackMontage();
@@ -33,18 +33,26 @@ private:
 	void AnimNotify_NextAttackCheck();
 	FName GetAttackMontageSectionName(int32 Section);
 
+// Getter, Setter
+public:
+	FORCEINLINE void SetDeadAnim() { IsDead = true; } // ì• ë‹ˆë©”ì´ì…˜ ìƒíƒœë¥¼ ì£½ìŒìœ¼ë¡œ ë§Œë“ ë‹¤ // ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ì´ ì¬ìƒëœë‹¤.
+
 	// Delegates
 public:
 	// Combo Attack Delegate
 	FOnNextAttackCheckDelegate OnNextAttackCheck;
 	FOnAttackHitCheckDelegate OnAttackHitCheck;
 
-	// State¸¦ ¹Ù²Ù´Âµ¥ ÇÊ¿äÇÑ character property º¹»çº»
+// Stateë¥¼ ë°”ê¾¸ëŠ”ë° í•„ìš”í•œ character property ë³µì‚¬ë³¸ë“¤
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Pawn, Meta=(AllowPrivateAccess=true))
 	float CurrentPawnSpeed;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
-	bool bInAir;
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 	UAnimMontage* AttackMontage;
+
+	// ì¤‘ì²©ê°€ëŠ¥í•œ ë™ì‘ìƒíƒœë“¤.
+ 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
+	bool bInAir;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
+	bool IsDead;
 };
