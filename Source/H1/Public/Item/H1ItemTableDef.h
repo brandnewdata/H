@@ -41,7 +41,7 @@ struct FItemTableRow : public FTableRowBase
 public:
 	FItemTableRow() {}
 
-	static FName GetTableAssetPath() { return TEXT("DataTable'/Game/Item/NewDataTable.NewDataTable'"); }
+	static FName GetTableAssetPath() { return TEXT("DataTable'/Game/H1/Item/H1ItemTable.H1ItemTable'"); }
 	// 	static ETableType GetTableType() { return ETableType::TablePathDef; }
 
 public:
