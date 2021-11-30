@@ -33,6 +33,13 @@ enum class EItemType : uint8
 	Consume,
 };
 
+UENUM(BlueprintType)
+enum class EMeshType : uint8
+{
+	StaticMesh,
+	SkeletalMesh,
+};
+
 USTRUCT(BlueprintType)
 struct FItemTableRow : public FTableRowBase
 {
@@ -46,29 +53,32 @@ public:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		int ItemClassID;
+	int ItemClassID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		FString ItemName;
+	FString ItemName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		EItemEquipSlot ItemEquipSlot;
+	EItemEquipSlot ItemEquipSlot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		EItemType ItemType;
+	EItemType ItemType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		float ItemFloat1;
+	EMeshType MeshType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		FSoftObjectPath ItemModel;
+	float ItemFloat1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		FSoftObjectPath ItemThumb;
+	FSoftObjectPath ItemModel;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		FSoftObjectPath TestItemClass;
+	FSoftObjectPath ItemThumb;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
-		FString ItemDesc;
+	FSoftObjectPath TestItemClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ItemTable)
+	FString ItemDesc;
 };

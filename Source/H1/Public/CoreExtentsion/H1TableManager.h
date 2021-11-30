@@ -17,7 +17,7 @@ class UH1TableManager : public UObject
 	GENERATED_BODY()
 	
 public:
-	// DT¿¡ Á¢±ÙÇÏ´Â ÄÚµå°¡ Ã³À½ ½ÇÇàµÇ´Â ¼ø°£ Å×ÀÌºí ·Îµå¸¦ ÁøÇàÇÑ´Ù.
+	// DTì— ì ‘ê·¼í•˜ëŠ” ì½”ë“œê°€ ì²˜ìŒ ì‹¤í–‰ë˜ëŠ” ìˆœê°„ í…Œì´ë¸” ë¡œë“œë¥¼ ì§„í–‰í•œë‹¤.
 	template<typename T>
 	const T* GetTable(int TableKey)
 	{
@@ -28,19 +28,20 @@ public:
 	const T* GetTable(FName TableKey)
 	{
 		UDataTable* TargetTableAsset = nullptr;
-		FName TableAssetKey = T::GetTableAssetPath();
+		FName TableAssetKey = T::GetTableAssetPath(); // Table Assetì˜ ê²½ë¡œë¥¼ ë°›ì•„ ì˜¨ë‹¤.
 
+		// ì´ í…Œì´ë¸”ì´ ì´ë¯¸ ë¡œë“œë˜ì–´ ìˆì§€ ì•Šë‹¤ë©´.
 		if (DataTableMap.Find(TableAssetKey) == false || DataTableMap[TableAssetKey] == nullptr)
 		{
 			UDataTable* TableAsset = nullptr;
-			FSoftObjectPath TableAssetLoader(*TableAssetKey.ToString());
-			TableAsset = Cast<UDataTable>(TableAssetLoader.TryLoad());
-			if (!IsValid(TableAsset))
+			FSoftObjectPath TableAssetLoader(*TableAssetKey.ToString()); // ìœ„ì—ì„œ ë°›ì•„ì˜¨ ê²½ë¡œë¡œ 
+			TableAsset = Cast<UDataTable>(TableAssetLoader.TryLoad());   // ë°ì´í„° í…Œì´ë¸” ì• ì…‹ì„ ì°¾ì•„ì„œ í¬ì¸í„°ë¥´ ë°›ìŒ.
+			if (!IsValid(TableAsset)) // ë°ì´í„° í…Œì´ë¸” ì• ì…‹ì˜ í¬ì¸í„°ê°€ ìœ íš¨í•˜ë‹¤ë©´
 			{
 				return nullptr;
 			}
 
-			DataTableMap.Add(TableAssetKey, TableAsset);
+			DataTableMap.Add(TableAssetKey, TableAsset); // mapì— ì¶”ê°€í•œë‹¤. ë‹¤ìŒì— ë˜ ì°¾ìœ¼ë©´ ì•ˆ ë˜ë‹ˆê¹Œ.
 			TargetTableAsset = TableAsset;
 		}
 		else
@@ -48,9 +49,10 @@ public:
 			TargetTableAsset = DataTableMap[TableAssetKey];
 		}
 
-		// TODO :  GetTableCS ¿À·ù ·Î±× Ç¥½Ã¿ë ¹®±¸ÀÓ ¸¶À½´ë·Î ÀÛ¼ºÇØµµ ÄÚµå¶û ¹«°üÇÔ.
-		// TODO : Å×ÀÌºí Å°¶û ID¶û ºĞ¸®µÈ°Å ÇÕÄ¡´Â °Å Ã£¾Æ º¼ °Í.
-		// TableKey ItemID¶û °°Àº °É·Î ÇÏ°í ÀÖÀ½. ÀÔ·Â½Ã¿¡ °°°Ô ¸ÂÃçÁà¾ß ¿À·ù°¡ ¾øÀ½.
+		// TODO :  GetTableCS ì˜¤ë¥˜ ë¡œê·¸ í‘œì‹œìš© ë¬¸êµ¬ì„ ë§ˆìŒëŒ€ë¡œ ì‘ì„±í•´ë„ ì½”ë“œë‘ ë¬´ê´€í•¨. 
+		// ê°ê° ì•„ì´í…œ, ìŠ¤í‚¬ í…Œì´ë¸”ë§ˆë‹¤ ë‹¤ë¥´ê²Œ ë¡œê·¸ë˜ë„ë¡ ì„¤ì • í•´ ë³¼ ê²ƒ.
+		// TODO : í…Œì´ë¸” í‚¤ë‘ IDë‘ ë¶„ë¦¬ëœê±° í•©ì¹˜ëŠ” ê±° ì°¾ì•„ ë³¼ ê²ƒ. ì›ë˜ ì´ëŸ°ê²Œ ë§ìœ¼ë©´ ê·¸ê²ƒë„ ê¸°ë¡ í•  ê²ƒ.
+		// TableKey ItemIDë‘ ê°™ì€ ê±¸ë¡œ í•˜ê³  ìˆìŒ. ì…ë ¥ì‹œì— ê°™ê²Œ ë§ì¶°ì¤˜ì•¼ ì˜¤ë¥˜ê°€ ì—†ìŒ.
 		static const FString GetTableCS(TEXT("UH1TableManager::GetTable"));
 		T* RetTable = TargetTableAsset->FindRow<T>(TableKey, GetTableCS);
 

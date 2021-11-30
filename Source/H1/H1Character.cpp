@@ -57,6 +57,16 @@ AH1Character::AH1Character()
 	WeaponLeftHand = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponLeftHand"));;
 	WeaponLeftHand->SetupAttachment(GetMesh(), FName(TEXT("WeaponLeftHand")));
 
+	// Share smae socket with static meshs. 
+	WeaponBack_SK = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponBack_SK"));;
+	WeaponBack_SK->SetupAttachment(GetMesh(), FName(TEXT("WeaponBack")));
+
+	WeaponRightHand_SK = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponRightHand_SK"));;
+	WeaponRightHand_SK->SetupAttachment(GetMesh(), FName(TEXT("WeaponRightHand")));
+
+	WeaponLeftHand_SK = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponLeftHand_SK"));;
+	WeaponLeftHand_SK->SetupAttachment(GetMesh(), FName(TEXT("WeaponLeftHand")));
+
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
@@ -329,25 +339,52 @@ void AH1Character::EquipWeapon(UH1InventoryItem* InventoryItem)
 	// nullptr이면 무효
 	if (nullptr == ItemTableRow)
 		return;
-
-	// 데이터 테이블 정보로 부터 장비 메쉬를 생성한다.
-	UStaticMesh* ItemMesh = Cast<UStaticMesh>(ItemTableRow->ItemModel.TryLoad());
-	if (!IsValid(ItemMesh))
-		return;
-
-	// 장비 아이템의 소켓 위치에 따라서 캐릭터에 생성되어있는 메쉬 컴포넌트에 메쉬로 설정한다.
-	// 메쉬 컴포넌트는 이미 소켓위치에 부착되어 있다.
-	switch (ItemTableRow->ItemEquipSlot)
+	 
+	if (ItemTableRow->MeshType == EMeshType::SkeletalMesh)
 	{
-	case EItemEquipSlot::WeaponBack:
-		WeaponBack->SetStaticMesh(ItemMesh);
-		break;
-	case EItemEquipSlot::WeaponLeftHand:
-		WeaponRightHand->SetStaticMesh(ItemMesh);
-		break;
-	case EItemEquipSlot::WeaponRightHand:
-		WeaponLeftHand->SetStaticMesh(ItemMesh);
-		break;
+		// 데이터 테이블 정보로 부터 장비 메쉬를 생성한다.
+		USkeletalMesh* ItemMesh = Cast<USkeletalMesh>(ItemTableRow->ItemModel.TryLoad());
+
+		if (!IsValid(ItemMesh))
+			return;
+
+		// 장비 아이템의 소켓 위치에 따라서 캐릭터에 생성되어있는 메쉬 컴포넌트에 메쉬로 설정한다.
+		// 메쉬 컴포넌트는 이미 소켓위치에 부착되어 있다.
+		switch (ItemTableRow->ItemEquipSlot)
+		{
+		case EItemEquipSlot::WeaponBack:
+			WeaponBack_SK->SetSkeletalMesh(ItemMesh);
+			break;
+		case EItemEquipSlot::WeaponLeftHand:
+			WeaponLeftHand_SK->SetSkeletalMesh(ItemMesh);
+			break;
+		case EItemEquipSlot::WeaponRightHand:
+			WeaponRightHand_SK->SetSkeletalMesh(ItemMesh);
+			break;
+		}
+	}
+	else // 아니면 Static Mesh임
+	{
+		// 데이터 테이블 정보로 부터 장비 메쉬를 생성한다.
+		UStaticMesh* ItemMesh = Cast<UStaticMesh>(ItemTableRow->ItemModel.TryLoad());
+
+		if (!IsValid(ItemMesh))
+			return;
+
+		// 장비 아이템의 소켓 위치에 따라서 캐릭터에 생성되어있는 메쉬 컴포넌트에 메쉬로 설정한다.
+		// 메쉬 컴포넌트는 이미 소켓위치에 부착되어 있다.
+		switch (ItemTableRow->ItemEquipSlot)
+		{
+		case EItemEquipSlot::WeaponBack:
+			WeaponBack->SetStaticMesh(ItemMesh);
+			break;
+		case EItemEquipSlot::WeaponLeftHand:
+			WeaponRightHand->SetStaticMesh(ItemMesh);
+			break;
+		case EItemEquipSlot::WeaponRightHand:
+			WeaponLeftHand->SetStaticMesh(ItemMesh);
+			break;
+		}
 	}
 }
 
