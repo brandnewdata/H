@@ -29,13 +29,13 @@ public:
 
 	virtual bool Initialize() override;
 
-	// ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ÀÇ ÀÎº¥Åä¸®¿Í ÀÎº¥Åä¸® UIÀÇ ÀÎº¥Åä¸® ½½·ÔÀ» µ¿±âÈ­ÇÏ´Â ¿ªÇÒÀ»ÇÑ´Ù.
-	// ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯°¡ ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÇ Á¤º¸¸¦ ³Ñ±â¸é ±× Á¤º¸·Î ÀÎº¥Åä¸® ½½·ÔÀ» ¼³Á¤ÇÑ´Ù.
+	// í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ì¸ë²¤í† ë¦¬ì™€ ì¸ë²¤í† ë¦¬ UIì˜ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì„ ë™ê¸°í™”í•˜ëŠ” ì—­í• ì„í•œë‹¤.
+	// í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ì¸ë²¤í† ë¦¬ ì•„ì´í…œì˜ ì •ë³´ë¥¼ ë„˜ê¸°ë©´ ê·¸ ì •ë³´ë¡œ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì„ ì„¤ì •í•œë‹¤.
 	void SetItemInfo(UH1InventoryItem* NewInventoryItemRef);
 	void ShowAnimation();
 	bool GetIsEmpty() { return IsEmpty; }
 
-	// ½½·Ô ÃÊ±âÈ­
+	// ìŠ¬ë¡¯ ì´ˆê¸°í™”
 	UFUNCTION()
 	void CleanUp();
 
@@ -48,20 +48,20 @@ public:
 	UFUNCTION()
 	void OnRButtonClick();
 
-	// Use´Â ½½·ÔÀÌ ´­·ÈÀ» ¶§¶û °°Àº ÇÔ¼ö·Î µ¿ÀÛÇÕ´Ï´Ù. ¼Ò¸ğ or ÀåÂø //
+	// UseëŠ” ìŠ¬ë¡¯ì´ ëˆŒë ¸ì„ ë•Œë‘ ê°™ì€ í•¨ìˆ˜ë¡œ ë™ì‘í•©ë‹ˆë‹¤. ì†Œëª¨ or ì¥ì°© //
 	UFUNCTION()
 	void OnContextUse();
 
-	// ¹Ù´Ú¿¡ ¹ö¸®´Â ÇÔ¼ö°¡ ¹ÙÀÎµå µÇ¾î ÀÖ½À´Ï´Ù.
+	// ë°”ë‹¥ì— ë²„ë¦¬ëŠ” í•¨ìˆ˜ê°€ ë°”ì¸ë“œ ë˜ì–´ ìˆìŠµë‹ˆë‹¤.
 	UFUNCTION()
 	void OnContextThrow();
 
-	// ¸Ş´º ÀÚÃ¼¸¦ »èÁ¦ÇÕ´Ï´Ù. ¾ÆÁ÷ º°´Ù¸¥ Ã³¸® ¾øÀ½ È¥ÀÚ 
+	// ë©”ë‰´ ìì²´ë¥¼ ì‚­ì œí•©ë‹ˆë‹¤. ì•„ì§ ë³„ë‹¤ë¥¸ ì²˜ë¦¬ ì—†ìŒ í˜¼ì 
 	UFUNCTION()
 	void OnContextClose();
 
-	// ÀÌ·¸°Ô ÇÏ¸é UMenuAnchor->open()ÇÔ¼ö È£Ãâ-> OnGetUserMenuContentEvent µ¨¸®°ÔÀÌÆ®¿¡ ¹ÙÀÎµåµÈ ÇÔ¼ö°¡ È£ÃâµÇ°í
-	// ÇÔ¼ö ³»ºÎ¿¡¼­ ÄÁÅØ½ºÆ® ¸Ş´º UIÀÇ ÄÁÅÙÃ÷(UI Asset)¸¦ ½ÇÁ¦·Î »ı¼ºÇØ¼­ ±× Æ÷ÀÎÅÍ¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+	// ì´ë ‡ê²Œ í•˜ë©´ UMenuAnchor->open()í•¨ìˆ˜ í˜¸ì¶œ-> OnGetUserMenuContentEvent ë¸ë¦¬ê²Œì´íŠ¸ì— ë°”ì¸ë“œëœ í•¨ìˆ˜ê°€ í˜¸ì¶œë˜ê³ 
+	// í•¨ìˆ˜ ë‚´ë¶€ì—ì„œ ì»¨í…ìŠ¤íŠ¸ ë©”ë‰´ UIì˜ ì»¨í…ì¸ (UI Asset)ë¥¼ ì‹¤ì œë¡œ ìƒì„±í•´ì„œ ê·¸ í¬ì¸í„°ë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	UFUNCTION()
 	UWidget* OnGetMenuContentEvent();
 
@@ -79,12 +79,12 @@ protected:
 	// DragNDrop Functions
 	//
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
-	// µå·¡±ëÀÌ Ãë¼ÒµÇ¸é È£ÃâµÇ´Â ÇÔ¼ö ÀÎµ¥ ¾ÆÁ÷ ±×·± °æ¿ì°¡ ¾øÀ½.
+	// ë“œë˜ê¹…ì´ ì·¨ì†Œë˜ë©´ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ ì¸ë° ì•„ì§ ê·¸ëŸ° ê²½ìš°ê°€ ì—†ìŒ.
 	virtual void NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	// ÇöÀç´Â ½½·ÔÀ§·Î ´Ù¸¥ ½½·ÔÀÇ ¾ÆÀÌÅÛÀÌ µå·¡±× »óÅÂ·Î µé¾î¿À¸é ÇöÀç Áö³ª°í ÀÖ´Â ½½·ÔÀÇ Åõ¸íµµ°¡ 0.5°¡µÊ
+	// í˜„ì¬ëŠ” ìŠ¬ë¡¯ìœ„ë¡œ ë‹¤ë¥¸ ìŠ¬ë¡¯ì˜ ì•„ì´í…œì´ ë“œë˜ê·¸ ìƒíƒœë¡œ ë“¤ì–´ì˜¤ë©´ í˜„ì¬ ì§€ë‚˜ê³  ìˆëŠ” ìŠ¬ë¡¯ì˜ íˆ¬ëª…ë„ê°€ 0.5ê°€ë¨
 	virtual void NativeOnDragEnter(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	// ½½·Ô À§·Î Áö³ª°¡´ø µå·¡±×°¡ ³¡³ª¸é ½½·ÔÀÇ Åõ¸íµµ¸¦ ¿ø·¡ 1.0À¸·Î µÇµ¹¸°´Ù.
+	// ìŠ¬ë¡¯ ìœ„ë¡œ ì§€ë‚˜ê°€ë˜ ë“œë˜ê·¸ê°€ ëë‚˜ë©´ ìŠ¬ë¡¯ì˜ íˆ¬ëª…ë„ë¥¼ ì›ë˜ 1.0ìœ¼ë¡œ ë˜ëŒë¦°ë‹¤.
 	virtual void NativeOnDragLeave(const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
 private:
@@ -98,23 +98,23 @@ public:
 	UPROPERTY(meta=(Bindwidget))
 	UMenuAnchor* ContextMenuAnchor;
 
-	// ½½·Ô¿¡ ÀúÀåµÈ 'ÀÎº¥Åä¸® ¾ÆÀÌÅÛ'¿¡ ´ëÇÑ Æ÷ÀÎÅÍ
+	// ìŠ¬ë¡¯ì— ì €ì¥ëœ 'ì¸ë²¤í† ë¦¬ ì•„ì´í…œ'ì— ëŒ€í•œ í¬ì¸í„°
 	UPROPERTY()
 	UH1InventoryItem* InventoryItemRef;
 
 
-	// ½½·ÔÀÌ Å¬¸®¹ŞÀ¸¸é LÀÌ¸é Consume OR Equip // RÀÌ¸é Context Menu È°¼º
+	// ìŠ¬ë¡¯ì´ í´ë¦¬ë°›ìœ¼ë©´ Lì´ë©´ Consume OR Equip // Rì´ë©´ Context Menu í™œì„±
 	UPROPERTY()
 	FOnCliekedInventorySlot OnCliekedInventorySlot; 
 
-	// ÄÁÅØ½ºÆ® ¸Ş´ºÀÇ ¹öÆ°ÀÌ ´­¸®¸é ½ÇÇàµÇ´Â ÀÌº¥Æ®µé.
+	// ì»¨í…ìŠ¤íŠ¸ ë©”ë‰´ì˜ ë²„íŠ¼ì´ ëˆŒë¦¬ë©´ ì‹¤í–‰ë˜ëŠ” ì´ë²¤íŠ¸ë“¤.
 	UPROPERTY()
 	FOnCliekedInventorySlot OnCliekedInventoryContext;
 
 	FTimerHandle TimerHandle;
 
 public:
-	// ÀÎº¥Åä¸®ÀÇ ºó ½½·ÔÀ¸·Î ¾ÆÀÌÅÛÀ» ÀÌµ¿ ½ÃÅ°·Á¸é ºó ½½·ÔÀÇ ÀÎµ¦½º°¡ ÇÊ¿äÇÔ.
+	// ì¸ë²¤í† ë¦¬ì˜ ë¹ˆ ìŠ¬ë¡¯ìœ¼ë¡œ ì•„ì´í…œì„ ì´ë™ ì‹œí‚¤ë ¤ë©´ ë¹ˆ ìŠ¬ë¡¯ì˜ ì¸ë±ìŠ¤ê°€ í•„ìš”í•¨.
 	int SlotIndex = INDEX_NONE;
 
 private:

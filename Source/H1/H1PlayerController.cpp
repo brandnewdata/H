@@ -30,7 +30,7 @@ void AH1PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ¸ŞÀÎ À§Á¬À» »ı¼ºÇØ¼­ ºäÆ÷Æ®¿¡ ±×¸°´Ù.
+	// ë©”ì¸ ìœ„ì ¯ì„ ìƒì„±í•´ì„œ ë·°í¬íŠ¸ì— ê·¸ë¦°ë‹¤.
 	WidgetMainContainer = CreateWidget<UH1HUDContainer_WS>(this, UH1HUDContainer_WS::GetWidgetClassStatic());
 	if (IsValid(WidgetMainContainer) && IsLocalPlayerController())
 	{
@@ -38,18 +38,18 @@ void AH1PlayerController::BeginPlay()
 
 	}
 
-	// Ã¼·Â°ú ¾ÆÀÌÅÛ¿¡ ´ëÇÑ  ¼³Á¤µé.-----------------------------------------------------------
+	// ì²´ë ¥ê³¼ ì•„ì´í…œì— ëŒ€í•œ  ì„¤ì •ë“¤.-----------------------------------------------------------
 	
-	// ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÌ µé¾î°¥ ¹è¿­À» »çÀÌÁî¸¦ ¹Ì¸® Àâ¾Æ³õ´Â´Ù.(ÀÎº¥Åä¸® Å©±â´Â ÀÌ¹Ì Á¤ÇØÁ®ÀÖÀ¸¹Ç·Î ÇÑ¹ø¿¡ Àâ´Â°Ô ÀÌµæ)
-	// ÀÛÀ¸¸é ´Ã¸®°í Å©¸é ÁÙÀÎ´Ù.
+	// ì¸ë²¤í† ë¦¬ ì•„ì´í…œì´ ë“¤ì–´ê°ˆ ë°°ì—´ì„ ì‚¬ì´ì¦ˆë¥¼ ë¯¸ë¦¬ ì¡ì•„ë†“ëŠ”ë‹¤.(ì¸ë²¤í† ë¦¬ í¬ê¸°ëŠ” ì´ë¯¸ ì •í•´ì ¸ìˆìœ¼ë¯€ë¡œ í•œë²ˆì— ì¡ëŠ”ê²Œ ì´ë“)
+	// ì‘ìœ¼ë©´ ëŠ˜ë¦¬ê³  í¬ë©´ ì¤„ì¸ë‹¤.
 	//https://docs.unrealengine.com/4.27/ko/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TArrays/ 
 	InventoryItems.SetNumZeroed(MaxInventorySlotCount);
 
 	FInputModeGameAndUI InputMode;
-	// ÇÃ·¹ÀÌ¾î ÀÔ·Â ¸ğµå Á¶Á¤ ÀÌ°Å ¶§¹®¿¡ ÀÌº¥Æ®°¡ ¾ø¾î¼­ ±â°í»ıÇû³×!
+	// í”Œë ˆì´ì–´ ì…ë ¥ ëª¨ë“œ ì¡°ì • ì´ê±° ë•Œë¬¸ì— ì´ë²¤íŠ¸ê°€ ì—†ì–´ì„œ ê¸°ê³ ìƒí˜”ë„¤!
 	SetInputMode(InputMode);
 
-	// ½ÇÆĞµé
+	// ì‹¤íŒ¨ë“¤
 	//SetInputMode(FInputModeGameAndUI());
 	//FInputModeGameOnly InputMode;
 	//SetInputMode(InputMode);
@@ -70,7 +70,7 @@ void AH1PlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
-	// keep updating the destination every tick while desired // Ä¿¼­·Î ÀÌµ¿Ã³¸® ¸ÅÆ½¸¶´Ù..
+	// keep updating the destination every tick while desired // ì»¤ì„œë¡œ ì´ë™ì²˜ë¦¬ ë§¤í‹±ë§ˆë‹¤..
 	if (bMoveToMouseCursor)
 	{
 		MoveToMouseCursor();
@@ -82,7 +82,7 @@ void AH1PlayerController::SetupInputComponent()
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
-	// ¿©±â¼­ ¹öÆ°À¸·Î Á¦¾îÇÏ´Â °ÍÀº ¿òÁ÷ÀÓ true false toggle ´Ù¸¥µ¥¼­ ½ÇÁ¦·Î ¿òÁ÷ÀÌ´Â ÄÚµå°¡ ÀÛµ¿ÇÔ.
+	// ì—¬ê¸°ì„œ ë²„íŠ¼ìœ¼ë¡œ ì œì–´í•˜ëŠ” ê²ƒì€ ì›€ì§ì„ true false toggle ë‹¤ë¥¸ë°ì„œ ì‹¤ì œë¡œ ì›€ì§ì´ëŠ” ì½”ë“œê°€ ì‘ë™í•¨.
 	InputComponent->BindAction("SetDestination", IE_Pressed, this, &AH1PlayerController::OnSetDestinationPressed);
 	InputComponent->BindAction("SetDestination", IE_Released, this, &AH1PlayerController::OnSetDestinationReleased);
 
@@ -92,9 +92,9 @@ void AH1PlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("ResetVR", IE_Pressed, this, &AH1PlayerController::OnResetVR);
 
-	// Á¾·á UI¿¡ ´ëÇÑ ÀÔ·ÂÃ³¸® Ãß°¡.
+	// ì¢…ë£Œ UIì— ëŒ€í•œ ì…ë ¥ì²˜ë¦¬ ì¶”ê°€.
 	InputComponent->BindKey(EKeys::X, EInputEvent::IE_Pressed, this, &AH1PlayerController::IP_Esc);
-	// ÀÎº¥Åä¸® Åä±Û
+	// ì¸ë²¤í† ë¦¬ í† ê¸€
 	InputComponent->BindKey(EKeys::I, EInputEvent::IE_Pressed, this, &AH1PlayerController::IP_Inventory);
 }
 
@@ -111,7 +111,7 @@ void AH1PlayerController::MoveToMouseCursor()
 		{
 			if (MyPawn->GetCursorToWorld())
 			{
-				// ¿©±â¸¦ ºñÈ°¼ºÈ­ÇÏ¸é ÀÚµ¿À¸·Î ÀÌµ¿¸Ş½ÃÁö ¹ß¼ÛÀÌ »ç¶óÁü
+				// ì—¬ê¸°ë¥¼ ë¹„í™œì„±í™”í•˜ë©´ ìë™ìœ¼ë¡œ ì´ë™ë©”ì‹œì§€ ë°œì†¡ì´ ì‚¬ë¼ì§
 				UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, MyPawn->GetCursorToWorld()->GetComponentLocation());
 			}
 		}
@@ -208,14 +208,14 @@ int AH1PlayerController::FindInventoryItemByItemID(int ItemClassID, UH1Inventory
 	{
 		UH1InventoryItem* CheckInventoryItem = InventoryItems[i];
 
-		// ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÌ ºóÄ­ÀÌ°Å³ª ¹«È¿ÇÏ¸é ´ÙÀ½ Ä­À» °Ë»çÇÏµµ·Ï ¹İº¹¹®ÀÇ Ã³À½À¸·Î µ¹¾Æ°¡¼­ ´ÙÀ½ ¿ä¼Ò¸¦ °Ë»çÇÑ´Ù.
+		// ì¸ë²¤í† ë¦¬ ì•„ì´í…œì´ ë¹ˆì¹¸ì´ê±°ë‚˜ ë¬´íš¨í•˜ë©´ ë‹¤ìŒ ì¹¸ì„ ê²€ì‚¬í•˜ë„ë¡ ë°˜ë³µë¬¸ì˜ ì²˜ìŒìœ¼ë¡œ ëŒì•„ê°€ì„œ ë‹¤ìŒ ìš”ì†Œë¥¼ ê²€ì‚¬í•œë‹¤.
 		if (nullptr == CheckInventoryItem || !IsValid(CheckInventoryItem))
 			continue;
 
-		// °ªÀÌ À¯È¿ÇÏ´Ù¸é ID°¡ ¿øÇÏ´Â °Í°ú ÀÏÄ¡ÇÏ´ÂÁö °Ë»çÇÑ´Ù.
+		// ê°’ì´ ìœ íš¨í•˜ë‹¤ë©´ IDê°€ ì›í•˜ëŠ” ê²ƒê³¼ ì¼ì¹˜í•˜ëŠ”ì§€ ê²€ì‚¬í•œë‹¤.
 		if (CheckInventoryItem->ItemClassID == ItemClassID)
 		{
-			// ÀÏÄ¡ÇÑ´Ù¸é ÇöÀç ¾ÆÀÌÅÛÀÇ Æ÷ÀÎÅÍ¸¦ ÀÔÃâ·Â ¸Å°³º¯¼ö¿¡ ÀúÀåÇÏ°í, ÇöÀç ÀÎµ¦½º¸¦ ¹İÈ¯ÇÑ´Ù
+			// ì¼ì¹˜í•œë‹¤ë©´ í˜„ì¬ ì•„ì´í…œì˜ í¬ì¸í„°ë¥¼ ì…ì¶œë ¥ ë§¤ê°œë³€ìˆ˜ì— ì €ì¥í•˜ê³ , í˜„ì¬ ì¸ë±ìŠ¤ë¥¼ ë°˜í™˜í•œë‹¤
 			FoundSlot = CheckInventoryItem;
 			return i;
 		}
@@ -228,15 +228,15 @@ int AH1PlayerController::GetEmptyInvenItem(UH1InventoryItem*& FoundSlot)
 {
 	for (int i = 0; i < MaxInventorySlotCount; i++)
 	{
-		// ÀÎº¥Åä¸®¿¡ ºóÄ­ÀÌ ÀÖ´ÂÁö °Ë»çÇÏ°í
+		// ì¸ë²¤í† ë¦¬ì— ë¹ˆì¹¸ì´ ìˆëŠ”ì§€ ê²€ì‚¬í•˜ê³ 
 		if (nullptr == InventoryItems[i])
 		{
-			// ºóÄ­ÀÌ ÀÖ´Ù¸é ½½·ÔÀ» »õ·Î¿î ¾ÆÀÌÅÛÀÌ µé¾î°¥ ÀÚ¸±¸£ ¸¸µé¾î¼­
+			// ë¹ˆì¹¸ì´ ìˆë‹¤ë©´ ìŠ¬ë¡¯ì„ ìƒˆë¡œìš´ ì•„ì´í…œì´ ë“¤ì–´ê°ˆ ìë¦´ë¥´ ë§Œë“¤ì–´ì„œ
 			UH1InventoryItem* NewInventoryItem = NewObject<UH1InventoryItem>(this, UH1InventoryItem::StaticClass());
 			InventoryItems[i] = NewInventoryItem;
-			// »õ·Î ¸¸µç ÀÚ¸®ÀÇ ÁÖ¼Ò¸¦ ¹İÈ¯ÇÔ.
+			// ìƒˆë¡œ ë§Œë“  ìë¦¬ì˜ ì£¼ì†Œë¥¼ ë°˜í™˜í•¨.
 			FoundSlot = NewInventoryItem;
-			// ÀÎº¥Åä¸® ÀÎµ¦½ºµµ ¹İÈ¯ÇÔ.
+			// ì¸ë²¤í† ë¦¬ ì¸ë±ìŠ¤ë„ ë°˜í™˜í•¨.
 			return i;
 		}
 	}
@@ -246,58 +246,58 @@ int AH1PlayerController::GetEmptyInvenItem(UH1InventoryItem*& FoundSlot)
 
 bool AH1PlayerController::TryPickingItem(int ItemClassID, int StackCount)
 {
-	// ¾ÆÀÌÅÛ Å×ÀÌºíÀ» ºÒ·¯¿Â´Ù.
+	// ì•„ì´í…œ í…Œì´ë¸”ì„ ë¶ˆëŸ¬ì˜¨ë‹¤.
 	UH1TableManager* TableManager = UH1GameInstance::GetTableManager();
 	if (!IsValid(TableManager) || 0 == ItemClassID)
 	{
 		return false;
 	}
 
-	// ÇÈ¾÷À» ½ÃµµÇÑ ¾ÆÀÌÅÛÀÇ Á¤º¸(Çà)¸¦ Å×ÀÌºí¿¡¼­ ·ÎµåÇÑ´Ù.
+	// í”½ì—…ì„ ì‹œë„í•œ ì•„ì´í…œì˜ ì •ë³´(í–‰)ë¥¼ í…Œì´ë¸”ì—ì„œ ë¡œë“œí•œë‹¤.
 	const FItemTableRow* ItemTableRow = TableManager->GetTable<FItemTableRow>(ItemClassID);
 	if (nullptr == ItemTableRow)
 		return false;
 
-	// ¼ÒºñÀç ¾ÆÀÌÅÛÀÌ¶ó¸é. °ãÄ¡±â°¡ °¡´ÉÇØ¼­ ´Ù¸£´Ù. Ã³¸®°¡.
+	// ì†Œë¹„ì¬ ì•„ì´í…œì´ë¼ë©´. ê²¹ì¹˜ê¸°ê°€ ê°€ëŠ¥í•´ì„œ ë‹¤ë¥´ë‹¤. ì²˜ë¦¬ê°€.
 	if (EItemType::Consume == ItemTableRow->ItemType)
 	{
 		UH1InventoryItem* TargetItem = nullptr;
 		int TargetItemIndex = INDEX_NONE;
-		bool AddNewSlot = true; // ±âº»ÀûÀ¸·Î ÀÎº¥Åä¸®¿¡ ¾ÆÀÌÅÛ°ú °°Àº À¯ÇüÀÇ ¾ÆÀÌÅÛÀÌ ¾ø°í ºóÄ­ÀÌ ÀÖ´Â °æ¿ì°¡ trueÀÌ´Ù.
+		bool AddNewSlot = true; // ê¸°ë³¸ì ìœ¼ë¡œ ì¸ë²¤í† ë¦¬ì— ì•„ì´í…œê³¼ ê°™ì€ ìœ í˜•ì˜ ì•„ì´í…œì´ ì—†ê³  ë¹ˆì¹¸ì´ ìˆëŠ” ê²½ìš°ê°€ trueì´ë‹¤.
 
-		// ÇÔ¼ö ¼±¾ğºÎ¸¦ ÂüÁ¶ÇÏ¸é ÇÔ¼ö ¿ªÇÒÀÌ ÀÚ¼¼ÇÏ°Ô ½á ÀÖ´Ù.
+		// í•¨ìˆ˜ ì„ ì–¸ë¶€ë¥¼ ì°¸ì¡°í•˜ë©´ í•¨ìˆ˜ ì—­í• ì´ ìì„¸í•˜ê²Œ ì¨ ìˆë‹¤.
 		TargetItemIndex = FindInventoryItemByItemID(ItemClassID, TargetItem);
 
-		// FindIbventoryItemByItemID°¡ À¯¿äÇÑ °ªÀ» ¹İÈ¯Çß´Ù¸é ÇØ´ç ¾ÆÀÌÅÛ°ú °°Àº À¯ÇüÀÌ ÀÌ¹Ì ÀÎº¥Åä¸®¿¡ Á¸ÀçÇÏ´Â °ÍÀÌ´Ù.
+		// FindIbventoryItemByItemIDê°€ ìœ ìš”í•œ ê°’ì„ ë°˜í™˜í–ˆë‹¤ë©´ í•´ë‹¹ ì•„ì´í…œê³¼ ê°™ì€ ìœ í˜•ì´ ì´ë¯¸ ì¸ë²¤í† ë¦¬ì— ì¡´ì¬í•˜ëŠ” ê²ƒì´ë‹¤.
 		if (INDEX_NONE != TargetItemIndex && IsValid(TargetItem))
-			AddNewSlot = false; // µû¶ó¼­ »õ·Î¿î  ½½·ÔÀ» ¸¸µé ÇÊ¿ä ¾ø´Ù.
-		// ÀÎº¥Åä¸®¿¡ °°Àº À¯ÇüÀÇ ¾ÆÀÌÅÛÀÌ ¾øÀ¸¸é ÀÎº¥Åä¸®¿¡ ºóÄ­À» È®ÀÎÇÏ°í ºóÄ­À» »ç¿ëÇÏµµ·ÏÇÑ´Ù.
+			AddNewSlot = false; // ë”°ë¼ì„œ ìƒˆë¡œìš´  ìŠ¬ë¡¯ì„ ë§Œë“¤ í•„ìš” ì—†ë‹¤.
+		// ì¸ë²¤í† ë¦¬ì— ê°™ì€ ìœ í˜•ì˜ ì•„ì´í…œì´ ì—†ìœ¼ë©´ ì¸ë²¤í† ë¦¬ì— ë¹ˆì¹¸ì„ í™•ì¸í•˜ê³  ë¹ˆì¹¸ì„ ì‚¬ìš©í•˜ë„ë¡í•œë‹¤.
 		else if (INDEX_NONE != (TargetItemIndex = GetEmptyInvenItem(TargetItem)) && IsValid(TargetItem))
 			AddNewSlot = true;
 		else
-			return false; // °°Àº À¯ÇüÀÇ ¾ÆÀÌÅÛÀÌ ÀÎº¥Åä¸®¿¡ ¾ø°í ºóÄ­µµ ¾ø´Ù.
+			return false; // ê°™ì€ ìœ í˜•ì˜ ì•„ì´í…œì´ ì¸ë²¤í† ë¦¬ì— ì—†ê³  ë¹ˆì¹¸ë„ ì—†ë‹¤.
 
-		// ÀÎº¥Åä¸®°¡ ¾ø´Ù¸é ¹«È¿
+		// ì¸ë²¤í† ë¦¬ê°€ ì—†ë‹¤ë©´ ë¬´íš¨
 		UInventory_WS* Inventory = WidgetMainContainer->Inventory;
 		if (!IsValid(Inventory))
 			return false;
 
-		// ÄÁÆ®·Ñ·¯°¡ °¡Áö°í ÀÖ´Â ÀÎº¥Åä¸® ÀÎµ¦½º¸¦ °¡Áö°í ÇØ´çÇÏ´Â // ÀÎº¥Åä¸® ½½·ÔÀÌ ¾ø¾îµµ ¹«È¿ 
+		// ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ê°€ì§€ê³  ìˆëŠ” ì¸ë²¤í† ë¦¬ ì¸ë±ìŠ¤ë¥¼ ê°€ì§€ê³  í•´ë‹¹í•˜ëŠ” // ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì´ ì—†ì–´ë„ ë¬´íš¨ 
 		UInventorySlot_WS* InventorySlot = Inventory->GetSlot(TargetItemIndex);
 		if (!IsValid(InventorySlot))
 			return false;
 
-		// ±âÁ¸ ½½·Ô¿¡ °°Àº Á¾·ùÀÇ ¾ÆÀÌÅÛÀÌ ¾ø¾ú°í ºóÄ­ÀÌ ÀÖ¾ú´Ù¸é 
+		// ê¸°ì¡´ ìŠ¬ë¡¯ì— ê°™ì€ ì¢…ë¥˜ì˜ ì•„ì´í…œì´ ì—†ì—ˆê³  ë¹ˆì¹¸ì´ ìˆì—ˆë‹¤ë©´ 
 		if (AddNewSlot)
 		{
-			// ÇÒ´ç¹ŞÀº ÀÎº¥Åä¸® Ä­¿¡ Á¤º¸¸¦ ´©ÀûÇÑ´Ù. (ÄÁÆ®·Ñ·¯ ¼Ò¼ÓÀÌ´Ù.)
+			// í• ë‹¹ë°›ì€ ì¸ë²¤í† ë¦¬ ì¹¸ì— ì •ë³´ë¥¼ ëˆ„ì í•œë‹¤. (ì»¨íŠ¸ë¡¤ëŸ¬ ì†Œì†ì´ë‹¤.)
 			TargetItem->SetItemInfo(ItemClassID, StackCount);
-			InventorySlot->CleanUp();	// ÀÎº¥Åä¸® ½½·ÔÀ» ÃÊ±âÈ­ÇÏ°í
-			InventorySlot->SetItemInfo(TargetItem); // »õ·Î¿î ¾ÆÀÌÅÛÀÇ °ªÀ¸·Î ÀÎº¥Åä¸®¸¦ ¼³Á¤ÇÑ´Ù.
-			InventorySlot->UpdateSlot();	// ÀÎº¥Åä¸® ½½·ÔÀÇ view¸¦ »õ·Î¿î ½ºÆåÀ¸·Î °»½ÅÇÑ´Ù.
-			// ½½·ÔÀÌ ´­¸®¸é ÇÏ´Â Ã³¸® ÇÔ¼ö µî·Ï
+			InventorySlot->CleanUp();	// ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì„ ì´ˆê¸°í™”í•˜ê³ 
+			InventorySlot->SetItemInfo(TargetItem); // ìƒˆë¡œìš´ ì•„ì´í…œì˜ ê°’ìœ¼ë¡œ ì¸ë²¤í† ë¦¬ë¥¼ ì„¤ì •í•œë‹¤.
+			InventorySlot->UpdateSlot();	// ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì˜ viewë¥¼ ìƒˆë¡œìš´ ìŠ¤í™ìœ¼ë¡œ ê°±ì‹ í•œë‹¤.
+			// ìŠ¬ë¡¯ì´ ëˆŒë¦¬ë©´ í•˜ëŠ” ì²˜ë¦¬ í•¨ìˆ˜ ë“±ë¡
 			InventorySlot->OnCliekedInventorySlot.AddDynamic(this, &AH1PlayerController::OnclieckedInventorySlot);
-			// ½½·ÔÀÇ ÄÁÅØ½ºÆ® ¸Ş´º Ã³¸®ÇÔ¼ö µî·Ï
+			// ìŠ¬ë¡¯ì˜ ì»¨í…ìŠ¤íŠ¸ ë©”ë‰´ ì²˜ë¦¬í•¨ìˆ˜ ë“±ë¡
 			InventorySlot->OnCliekedInventoryContext.AddDynamic(this, &AH1PlayerController::OnclieckedContextThrow);
 
 			if (Inventory->RenderOpacity == 1.0f)
@@ -305,15 +305,15 @@ bool AH1PlayerController::TryPickingItem(int ItemClassID, int StackCount)
 				InventorySlot->ShowAnimation();
 			}
 		}
-		else // ¼ÒºñÀçÀÌ°í °°Àº Á¾·ùÀÇ ¾ÆÀÌÅÛÀÌ ÀÌ¹Ì Á¸Àç ÇÑ´Ù¸é. ±âº»ÀÇ Ä­¿¡ stackÀ» ½×´Â´Ù.
+		else // ì†Œë¹„ì¬ì´ê³  ê°™ì€ ì¢…ë¥˜ì˜ ì•„ì´í…œì´ ì´ë¯¸ ì¡´ì¬ í•œë‹¤ë©´. ê¸°ë³¸ì˜ ì¹¸ì— stackì„ ìŒ“ëŠ”ë‹¤.
 		{
 			TargetItem->StackCount += StackCount;
-			// ÄÁÆ®·Ñ·¯°¡ °¡Áø ÀÎº¥Åä¸® Á¤º¸´ë·Î ÀÎº¥Åä¸® ½½·Ô UIÀÇ Á¤º¸µµ °»½ÅÇÑ´Ù.
+			// ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ê°€ì§„ ì¸ë²¤í† ë¦¬ ì •ë³´ëŒ€ë¡œ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ UIì˜ ì •ë³´ë„ ê°±ì‹ í•œë‹¤.
 			InventorySlot->SetItemInfo(TargetItem);
 			InventorySlot->UpdateSlot();
 		}
 	}
-	else // ½ÀµæÇÑ ¾ÆÀÌÅÛÀÌ ¼ÒºñÀç°¡ ¾Æ´Ï¶ó¼­ ½×±â º¸°üÀÌ ºÒ°¡´ÉÇÑ °æ¿ìÀÇ Ã³¸®
+	else // ìŠµë“í•œ ì•„ì´í…œì´ ì†Œë¹„ì¬ê°€ ì•„ë‹ˆë¼ì„œ ìŒ“ê¸° ë³´ê´€ì´ ë¶ˆê°€ëŠ¥í•œ ê²½ìš°ì˜ ì²˜ë¦¬
 	{
 		UH1InventoryItem* TargetItem = nullptr;
 		int TargetItemIndex = INDEX_NONE;
@@ -335,11 +335,11 @@ bool AH1PlayerController::TryPickingItem(int ItemClassID, int StackCount)
 		InventorySlot->CleanUp();
 		InventorySlot->SetItemInfo(TargetItem);
 		InventorySlot->UpdateSlot();
-		// ½½·ÔÀÌ ´­¸®¸é ÇÏ´Â Ã³¸® ÇÔ¼ö µî·Ï, ½½·ÔÀÇ ÄÁÅØ½ºÆ® ¸Ş´º Ã³¸®ÇÔ¼ö µî·Ï
+		// ìŠ¬ë¡¯ì´ ëˆŒë¦¬ë©´ í•˜ëŠ” ì²˜ë¦¬ í•¨ìˆ˜ ë“±ë¡, ìŠ¬ë¡¯ì˜ ì»¨í…ìŠ¤íŠ¸ ë©”ë‰´ ì²˜ë¦¬í•¨ìˆ˜ ë“±ë¡
 		InventorySlot->OnCliekedInventorySlot.AddDynamic(this, &AH1PlayerController::OnclieckedInventorySlot);
 		InventorySlot->OnCliekedInventoryContext.AddDynamic(this, &AH1PlayerController::OnclieckedContextThrow);
 
-		// ¾÷µ¥ÀÌÆ®µÈ ÀÎº¥Åä¸® »óÅÂ¸¦ UI·Î ±×¸².
+		// ì—…ë°ì´íŠ¸ëœ ì¸ë²¤í† ë¦¬ ìƒíƒœë¥¼ UIë¡œ ê·¸ë¦¼.
 		if (Inventory->RenderOpacity == 1.0f)
 		{
 			InventorySlot->ShowAnimation();
@@ -352,7 +352,7 @@ bool AH1PlayerController::TryPickingItem(int ItemClassID, int StackCount)
 
 void AH1PlayerController::OnclieckedInventorySlot(UH1InventoryItem* InventoryItem, UInventorySlot_WS* InventorySlot)
 {
-	// ½½·ÔÀÌ À¯È¿ÇÑ°¡? 
+	// ìŠ¬ë¡¯ì´ ìœ íš¨í•œê°€? 
 	if (!IsValid(InventorySlot) || !IsValid(InventorySlot->InventoryItemRef))
 		return;
 
@@ -379,58 +379,58 @@ void AH1PlayerController::OnclieckedInventorySlot(UH1InventoryItem* InventoryIte
 			{
 				PlayUnitHUD_WS->SetHPRate(HealthRatio);
 			}
-			// ÇÏ³ª ¼Ò¸ğÇÔ
+			// í•˜ë‚˜ ì†Œëª¨í•¨
 			TargetInventoryItem->StackCount--;
 			if (TargetInventoryItem->StackCount <= 0)
 			{
-				// ¼Ò¸ğÇØ¼­ °ªÀÌ 0ÀÌÇÏ¸é ¾øÀ¸¹Ç·Î ¾÷µ¥ÀÌÆ®
+				// ì†Œëª¨í•´ì„œ ê°’ì´ 0ì´í•˜ë©´ ì—†ìœ¼ë¯€ë¡œ ì—…ë°ì´íŠ¸
 				InventorySlot->CleanUp();
 				InventoryItems[TargetItemIndex] = nullptr;
 			}
-			else // º¯ÇÑ ½½·Ô Á¤º¸ ¾÷µ¥ÀÌÆ®
+			else // ë³€í•œ ìŠ¬ë¡¯ ì •ë³´ ì—…ë°ì´íŠ¸
 			{
 				InventorySlot->UpdateSlot();
 			}
 		}
 	}
 	break;
-	case EItemType::Equip:	// ¾ÆÀÌÅÛÀÌ Àåºñ¶ó¸é
+	case EItemType::Equip:	// ì•„ì´í…œì´ ì¥ë¹„ë¼ë©´
 	{
-		// Ä³¸¯ÅÍ Æ÷ÀÎÅÍ¸¦ ¹Ş¾Æ¿À°í nullptrÀÌ¸é ¹Ù·Î ÇÔ¼ö ¹İÈ¯
+		// ìºë¦­í„° í¬ì¸í„°ë¥¼ ë°›ì•„ì˜¤ê³  nullptrì´ë©´ ë°”ë¡œ í•¨ìˆ˜ ë°˜í™˜
 		AH1Character* H1Character = Cast<AH1Character>(GetPawn());
 		if (!IsValid(H1Character))
 			break;
 
-		// ´­¸° ½½·ÔÀÇ Àåºñ¾ÆÀÌÅÛÀÌ ÀåÂøµÇ¾î ÀÖ´Â »óÅÂÀÌ¸é ÀåÂøÀ» ÇØÁ¦ÇÑ´Ù.
+		// ëˆŒë¦° ìŠ¬ë¡¯ì˜ ì¥ë¹„ì•„ì´í…œì´ ì¥ì°©ë˜ì–´ ìˆëŠ” ìƒíƒœì´ë©´ ì¥ì°©ì„ í•´ì œí•œë‹¤.
 		if (true == TargetInventoryItem->Equipped)
 		{
-			// ÀåÂøÇØÁ¦
+			// ì¥ì°©í•´ì œ
 			TargetInventoryItem->Equipped = false;
 			InventorySlot->UpdateSlot();
 			H1Character->ClearWeapon(TargetInventoryItem);
 		}
-		else // ´­¸° ½½·ÔÀÌ ÀåÂøÁß »óÅÂ°¡ ¾Æ´Ï¸é ÀåÂøÀ» ½ÃµµÇÑ´Ù. °°Àº ½½·Ô¿¡ ´Ù¸¥ ¾ÆÀÌÅÛÀÌ ÀåÂøÁßÀÌ¶ó¸é ÇØÁ¦ÇÏ°í ÇöÀç ¾ÆÀÌÅÛÀ¸·Î ±³Ã¼ÇÑ´Ù.
+		else // ëˆŒë¦° ìŠ¬ë¡¯ì´ ì¥ì°©ì¤‘ ìƒíƒœê°€ ì•„ë‹ˆë©´ ì¥ì°©ì„ ì‹œë„í•œë‹¤. ê°™ì€ ìŠ¬ë¡¯ì— ë‹¤ë¥¸ ì•„ì´í…œì´ ì¥ì°©ì¤‘ì´ë¼ë©´ í•´ì œí•˜ê³  í˜„ì¬ ì•„ì´í…œìœ¼ë¡œ êµì²´í•œë‹¤.
 		{
-			// ÇöÀç ÀåÂøÁßÀÎ ¾ÆÀÌÅÛÀÌ ÀÖ´Ù¸é ±×Á¤º¸¸¦ ¾ò¾î¿Â´Ù.
+			// í˜„ì¬ ì¥ì°©ì¤‘ì¸ ì•„ì´í…œì´ ìˆë‹¤ë©´ ê·¸ì •ë³´ë¥¼ ì–»ì–´ì˜¨ë‹¤.
 			UH1InventoryItem* EquipedInventoryItem = nullptr;
 			UInventorySlot_WS* EquipedInventorySlot = nullptr;;
 
-			// ÀåÂø ÁßÀÎ ¾ÆÀÌÅÛÀÇ 'ÀÎº¥Åä¸® ¾ÆÀÌÅÛ'°ú 'ÀÎº¥Åä¸® ½½·Ô'À» ¾ò¾î¿Â´Ù.
+			// ì¥ì°© ì¤‘ì¸ ì•„ì´í…œì˜ 'ì¸ë²¤í† ë¦¬ ì•„ì´í…œ'ê³¼ 'ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯'ì„ ì–»ì–´ì˜¨ë‹¤.
 			GetEquipedInventoryItem(TargetInventoryItem->GetItemEquipSlot(), EquipedInventoryItem, EquipedInventorySlot);
 			
-			// ÇöÀç ÀåÂøÁßÀÎ ¾ÆÀÌÅÛÀÌ ÀÖ´Ù¸é ÇØÁ¦ÇÑ´Ù.
+			// í˜„ì¬ ì¥ì°©ì¤‘ì¸ ì•„ì´í…œì´ ìˆë‹¤ë©´ í•´ì œí•œë‹¤.
 			if (IsValid(EquipedInventoryItem))
 				EquipedInventoryItem->Equipped = false;
 
-			// ÇöÀç ÀåÂøÁßÀÎ ¾ÆÀÌÅÛÀÇ ½½·ÔÀ» ÀåÂøÇØÁ¦ »óÅÂ·Î ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+			// í˜„ì¬ ì¥ì°©ì¤‘ì¸ ì•„ì´í…œì˜ ìŠ¬ë¡¯ì„ ì¥ì°©í•´ì œ ìƒíƒœë¡œ ì—…ë°ì´íŠ¸í•œë‹¤.
 			if (IsValid(EquipedInventorySlot))
 				EquipedInventorySlot->UpdateSlot();
 
-			// ÀåÂø´ë»ó ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀ» ÀåÂø»óÅÂ·Î ¸¸µë
+			// ì¥ì°©ëŒ€ìƒ ì¸ë²¤í† ë¦¬ ì•„ì´í…œì„ ì¥ì°©ìƒíƒœë¡œ ë§Œë“¬
 			TargetInventoryItem->Equipped = true;
-			// ÀåÂø´ë»ó ÀÎº¥Åä¸® ½½·ÔÀ» ¾÷µ¥ÀÌÆ®
+			// ì¥ì°©ëŒ€ìƒ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì„ ì—…ë°ì´íŠ¸
 			InventorySlot->UpdateSlot();
-			// ÇØ´ç ¾ÆÀÌÅÛÀ» Ä³¸¯ÅÍ¿¡ ÀåÂø
+			// í•´ë‹¹ ì•„ì´í…œì„ ìºë¦­í„°ì— ì¥ì°©
 			H1Character->EquipWeapon(TargetInventoryItem);
 		}
 	}
@@ -445,24 +445,24 @@ void AH1PlayerController::GetEquipedInventoryItem(EItemEquipSlot ItemEquipSlot, 
 
 	for (int i = 0; i < 8; i++)
 	{
-		// ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÌ µé¾îÀÖ´Â Ä­À» Ã£°í ¾Æ´Ï¸é ´Ù½Ã ´Ù¸¥ Ä­À» Ã£´Â´Ù.
+		// ì¸ë²¤í† ë¦¬ ì•„ì´í…œì´ ë“¤ì–´ìˆëŠ” ì¹¸ì„ ì°¾ê³  ì•„ë‹ˆë©´ ë‹¤ì‹œ ë‹¤ë¥¸ ì¹¸ì„ ì°¾ëŠ”ë‹¤.
 		UH1InventoryItem* CheckedItem = InventoryItems[i];
 		if (IsValid(CheckedItem) == false)
 			continue;
 
-		// Ã£Àº ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÌ ÀåÂø¿ë ¾ÆÀÌÅÛÀÌ°í &&
-		// ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÇ ÀåÂø ¼ÒÄÏ(½½·Ô)ÀÌ ItemEquipSlot(¼ÒÄÏ)°ú ÀÏÄ¡ÇÑ´Ù¸é µ¿½Ã¿¡ ÀåÂø ºÒ°¡´ÉÇÏ¹Ç·Î
-		// ÇöÀç ÀåÂøÁßÀÎ ¾ÆÀÌÅÛÀ» ÀåÂøÇØÁ¦ ÇÏ±âÀ§ÇØ¼­ ±× Á¤º¸¸¦ ¹İÈ¯ÇÑ´Ù.
+		// ì°¾ì€ ì¸ë²¤í† ë¦¬ ì•„ì´í…œì´ ì¥ì°©ìš© ì•„ì´í…œì´ê³  &&
+		// ì¸ë²¤í† ë¦¬ ì•„ì´í…œì˜ ì¥ì°© ì†Œì¼“(ìŠ¬ë¡¯)ì´ ItemEquipSlot(ì†Œì¼“)ê³¼ ì¼ì¹˜í•œë‹¤ë©´ ë™ì‹œì— ì¥ì°© ë¶ˆê°€ëŠ¥í•˜ë¯€ë¡œ
+		// í˜„ì¬ ì¥ì°©ì¤‘ì¸ ì•„ì´í…œì„ ì¥ì°©í•´ì œ í•˜ê¸°ìœ„í•´ì„œ ê·¸ ì •ë³´ë¥¼ ë°˜í™˜í•œë‹¤.
 		if (true == CheckedItem->Equipped && CheckedItem->GetItemEquipSlot() == ItemEquipSlot)
 		{
-			// ÇöÀç ¸ñÇ¥ ½½·Ô¿¡ ÀåÂøÁßÀÎ ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀ» ¾Æ¿ô¸Å°³º¯¼ö¿¡ ÀúÀåÇÑ´Ù.
+			// í˜„ì¬ ëª©í‘œ ìŠ¬ë¡¯ì— ì¥ì°©ì¤‘ì¸ ì¸ë²¤í† ë¦¬ ì•„ì´í…œì„ ì•„ì›ƒë§¤ê°œë³€ìˆ˜ì— ì €ì¥í•œë‹¤.
 			InventoryItem = CheckedItem;
 
-			// ÀÎº¥Åä¸®¿¡ Á¢±ÙÇÑ´Ù.
+			// ì¸ë²¤í† ë¦¬ì— ì ‘ê·¼í•œë‹¤.
 			UInventory_WS* Inventory = WidgetMainContainer->Inventory;
 			if (IsValid(Inventory))
 			{
-				// ÇöÀç ¸ñÇ¥ ½½·Ô¿¡ ÀåÂøÁßÀÎ 'ÀÎº¥Åä¸® ¾ÆÀÌÅÛ'ÀÇ 'ÀÎµ¦½º'·Î 'ÀÎº¥Åä¸® ½½·ÔÀÇ ÁÖ¼Ò'¸¦ ¾ò¾î¼­ 'Ãâ·Â¸Å°³º¯¼ö'¿¡ ÀúÀåÇÑ´Ù.
+				// í˜„ì¬ ëª©í‘œ ìŠ¬ë¡¯ì— ì¥ì°©ì¤‘ì¸ 'ì¸ë²¤í† ë¦¬ ì•„ì´í…œ'ì˜ 'ì¸ë±ìŠ¤'ë¡œ 'ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì˜ ì£¼ì†Œ'ë¥¼ ì–»ì–´ì„œ 'ì¶œë ¥ë§¤ê°œë³€ìˆ˜'ì— ì €ì¥í•œë‹¤.
 				InventorySlot = Inventory->GetSlot(i);
 			}
 			break;
@@ -472,42 +472,42 @@ void AH1PlayerController::GetEquipedInventoryItem(EItemEquipSlot ItemEquipSlot, 
 
 void AH1PlayerController::OnclieckedContextThrow(UH1InventoryItem* InventoryItem, UInventorySlot_WS* InventorySlot)
 {
-	// ½½·Ô°ú ½½·Ô¿¡ µé¾îÀÖ´Â ¾ÆÀÌÅÛÀÌ ¸ğµÎ À¯È¿ÇÏ¸é
+	// ìŠ¬ë¡¯ê³¼ ìŠ¬ë¡¯ì— ë“¤ì–´ìˆëŠ” ì•„ì´í…œì´ ëª¨ë‘ ìœ íš¨í•˜ë©´
 	if (!IsValid(InventorySlot) || !IsValid(InventorySlot->InventoryItemRef))
 		return;
 
 	UH1InventoryItem* TargetInventoryItem = InventorySlot->InventoryItemRef;
 	const FItemTableRow* ItemTable = TargetInventoryItem->GetItemTableRow();
 
-	// ¹ö¸± ´ë»óÀÎ ¾ÆÀÌÅÛÀÇ ÀÎº¥Åä¸® ÀÎµ¦½º¸¦ °¡Á®¿Â´Ù.
+	// ë²„ë¦´ ëŒ€ìƒì¸ ì•„ì´í…œì˜ ì¸ë²¤í† ë¦¬ ì¸ë±ìŠ¤ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 	int TargetItemIndex = InventoryItems.Find(TargetInventoryItem);
 	if (INDEX_NONE == TargetItemIndex)
 		return;
 
 
-	if (TargetInventoryItem->Equipped) 	// ¸¸¾à ÀåÂøµÇ¾î ÀÖ´Ù¸é ÇØÁ¦ºÎÅÍ ÇÏ°í ¾ÆÀÌÅÛÀ» ÄÁÆ®·Ñ·¯¿Í ½½·Ô¿¡¼­ Á¦°ÅÇÑ´Ù.
+	if (TargetInventoryItem->Equipped) 	// ë§Œì•½ ì¥ì°©ë˜ì–´ ìˆë‹¤ë©´ í•´ì œë¶€í„° í•˜ê³  ì•„ì´í…œì„ ì»¨íŠ¸ë¡¤ëŸ¬ì™€ ìŠ¬ë¡¯ì—ì„œ ì œê±°í•œë‹¤.
 	{
 		AH1Character* H1Character = Cast<AH1Character>(GetPawn());
 		if (IsValid(H1Character))
 		{
-			// ¾ÆÀÌÅÛÀ» ÀåÂø ÇØÁ¦ÇÏ°í
+			// ì•„ì´í…œì„ ì¥ì°© í•´ì œí•˜ê³ 
 			H1Character->ClearWeapon(TargetInventoryItem);
-			// ÄÁÆ®·Ñ·¯°¡ °¡Áö°íÀÖ´ø ¾ÆÀÌÅÛÀ» Áö¿ì°í
+			// ì»¨íŠ¸ë¡¤ëŸ¬ê°€ ê°€ì§€ê³ ìˆë˜ ì•„ì´í…œì„ ì§€ìš°ê³ 
 			InventoryItems[TargetItemIndex] = nullptr;
-			// ½½·ÔÀ» Áö¿ì°í
+			// ìŠ¬ë¡¯ì„ ì§€ìš°ê³ 
 			InventorySlot->CleanUp();
-			// ½½·Ô Á¤º¸¸¦ ¾÷µ¥ÀÌÆ®
+			// ìŠ¬ë¡¯ ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸
 			InventorySlot->UpdateSlot();
 		}
 	}
-	else // ÀåÂøÁßÀÌ ¾Æ´Ï¸é ¹Ù·Î ¾ÆÀÌÅÛÀ» ÄÁÆ®·Ñ·¯¿Í ½½·Ô¿¡¼­ Á¦°ÅÇÑ´Ù.
+	else // ì¥ì°©ì¤‘ì´ ì•„ë‹ˆë©´ ë°”ë¡œ ì•„ì´í…œì„ ì»¨íŠ¸ë¡¤ëŸ¬ì™€ ìŠ¬ë¡¯ì—ì„œ ì œê±°í•œë‹¤.
 	{
 		InventoryItems[TargetItemIndex] = nullptr;
 		InventorySlot->CleanUp();
 		InventorySlot->UpdateSlot();
 	}
 
-	// Ä³¸¯ÅÍ À§Ä¡¸¦ ±â¹İÀ¸·Î ¾ÆÀÌÅÛÀ» ¹Ù´Ú¿¡ ¹ö¸°´Ù.
+	// ìºë¦­í„° ìœ„ì¹˜ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì•„ì´í…œì„ ë°”ë‹¥ì— ë²„ë¦°ë‹¤.
 	AH1Character* h1Character = Cast<AH1Character>(GetPawn());
 	if (IsValid(h1Character))
 	{
@@ -517,13 +517,13 @@ void AH1PlayerController::OnclieckedContextThrow(UH1InventoryItem* InventoryItem
 		RandomAmount.Z = 0.0f;
 
 		SpawnTransform.SetLocation(h1Character->GetFootLocation() + RandomAmount);
-		// ³¯¸§ ¹ö±× ¼öÁ¤ ¾ÆÀÌÅÛÀÌ ¹Ù´Ú¿¡ ºÙ°Ô ÇÔ.
+		// ë‚ ë¦„ ë²„ê·¸ ìˆ˜ì • ì•„ì´í…œì´ ë°”ë‹¥ì— ë¶™ê²Œ í•¨.
 		SpawnTransform.SetLocation(FVector(SpawnTransform.GetLocation().X, SpawnTransform.GetLocation().Y, 0.f));
 		SpawnTransform.SetRotation(FRotator(0.0f, UKismetMathLibrary::RandomFloatInRange(0.0f, 360.0f), 0.0f).Quaternion());
 
-		// ºó ¾ÆÀÌÅÛ ¿¢ÅÍ¸¦ ·¹º§¿¡ ½ºÆùÇÑ´Ù.
+		// ë¹ˆ ì•„ì´í…œ ì—‘í„°ë¥¼ ë ˆë²¨ì— ìŠ¤í°í•œë‹¤.
 		AH1Item* ThrowedItem = GetWorld()->SpawnActor<AH1Item>(AH1Item::StaticClass(), SpawnTransform);
-		// ·¹º§¿¡ ½ºÆùµÈ ¾ÆÀÌÅÛÀ» ¼³Á¤ÇÑ´Ù.
+		// ë ˆë²¨ì— ìŠ¤í°ëœ ì•„ì´í…œì„ ì„¤ì •í•œë‹¤.
 		ThrowedItem->SetItemInfo(TargetInventoryItem->ItemClassID, TargetInventoryItem->StackCount);
 	}
 }
@@ -534,62 +534,62 @@ void AH1PlayerController::ExchangeInventorySlot(UH1InventoryItem* SrcInventoryIt
 	if (!IsValid(SrcInventoryItem))
 		return;
 
-	// ÀÎº¥Åä¸® ¾ÆÀÌÅÛ Æ÷ÀÎÅÍ·Î ¹è¿­¿¡¼­ ÀÎº¥Åä¸® ½½·ÔÀÇ ÀÎµ¦½º¸¦ ¾ò¾î¿È.
+	// ì¸ë²¤í† ë¦¬ ì•„ì´í…œ í¬ì¸í„°ë¡œ ë°°ì—´ì—ì„œ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì˜ ì¸ë±ìŠ¤ë¥¼ ì–»ì–´ì˜´.
 	int32 srcInvenIndex = InventoryItems.Find(SrcInventoryItem);
 	if (INDEX_NONE == srcInvenIndex)
 		return;
 
-	// ¸ñÀûÁö ÀÎµ¦½ºÀÇ ±âº»°ª -1. ºñ¾î ÀÖ´Ù¸é ÀÌ °ª°ú °°À½. ÃÊ±âÈ­.
+	// ëª©ì ì§€ ì¸ë±ìŠ¤ì˜ ê¸°ë³¸ê°’ -1. ë¹„ì–´ ìˆë‹¤ë©´ ì´ ê°’ê³¼ ê°™ìŒ. ì´ˆê¸°í™”.
 	int32 DestInvenIndex = INDEX_NONE;
 
-	if (!IsValid(DestInventoryItem))	// ¸ñÀûÁö ÀÎº¥Åä¸®°¡ ½½·ÔÀÌ ºóÄ­ÀÌ¶ó¸é, ºóÄ­À¸·Î ¾ÆÀÌÅÛÀ» ÀÌµ¿ ½ÃÅ²´Ù.
+	if (!IsValid(DestInventoryItem))	// ëª©ì ì§€ ì¸ë²¤í† ë¦¬ê°€ ìŠ¬ë¡¯ì´ ë¹ˆì¹¸ì´ë¼ë©´, ë¹ˆì¹¸ìœ¼ë¡œ ì•„ì´í…œì„ ì´ë™ ì‹œí‚¨ë‹¤.
 	{
-		// ½½·ÔÀÇ ÀÎµ¦½º¸¦ ¾ò¾î¿Í¼­
+		// ìŠ¬ë¡¯ì˜ ì¸ë±ìŠ¤ë¥¼ ì–»ì–´ì™€ì„œ
 		DestInvenIndex = DestInventorySlot->SlotIndex;
-		if (INDEX_NONE == DestInvenIndex) // ½½·ÔÀÇ ÀÎµ¦½º°¡ À¯È¿ÇÑÁö È®ÀÎÇÏ°í
+		if (INDEX_NONE == DestInvenIndex) // ìŠ¬ë¡¯ì˜ ì¸ë±ìŠ¤ê°€ ìœ íš¨í•œì§€ í™•ì¸í•˜ê³ 
 			return;
-		// ¾ÆÀÌÅÛÀ» ºóÄ­¿¡ º¹»çÇÑ´Ù.(Æ÷ÀÎÅÍ)
+		// ì•„ì´í…œì„ ë¹ˆì¹¸ì— ë³µì‚¬í•œë‹¤.(í¬ì¸í„°)
 		InventoryItems[DestInvenIndex] = SrcInventoryItem; 
-		InventoryItems[srcInvenIndex] = nullptr; // ±âÁ¸ÀÇ ¾ÆÀÌÅÛ Ä­À» ºñ¿î´Ù. 
+		InventoryItems[srcInvenIndex] = nullptr; // ê¸°ì¡´ì˜ ì•„ì´í…œ ì¹¸ì„ ë¹„ìš´ë‹¤. 
 
-		SrcInventorySlot->CleanUp(); // ±âÁ¸ÀÇ ¾ÆÀÌÅÛÀÌ µé¾îÀÖ´ø ½½·ÔÀ» Á¤¸®ÇÑ´Ù.
+		SrcInventorySlot->CleanUp(); // ê¸°ì¡´ì˜ ì•„ì´í…œì´ ë“¤ì–´ìˆë˜ ìŠ¬ë¡¯ì„ ì •ë¦¬í•œë‹¤.
 
-		DestInventorySlot->CleanUp(); // »õ·Î ¾ÆÀÌÅÛÀÌ µé¾î°¥ ½º·ÔÀ» Á¤¸®ÇÑ´Ù.
-		DestInventorySlot->SetItemInfo(SrcInventoryItem); // ¾ÆÀÌÅ×ÀÇ Á¤º¸¸¦ ½½·Ô¿¡ ¾÷µ¥ÀÌÆ® ÇÑ´Ù.
-		DestInventorySlot->UpdateSlot(); // »õ·Î ¾ÆÀÌÅÛÀÌ »ı±ä ½½·ÔÀ» ¾÷µ¥ÀÌÆ® ÇÑ´Ù.(¿ÜÇü)
-		// ¾ÆÀÌÅÛ »ç¿ë Ã³¸® ÇÔ¼ö ¹ÙÀÎµå
+		DestInventorySlot->CleanUp(); // ìƒˆë¡œ ì•„ì´í…œì´ ë“¤ì–´ê°ˆ ìŠ¤ë¡¯ì„ ì •ë¦¬í•œë‹¤.
+		DestInventorySlot->SetItemInfo(SrcInventoryItem); // ì•„ì´í…Œì˜ ì •ë³´ë¥¼ ìŠ¬ë¡¯ì— ì—…ë°ì´íŠ¸ í•œë‹¤.
+		DestInventorySlot->UpdateSlot(); // ìƒˆë¡œ ì•„ì´í…œì´ ìƒê¸´ ìŠ¬ë¡¯ì„ ì—…ë°ì´íŠ¸ í•œë‹¤.(ì™¸í˜•)
+		// ì•„ì´í…œ ì‚¬ìš© ì²˜ë¦¬ í•¨ìˆ˜ ë°”ì¸ë“œ
 		DestInventorySlot->OnCliekedInventorySlot.AddDynamic(this, &AH1PlayerController::OnclieckedInventorySlot);
-		// ¾ÆÀÌÅÛ ¹ö¸®±â Ã³¸® ÇÔ¼ö ¹ÙÀÎµå
+		// ì•„ì´í…œ ë²„ë¦¬ê¸° ì²˜ë¦¬ í•¨ìˆ˜ ë°”ì¸ë“œ
 		DestInventorySlot->OnCliekedInventoryContext.AddDynamic(this, &AH1PlayerController::OnclieckedContextThrow);
 	}
-	else // ¸¸¾à ºóÄ­ÀÌ ¾Æ´Ï¸é ÇöÀç Ä­¿¡ ¾ÆÀÌÅÛ ½ºÅÃÀ» Áõ°¡ ½ÃÅ°°Å³ª µÎ ½½·ÔÀÇ ¾ÆÀÌÅÛÀ» ¼­·Î ±³È¯ÇÑ´Ù.
+	else // ë§Œì•½ ë¹ˆì¹¸ì´ ì•„ë‹ˆë©´ í˜„ì¬ ì¹¸ì— ì•„ì´í…œ ìŠ¤íƒì„ ì¦ê°€ ì‹œí‚¤ê±°ë‚˜ ë‘ ìŠ¬ë¡¯ì˜ ì•„ì´í…œì„ ì„œë¡œ êµí™˜í•œë‹¤.
 	{
-		// Ãâ¹ßÁö ½½·Ô°ú ¸ñÀûÁö ½½·ÔÀÇ ¾ÆÀÌÅÛÀÌ °°°í ¾ÆÀÌÅÛÀÌ ¼Ò¸ğ¼ºÀÌ¸é ½×¾Æ¶ó.
+		// ì¶œë°œì§€ ìŠ¬ë¡¯ê³¼ ëª©ì ì§€ ìŠ¬ë¡¯ì˜ ì•„ì´í…œì´ ê°™ê³  ì•„ì´í…œì´ ì†Œëª¨ì„±ì´ë©´ ìŒ“ì•„ë¼.
 		if (SrcInventoryItem->ItemClassID == DestInventoryItem->ItemClassID && SrcInventoryItem->GetItemTableRow()->ItemType == EItemType::Consume)
 		{
-			// ÄÁÆ®·Ñ·¯ÀÇ ÀÎº¥Åä¸®¹è¿­¿¡¼­ ´ë»ó½½·ÔÀÇ ¾ÆÀÌÅÛ°ú Æ÷ÀÎÅÍ°¡ °°Àº ¾ÆÀÌÅÛÀÇ ÀÎµ¦½º¸¦ ±¸ÇÔ.
+			// ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ì¸ë²¤í† ë¦¬ë°°ì—´ì—ì„œ ëŒ€ìƒìŠ¬ë¡¯ì˜ ì•„ì´í…œê³¼ í¬ì¸í„°ê°€ ê°™ì€ ì•„ì´í…œì˜ ì¸ë±ìŠ¤ë¥¼ êµ¬í•¨.
 			DestInvenIndex = InventoryItems.Find(DestInventoryItem);
 			if (INDEX_NONE == DestInvenIndex)
 				return;
 
-			// ¾ÆÀÌÅÛ °³¼ö¸¦ ÇÕÄ§.
+			// ì•„ì´í…œ ê°œìˆ˜ë¥¼ í•©ì¹¨.
 			DestInventoryItem->StackCount += SrcInventoryItem->StackCount;
 			InventoryItems[srcInvenIndex] = nullptr;			
-			SrcInventorySlot->CleanUp();	// ½½·Ô Á¤¸®
-			DestInventorySlot->UpdateSlot(); // ½½·Ô ¾÷µ¥ÀÌÆ®
+			SrcInventorySlot->CleanUp();	// ìŠ¬ë¡¯ ì •ë¦¬
+			DestInventorySlot->UpdateSlot(); // ìŠ¬ë¡¯ ì—…ë°ì´íŠ¸
 		}
 		else
 		{
-			// ÄÁÆ®·Ñ·¯ÀÇ ÀÎº¥Åä¸®¹è¿­¿¡¼­ ´ë»ó½½·ÔÀÇ ¾ÆÀÌÅÛ°ú Æ÷ÀÎÅÍ°¡ °°Àº ¾ÆÀÌÅÛÀÇ ÀÎµ¦½º¸¦ ±¸ÇÔ.
+			// ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ì¸ë²¤í† ë¦¬ë°°ì—´ì—ì„œ ëŒ€ìƒìŠ¬ë¡¯ì˜ ì•„ì´í…œê³¼ í¬ì¸í„°ê°€ ê°™ì€ ì•„ì´í…œì˜ ì¸ë±ìŠ¤ë¥¼ êµ¬í•¨.
 			DestInvenIndex = InventoryItems.Find(DestInventoryItem);
 			if (INDEX_NONE == DestInvenIndex)
 				return;
 
-			// ½½·Ô ¼­·Î ±³È¯
+			// ìŠ¬ë¡¯ ì„œë¡œ êµí™˜
 			InventoryItems[DestInvenIndex] = SrcInventoryItem;
 			InventoryItems[srcInvenIndex] = DestInventoryItem;
 
-			// ½½·Ô °¢°¢ ¾÷µ¥ÀÌÆ®
+			// ìŠ¬ë¡¯ ê°ê° ì—…ë°ì´íŠ¸
 			SrcInventorySlot->SetItemInfo(DestInventoryItem);
 			SrcInventorySlot->UpdateSlot();
 
@@ -608,12 +608,12 @@ void AH1PlayerController::SplitInventoryItem(UH1InventoryItem* SrcInventoryItem,
 	if (INDEX_NONE == srcInvenIndex)
 		return;
 
-	// Àı¹İÀ» ³ª´®. ³ª´²¼­ 0°³¸é ºĞÇÒµÇ´Â ¾ÆÀÌÅÛµµ 0°³. ¹¬½ÃÀû Çüº¯È¯
+	// ì ˆë°˜ì„ ë‚˜ëˆ”. ë‚˜ëˆ ì„œ 0ê°œë©´ ë¶„í• ë˜ëŠ” ì•„ì´í…œë„ 0ê°œ. ë¬µì‹œì  í˜•ë³€í™˜
 	int HalfStackCount = SrcInventoryItem->StackCount / 2.0f;
 	if (0 == HalfStackCount)
 		return;
 
-	if (!IsValid(DestInventoryItem)) // ´ë»ó ½½·ÔÀÌ ºñ¾îÀÖÀ½
+	if (!IsValid(DestInventoryItem)) // ëŒ€ìƒ ìŠ¬ë¡¯ì´ ë¹„ì–´ìˆìŒ
 	{
 		int DestInvenSlotIndex = DestInventorySlot->SlotIndex;
 		if (INDEX_NONE == DestInvenSlotIndex)
@@ -632,9 +632,9 @@ void AH1PlayerController::SplitInventoryItem(UH1InventoryItem* SrcInventoryItem,
 		DestInventorySlot->OnCliekedInventorySlot.AddDynamic(this, &AH1PlayerController::OnclieckedInventorySlot);
 		DestInventorySlot->OnCliekedInventoryContext.AddDynamic(this, &AH1PlayerController::OnclieckedContextThrow);
 	}
-	else // ´ë»ó ½½·Ô¿¡ ¾ÆÀÌÅÛÀÌ ÀÖÀ½
+	else // ëŒ€ìƒ ìŠ¬ë¡¯ì— ì•„ì´í…œì´ ìˆìŒ
 	{
-		// ½½·ÔÀÇ ¾ÆÀÌÅÛÀÌ °°À¸¸é °ãÄ£´Ù.
+		// ìŠ¬ë¡¯ì˜ ì•„ì´í…œì´ ê°™ìœ¼ë©´ ê²¹ì¹œë‹¤.
 		if (SrcInventoryItem->ItemClassID == DestInventoryItem->ItemClassID)
 		{
 			SrcInventoryItem->StackCount -= HalfStackCount;
@@ -643,7 +643,7 @@ void AH1PlayerController::SplitInventoryItem(UH1InventoryItem* SrcInventoryItem,
 			DestInventoryItem->StackCount += HalfStackCount;
 			DestInventorySlot->UpdateSlot();
 		}
-		else // ½½·ÔÀÇ ¾ÆÀÌÅÛÀÌ ¼­·Î ´Ù¸£¸é ¼­·Î À§Ä¡¸¦ ¹Ù²Ş. // ºĞÇÒµÈ µå´ë±× µå·Ó ¾ÆÀÌÅÛ»Ó¸¸ ¾Æ´Ï¶ó Ãâ¹ßÁö ½½·Ô°ú ¸ñÀûÁö ½½·ÔÀÇ ¾ÆÀÌÅÛÀÌ ±³Ã¼µÊ.
+		else // ìŠ¬ë¡¯ì˜ ì•„ì´í…œì´ ì„œë¡œ ë‹¤ë¥´ë©´ ì„œë¡œ ìœ„ì¹˜ë¥¼ ë°”ê¿ˆ. // ë¶„í• ëœ ë“œëŒ€ê·¸ ë“œë¡­ ì•„ì´í…œë¿ë§Œ ì•„ë‹ˆë¼ ì¶œë°œì§€ ìŠ¬ë¡¯ê³¼ ëª©ì ì§€ ìŠ¬ë¡¯ì˜ ì•„ì´í…œì´ êµì²´ë¨.
 		{
 			ExchangeInventorySlot(SrcInventoryItem, SrcInventorySlot, DestInventoryItem, DestInventorySlot);
 		}

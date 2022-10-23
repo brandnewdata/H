@@ -30,44 +30,44 @@ bool UInventory_WS::Initialize()
 {
 	Super::Initialize();
 
-	//// 8°³°¡ Â÷ÀÖ´Â°Å CDO»ý¼ºÀÌ¶û ¿¬°üÀÖ´Â ¹ö±× °°Àºµ¥...
+	//// 8ê°œê°€ ì°¨ìžˆëŠ”ê±° CDOìƒì„±ì´ëž‘ ì—°ê´€ìžˆëŠ” ë²„ê·¸ ê°™ì€ë°...
 	//InventorySlots.Empty();
 
-	////º¯¼ö¸í°ú ¸®ÇÃ·º¼Ç ±â´ÉÀ» ÀÌ¿ëÇØ¼­ ¾Æ·¡Ã³·³ Ã³¸®µµ °¡´É
-	// //ÇöÀç Å¬·¡½º¿¡ Æ÷ÇÔµÈ ¼Ó¼ºµéÀ» ¸®½ºÆ®ÀÇ ¹Ýº¹ÀÚ¸¦ °¡Á®¿È.
-	// //ÆÄ»ý Å¬·¡½ºÀÎ BP Å¬·¡½º¿¡¼­ ½½·ÔÀÇ °³¼ö°¡ Á¤ÇØÁö±â ¶§¹®¿¡ ÀÌ·¯ÇÑ °úÁ¤ÀÌ ÇÊ¿äÇÔ.
+	////ë³€ìˆ˜ëª…ê³¼ ë¦¬í”Œë ‰ì…˜ ê¸°ëŠ¥ì„ ì´ìš©í•´ì„œ ì•„ëž˜ì²˜ëŸ¼ ì²˜ë¦¬ë„ ê°€ëŠ¥
+	// //í˜„ìž¬ í´ëž˜ìŠ¤ì— í¬í•¨ëœ ì†ì„±ë“¤ì„ ë¦¬ìŠ¤íŠ¸ì˜ ë°˜ë³µìžë¥¼ ê°€ì ¸ì˜´.
+	// //íŒŒìƒ í´ëž˜ìŠ¤ì¸ BP í´ëž˜ìŠ¤ì—ì„œ ìŠ¬ë¡¯ì˜ ê°œìˆ˜ê°€ ì •í•´ì§€ê¸° ë•Œë¬¸ì— ì´ëŸ¬í•œ ê³¼ì •ì´ í•„ìš”í•¨.
 	//for (TFieldIterator<FObjectProperty> PropIt(GetClass()); PropIt; ++PropIt)
 	//{
-	//	// ¹Ýº¹ÀÚ·ÎºÎÅÍ Æ÷ÀÎÅÍ¸¦ ¹Þ¾Æ¼­ ´Ù½Ã Æ÷ÀÎÆÃÇÔ. ¾È ÇÏ¸é ÄÚµå°¡ ±æ¾îÁ®¼­ ÀÌ·¸°ÔÇÔ.)
+	//	// ë°˜ë³µìžë¡œë¶€í„° í¬ì¸í„°ë¥¼ ë°›ì•„ì„œ ë‹¤ì‹œ í¬ì¸íŒ…í•¨. ì•ˆ í•˜ë©´ ì½”ë“œê°€ ê¸¸ì–´ì ¸ì„œ ì´ë ‡ê²Œí•¨.)
 	//	FObjectProperty* Property = *PropIt;
 
-	//	// isvalid »ç¿ë ºÒ°¡. // ¼Ó¼ºÀÌ À¯È¿ÇÏ´Ù¸é
+	//	// isvalid ì‚¬ìš© ë¶ˆê°€. // ì†ì„±ì´ ìœ íš¨í•˜ë‹¤ë©´
 	//	if (Property != nullptr)
 	//	{
-	//		// ½ÇÁ¦ ¼Ó¼º °´Ã¼°¡ ÀÖ´Â Æ÷ÀÎÅÍ  °ªÀ» ¹Þ¾Æ¿È
+	//		// ì‹¤ì œ ì†ì„± ê°ì²´ê°€ ìžˆëŠ” í¬ì¸í„°  ê°’ì„ ë°›ì•„ì˜´
 	//		UObject* TestSlotObject = Property->GetObjectPropertyValue_InContainer(this);
-	//		// Áö±Ý ÇÊ¿äÇÑ ¼Ó¼ºÀ¸·Î Çüº¯È¯ . ½ÇÆÐÇÏ¸é ¿øÇÏ´ø ¼Ó¼ºÀÌ ¾Æ´Ñ °Í. ¾Æ¹«ÀÏ ¾øÀÌ °ËÁõ´Ü°è¿¡¼­ Á¾·á
+	//		// ì§€ê¸ˆ í•„ìš”í•œ ì†ì„±ìœ¼ë¡œ í˜•ë³€í™˜ . ì‹¤íŒ¨í•˜ë©´ ì›í•˜ë˜ ì†ì„±ì´ ì•„ë‹Œ ê²ƒ. ì•„ë¬´ì¼ ì—†ì´ ê²€ì¦ë‹¨ê³„ì—ì„œ ì¢…ë£Œ
 	//		UInventorySlot_WS* WidgetSlot = Cast<UInventorySlot_WS>(TestSlotObject);
 
-	//		// isvalid »ç¿ë ºÒ°¡. °ËÁõÀÌ ¼º°øÇÏ¸é °ªÀÌ nullptrÀÌ ¾Æ´Ï°í À¯È¿ÇÔ.
+	//		// isvalid ì‚¬ìš© ë¶ˆê°€. ê²€ì¦ì´ ì„±ê³µí•˜ë©´ ê°’ì´ nullptrì´ ì•„ë‹ˆê³  ìœ íš¨í•¨.
 	//		if (WidgetSlot != nullptr)
 	//		{
-	//			// ÀÎº¥Åä¸®ÀÇ ½½·Ô¹è¿­¿¡ ½½·ÔÀ» Ãß°¡ÇÔ.
+	//			// ì¸ë²¤í† ë¦¬ì˜ ìŠ¬ë¡¯ë°°ì—´ì— ìŠ¬ë¡¯ì„ ì¶”ê°€í•¨.
 	//			InventorySlots.Add(WidgetSlot);
 	//		}
 	//	}
 	//}
 
-// ÇöÀç Å¬·¡½º¿¡ Æ÷ÇÔµÈ ÇÏÀ§ ¼Ó¼ºµéÀ» ÀÌ¸§À¸·Î Ã£¾Æ¿Í¼­ ¹Ýº¹¹®À¸·Î ¾Æ·¡ Ã³¸®¸¦ ´ëÃ¼ ÇÒ ¼ö ÀÖÀ½.
-//	UObjectProperty* ObjProperty = FindField<UObjectProperty>(GetClass(), FName(TEXT("[º¯¼ö¸í]")));
-// ¹Ýº¹¹® ¾øÀÌ ±×³É ÇÏµåÄÚµùÇÔ.
-// TODO : ¾Ë¼ö ¾ø´Â ¹ö±× µµ´ëÃ¼ ÀÌ°Å CDO¿¡¼­ ºÒ¸®´Â°Å ¾Æ´Ï¸é ¼³¸íÀÌ ¾ÈµÊ ¿©±â ¸»°í ÀÌ ¹è¿­À» °Çµå¸®´Â ÄÚµå°¡ ¾ø´Âµ¥ Á¤È®ÇÏ°Ô 8°³°¡ ¸ÕÀú µé¾î°¡ ÀÖÀ½..;;
-// ½ÉÁö¾î ¹è¿­ ÀÌ¸§ ¾Õ¿¡ array_¸¦ ºÙÀÌ´Ï±î 8°³·Î ÀâÈ÷´Â ±âÇö»óÀÌ »ç¶óÁü 
-// ½É°¢ÇÔ.
-// CDO¸¦ ÆÄÀÏ·Î ¸¸µé¾î¼­ °¡Áö°í ÀÖ´Ù°¡ ¿©·¯ ¿£Áø ¹öÁ¯¿¡¼­ °øÀ¯ÇÏ°Å³ª ÇÏ´Â ±â»óÃµ¿ÜÇÑ °æ¿ì°¡ ¾Æ´Ï°í´Â CDO¿¡¼­ ÀÌ ÇÔ¼ö°¡ È£ÃâµÇ¼­ ¹ß»ýÇÑ´Ù°í »ý°¢ÇÏ´Â °ÍÀÌ..
-// ±×·±°Í Ä¡°í´Â flag°ªÀº ¿©ÀüÈ÷ ÀÌ ÇÔ¼ö°¡ 1¹ø¸¸ È£ÃâµÇ°í ÀÖÀ½.
-// °á±¹ ÃÖ¾ÇÀÇ °æ¿ìÀÎ ¾îµð¼­ÀÎ°¡ ¸Þ¸ð¸®°¡ ´©¼öµÇ¾î¼­ ¿À¹öÇÃ·Î¿ì·Î ¸Þ¸ð¸®°¡ µ¤¾î¾º¾î Á³°í ¿ì¿¬È÷ ÀÎº¥Åä¸® »çÀÌÁîÀÎ 8·Î µ¤ÀÎ °Í...?
-// ÀÌ °æ¿ì´Â ¸Þ¸ð¸® µð¹ö°Å »ìÆìºÁ¾ß ÇÒ °Í °°´Ù.
+// í˜„ìž¬ í´ëž˜ìŠ¤ì— í¬í•¨ëœ í•˜ìœ„ ì†ì„±ë“¤ì„ ì´ë¦„ìœ¼ë¡œ ì°¾ì•„ì™€ì„œ ë°˜ë³µë¬¸ìœ¼ë¡œ ì•„ëž˜ ì²˜ë¦¬ë¥¼ ëŒ€ì²´ í•  ìˆ˜ ìžˆìŒ.
+//	UObjectProperty* ObjProperty = FindField<UObjectProperty>(GetClass(), FName(TEXT("[ë³€ìˆ˜ëª…]")));
+// ë°˜ë³µë¬¸ ì—†ì´ ê·¸ëƒ¥ í•˜ë“œì½”ë”©í•¨.
+// TODO : ì•Œìˆ˜ ì—†ëŠ” ë²„ê·¸ ë„ëŒ€ì²´ ì´ê±° CDOì—ì„œ ë¶ˆë¦¬ëŠ”ê±° ì•„ë‹ˆë©´ ì„¤ëª…ì´ ì•ˆë¨ ì—¬ê¸° ë§ê³  ì´ ë°°ì—´ì„ ê±´ë“œë¦¬ëŠ” ì½”ë“œê°€ ì—†ëŠ”ë° ì •í™•í•˜ê²Œ 8ê°œê°€ ë¨¼ì € ë“¤ì–´ê°€ ìžˆìŒ..;;
+// ì‹¬ì§€ì–´ ë°°ì—´ ì´ë¦„ ì•žì— array_ë¥¼ ë¶™ì´ë‹ˆê¹Œ 8ê°œë¡œ ìž¡ížˆëŠ” ê¸°í˜„ìƒì´ ì‚¬ë¼ì§ 
+// ì‹¬ê°í•¨.
+// CDOë¥¼ íŒŒì¼ë¡œ ë§Œë“¤ì–´ì„œ ê°€ì§€ê³  ìžˆë‹¤ê°€ ì—¬ëŸ¬ ì—”ì§„ ë²„ì ¼ì—ì„œ ê³µìœ í•˜ê±°ë‚˜ í•˜ëŠ” ê¸°ìƒì²œì™¸í•œ ê²½ìš°ê°€ ì•„ë‹ˆê³ ëŠ” CDOì—ì„œ ì´ í•¨ìˆ˜ê°€ í˜¸ì¶œë˜ì„œ ë°œìƒí•œë‹¤ê³  ìƒê°í•˜ëŠ” ê²ƒì´..
+// ê·¸ëŸ°ê²ƒ ì¹˜ê³ ëŠ” flagê°’ì€ ì—¬ì „ížˆ ì´ í•¨ìˆ˜ê°€ 1ë²ˆë§Œ í˜¸ì¶œë˜ê³  ìžˆìŒ.
+// ê²°êµ­ ìµœì•…ì˜ ê²½ìš°ì¸ ì–´ë””ì„œì¸ê°€ ë©”ëª¨ë¦¬ê°€ ëˆ„ìˆ˜ë˜ì–´ì„œ ì˜¤ë²„í”Œë¡œìš°ë¡œ ë©”ëª¨ë¦¬ê°€ ë®ì–´ì”Œì–´ ì¡Œê³  ìš°ì—°ížˆ ì¸ë²¤í† ë¦¬ ì‚¬ì´ì¦ˆì¸ 8ë¡œ ë®ì¸ ê²ƒ...?
+// ì´ ê²½ìš°ëŠ” ë©”ëª¨ë¦¬ ë””ë²„ê±° ì‚´íŽ´ë´ì•¼ í•  ê²ƒ ê°™ë‹¤.
 	//array_InventorySlots[0] = InventorySlot_0;
 	//array_InventorySlots[1] = InventorySlot_1;
 	//array_InventorySlots[2] = InventorySlot_2;
@@ -87,7 +87,7 @@ bool UInventory_WS::Initialize()
 	array_InventorySlots.Add(InventorySlot_6);
 	array_InventorySlots.Add(InventorySlot_7);
 	
-	// ÀÎº¥Åä¸®ÀÇ ºó ½½·ÔÀ¸·Î ¾ÆÀÌÅÛÀ» ÀÌµ¿ ½ÃÅ°·Á¸é ºó ½½·ÔÀÇ ÀÎµ¦½º°¡ ÇÊ¿äÇÔ.
+	// ì¸ë²¤í† ë¦¬ì˜ ë¹ˆ ìŠ¬ë¡¯ìœ¼ë¡œ ì•„ì´í…œì„ ì´ë™ ì‹œí‚¤ë ¤ë©´ ë¹ˆ ìŠ¬ë¡¯ì˜ ì¸ë±ìŠ¤ê°€ í•„ìš”í•¨.
 	InventorySlot_0->SlotIndex = 0;
 	InventorySlot_1->SlotIndex = 1;
 	InventorySlot_2->SlotIndex = 2;
@@ -102,10 +102,10 @@ bool UInventory_WS::Initialize()
 
 void UInventory_WS::ToggleInventory()
 {
-	// ÀÎº¥Åä¸® ¿­°í ´Ý±â
+	// ì¸ë²¤í† ë¦¬ ì—´ê³  ë‹«ê¸°
 	Showing = !Showing;
 
-	// ¿­°í ´Ý±â ¾Ö´Ï¸ÞÀÌ¼Ç Ã³¸®
+	// ì—´ê³  ë‹«ê¸° ì• ë‹ˆë©”ì´ì…˜ ì²˜ë¦¬
 	UWidgetAnimation** ShowAnimation = AnimationList.Find(FName(TEXT("Showing")));
 	if (nullptr == ShowAnimation)
 		return;
@@ -138,7 +138,7 @@ UInventorySlot_WS* UInventory_WS::GetEmptySlot()
 {
 	UInventorySlot_WS* FindSlot = nullptr;
 
-	// Áö±Ý ÀÎº¥Åä¸®¿¡ ¼Ò¼ÓµÇ¾î ÀÖ´Â  ½½·ÔÁß¿¡¼­ ºñ¾îÀÖ´Â ½½·ÔÀ» °¡Á®¿È.(´ç¿¬È÷ ºñ¾îÀÖ´Â Áß¿¡ ÀÎµ¦½º°¡ °¡Àå ºü¸¥°ÍÀÌ ¿È)
+	// ì§€ê¸ˆ ì¸ë²¤í† ë¦¬ì— ì†Œì†ë˜ì–´ ìžˆëŠ”  ìŠ¬ë¡¯ì¤‘ì—ì„œ ë¹„ì–´ìžˆëŠ” ìŠ¬ë¡¯ì„ ê°€ì ¸ì˜´.(ë‹¹ì—°ížˆ ë¹„ì–´ìžˆëŠ” ì¤‘ì— ì¸ë±ìŠ¤ê°€ ê°€ìž¥ ë¹ ë¥¸ê²ƒì´ ì˜´)
 	for (auto slot : array_InventorySlots)
 	{
 		if (slot->GetIsEmpty())
@@ -153,8 +153,8 @@ UInventorySlot_WS* UInventory_WS::GetEmptySlot()
 
 UInventorySlot_WS* UInventory_WS::GetSlot(int index)
 {
-	// TODO : ÀÎº¥Åä¸® ½½·Ô¹üÀ§ º¯¼öÈ­ ÇØ¾ßÇÔ. ÀÎº¥Åä¸® ½½·ÔÅ©±â¸¦ ÆÄ»ýÅ¬·¡½º¿¡¼­ ¹Þ¾Æ¿À´Â ÃÊ±âÈ­ ±¸¹®À» Ãß°¡ÇÒ °Í.
-	// ¿ä±¸¹ÞÀº ÀÎº¥Åä¸® ½½·ÔÀÇ ÀÎµ¦½º°¡ À¯È¿ÇÏ´Ù¸é ÇØ´ç ÀÎº¥Åä¸® ½½·ÔÀÇ Æ÷ÀÎÅÍ¸¦ ¹ÝÈ¯ÇÑ´Ù.
+	// TODO : ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ë²”ìœ„ ë³€ìˆ˜í™” í•´ì•¼í•¨. ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯í¬ê¸°ë¥¼ íŒŒìƒí´ëž˜ìŠ¤ì—ì„œ ë°›ì•„ì˜¤ëŠ” ì´ˆê¸°í™” êµ¬ë¬¸ì„ ì¶”ê°€í•  ê²ƒ.
+	// ìš”êµ¬ë°›ì€ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì˜ ì¸ë±ìŠ¤ê°€ ìœ íš¨í•˜ë‹¤ë©´ í•´ë‹¹ ì¸ë²¤í† ë¦¬ ìŠ¬ë¡¯ì˜ í¬ì¸í„°ë¥¼ ë°˜í™˜í•œë‹¤.
 	if (index < 0 || index >= 8)
 		return nullptr;
 
@@ -163,7 +163,7 @@ UInventorySlot_WS* UInventory_WS::GetSlot(int index)
 
 int UInventory_WS::GetSlotIndex(UInventorySlot_WS* InventorySlot)
 {
-	// ÇöÀç ½½·ÔÀÇ Æ÷ÀÎÅÍ·Î ½½·ÔÀÇ ÀÎµ¦½º¸¦ ¹ÝÈ¯ÇÔ.
-	// TArray¿¡¼­ÀÇ ÀÎµ¦½ºÀÓ. 
+	// í˜„ìž¬ ìŠ¬ë¡¯ì˜ í¬ì¸í„°ë¡œ ìŠ¬ë¡¯ì˜ ì¸ë±ìŠ¤ë¥¼ ë°˜í™˜í•¨.
+	// TArrayì—ì„œì˜ ì¸ë±ìŠ¤ìž„. 
 	return array_InventorySlots.Find(InventorySlot);
 }

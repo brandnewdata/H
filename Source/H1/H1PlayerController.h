@@ -10,7 +10,7 @@
 enum class EItemEquipSlot : uint8;
 
 
-class UH1InventoryItem; // ÇÊ¿ä¾øÀ½
+class UH1InventoryItem; // í•„ìš”ì—†ìŒ
 class UInventorySlot_WS;
 
 
@@ -19,15 +19,15 @@ class AH1PlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-		// ½ÃÀÛ ¹× ÃÊ±âÈ­ ÇÔ¼öµé
+		// ì‹œìž‘ ë° ì´ˆê¸°í™” í•¨ìˆ˜ë“¤
 public:
 	AH1PlayerController();
 	virtual void PostInitializeComponents() override;
 	virtual void OnPossess(APawn* aPawn) override;
 
 protected:
-	// ¿¡µðÅÍ¿¡¼­ ½Ã¹Ä·¹ÀÌ¼ÇÀ» ½ÃÀÛÇÏ¸é Æ÷Ä¿½º°¡ ½ÇÇàÈ­¸éÀÌ ¾Æ´Ï¶ó¼­ È­¸éÀ» ÇÑ¹ø ´­·¯¾ß ÀÔ·ÂÀÌ °¡´ÉÇÏ´Ù.
-	// ÀÎÇ²¸ðµå¸¦ °ÔÀÓÀ¸·Î ¼³Á¤ÇØ¼­ Å×½ºÆ®¸¦ ÆíÇÏ°ÔÇÔ.
+	// ì—ë””í„°ì—ì„œ ì‹œë®¬ë ˆì´ì…˜ì„ ì‹œìž‘í•˜ë©´ í¬ì»¤ìŠ¤ê°€ ì‹¤í–‰í™”ë©´ì´ ì•„ë‹ˆë¼ì„œ í™”ë©´ì„ í•œë²ˆ ëˆŒëŸ¬ì•¼ ìž…ë ¥ì´ ê°€ëŠ¥í•˜ë‹¤.
+	// ì¸í’‹ëª¨ë“œë¥¼ ê²Œìž„ìœ¼ë¡œ ì„¤ì •í•´ì„œ í…ŒìŠ¤íŠ¸ë¥¼ íŽ¸í•˜ê²Œí•¨.
 	virtual void BeginPlay() override;
 
 	// Begin PlayerController interface
@@ -53,28 +53,28 @@ protected:
 
 // H1
 public:
-	// Á¾·á ÆË¾÷ ÇÔ¼ö 
+	// ì¢…ë£Œ íŒì—… í•¨ìˆ˜ 
 	UFUNCTION()
 	void IP_Esc();
 
-	// ÀÎº¥Åä¸® ÆË¾÷ ÇÔ¼ö
+	// ì¸ë²¤í† ë¦¬ íŒì—… í•¨ìˆ˜
 	UFUNCTION()
 	void IP_Inventory();
 
-	// ¾ÆÀÌÅÛ ÇÈÅ· ÇÔ¼ö, ¾ÆÀÌÅÛ °´Ã¼¿¡¼­ È£ÃâÇÏ¸ç ÀÌ È£Ãâ ½ºÅÃÀº ÀÌ¸§Ç¥ ¹öÆ° ÀÌº¥Æ®ÀÌ´Ù.
+	// ì•„ì´í…œ í”½í‚¹ í•¨ìˆ˜, ì•„ì´í…œ ê°ì²´ì—ì„œ í˜¸ì¶œí•˜ë©° ì´ í˜¸ì¶œ ìŠ¤íƒì€ ì´ë¦„í‘œ ë²„íŠ¼ ì´ë²¤íŠ¸ì´ë‹¤.
 	bool TryPickingItem(int ItemClassID, int StackCount);
 
-	// ÀÎº¥Åä¸®¿¡ ID°¡ ÀÏÄ¡ÇÏ´Â ¾ÆÀÌÅÛÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ°í Á¸ÀçÇÏ´Â°æ¿ì¿¡´Â ¹ÝÈ¯°ªÀ¸·Î´Â ±× ÀÎµ¦½º¸¦ ¾øÀ¸¸é noneÀ» ¹ÝÈ¯ÇÑ´Ù.
-	// µÎ¹øÂ° ¸Å°³º¯¼ö´Â Æ÷ÀÎÅÍ¿¡ ´ëÇÑ ÂüÁ¶·Î ÇØ¼®µÈ´Ù.
+	// ì¸ë²¤í† ë¦¬ì— IDê°€ ì¼ì¹˜í•˜ëŠ” ì•„ì´í…œì´ ìžˆëŠ”ì§€ í™•ì¸í•˜ê³  ì¡´ìž¬í•˜ëŠ”ê²½ìš°ì—ëŠ” ë°˜í™˜ê°’ìœ¼ë¡œëŠ” ê·¸ ì¸ë±ìŠ¤ë¥¼ ì—†ìœ¼ë©´ noneì„ ë°˜í™˜í•œë‹¤.
+	// ë‘ë²ˆì§¸ ë§¤ê°œë³€ìˆ˜ëŠ” í¬ì¸í„°ì— ëŒ€í•œ ì°¸ì¡°ë¡œ í•´ì„ëœë‹¤.
 	UFUNCTION()
 	int FindInventoryItemByItemID(int ItemClassID, UH1InventoryItem*& FoundSlot);
 
-	// TODO : ÂüÁ¶¿¡ ´ëÇÑ Æ÷ÀÎÅÍ Çü½ÄÀÌ Æ¯º°ÇÑ Á¡ÀÌ ÀÖ´ÂÁö ¾Ë¾Æº¸±â
-	// ÀÎº¥Åä¸®¿¡ ºóÄ­ÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ´Â ÇÔ¼ö. ºóÄ­ÀÌ ÀÖ´Ù¸é ºóÄ­ÀÇ ÁÖ¼Ò¸¦ ¹ÝÈ¯ÇÔ.
+	// TODO : ì°¸ì¡°ì— ëŒ€í•œ í¬ì¸í„° í˜•ì‹ì´ íŠ¹ë³„í•œ ì ì´ ìžˆëŠ”ì§€ ì•Œì•„ë³´ê¸°
+	// ì¸ë²¤í† ë¦¬ì— ë¹ˆì¹¸ì´ ìžˆëŠ”ì§€ í™•ì¸í•˜ëŠ” í•¨ìˆ˜. ë¹ˆì¹¸ì´ ìžˆë‹¤ë©´ ë¹ˆì¹¸ì˜ ì£¼ì†Œë¥¼ ë°˜í™˜í•¨.
 	UFUNCTION()
 	int GetEmptyInvenItem(UH1InventoryItem*& FoundSlot);
 
-	// ½½·Ô¿¡ Å¬¸¯ÀÌ ÀÏ¾î³µÀ» ¶§¿¡ controllerÀÇ Ã³¸® (Å¬¸¯Àº ¾ÆÀÌÅÛ ¼Ò¸ð ·ÎÁ÷ÀÓ.)
+	// ìŠ¬ë¡¯ì— í´ë¦­ì´ ì¼ì–´ë‚¬ì„ ë•Œì— controllerì˜ ì²˜ë¦¬ (í´ë¦­ì€ ì•„ì´í…œ ì†Œëª¨ ë¡œì§ìž„.)
 	UFUNCTION()
 	void OnclieckedInventorySlot(UH1InventoryItem* InventoryItem, UInventorySlot_WS* InventorySlot);
 
@@ -82,13 +82,13 @@ public:
 	UFUNCTION()
 	void GetEquipedInventoryItem(EItemEquipSlot ItemEquipSlot, UH1InventoryItem*& InventoryItem, UInventorySlot_WS*& InventorySlot);
 
-	// ÄÁÅØ½ºÆ® ¸Þ´ºÀÇ ¹ö¸®±â Ã³¸®
+	// ì»¨í…ìŠ¤íŠ¸ ë©”ë‰´ì˜ ë²„ë¦¬ê¸° ì²˜ë¦¬
 	UFUNCTION()
 	void OnclieckedContextThrow(UH1InventoryItem* InventoryItem, UInventorySlot_WS* InventorySlot);
 
-	// ¼­·Î ´Ù¸¥ ¾ÆÀÌÅÛ ½½·Ô °£ÀÇ ³»¿ë¹° ±³Ã¼
+	// ì„œë¡œ ë‹¤ë¥¸ ì•„ì´í…œ ìŠ¬ë¡¯ ê°„ì˜ ë‚´ìš©ë¬¼ êµì²´
 	void ExchangeInventorySlot(UH1InventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UH1InventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot);
-	// ½½·ÔÀÇ ¾ÆÀÌÅÛÀÌ 1°³ ÀÌ»óÀÌ¸é Àý¹Ý¸¸ µå·¡±× ¾ÆÀÌÅÛÀ¸·Î »ý¼º. 
+	// ìŠ¬ë¡¯ì˜ ì•„ì´í…œì´ 1ê°œ ì´ìƒì´ë©´ ì ˆë°˜ë§Œ ë“œëž˜ê·¸ ì•„ì´í…œìœ¼ë¡œ ìƒì„±. 
 	void SplitInventoryItem(UH1InventoryItem* SrcInventoryItem, UInventorySlot_WS* SrcInventorySlot, UH1InventoryItem* DestInventoryItem, UInventorySlot_WS* DestInventorySlot);
 
 
