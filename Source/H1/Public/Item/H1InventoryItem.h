@@ -7,8 +7,8 @@
 #include "H1InventoryItem.generated.h"
 
 
-enum class EItemEquipSlot : uint8; // ¾ÆÀÌÅÛ ÀåÂø½½·Ô ¿­°ÅÃ¼.
-struct FItemTableRow; // ¾ÆÀÌÅÛ DTÇà ±¸Á¶Ã¼
+enum class EItemEquipSlot : uint8; // ì•„ì´í…œ ì¥ì°©ìŠ¬ë¡¯ ì—´ê±°ì²´.
+struct FItemTableRow; // ì•„ì´í…œ DTí–‰ êµ¬ì¡°ì²´
 
 /**
  * 
@@ -19,24 +19,24 @@ class UH1InventoryItem : public UObject
 	GENERATED_BODY()
 	
 public:
-	// ÀÌ ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀ» ¸¸µå´Âµ¥ »ç¿ëÇÑ DT ÇàÀÇ Æ÷ÀÎÅÍ °ªÀ» ¹İÈ¯ÇÑ´Ù.
+	// ì´ ì¸ë²¤í† ë¦¬ ì•„ì´í…œì„ ë§Œë“œëŠ”ë° ì‚¬ìš©í•œ DT í–‰ì˜ í¬ì¸í„° ê°’ì„ ë°˜í™˜í•œë‹¤.
 	const FItemTableRow* GetItemTableRow();
 	EItemEquipSlot GetItemEquipSlot();
 
-	// ±âº»ÀûÀ¸·Î ¾ÆÀÌÅÛÀº ÃÖ¼Ò 1°³°¡ ÀÖ¾î¾ß Á¸ÀçÇÏ´Ï±î.
+	// ê¸°ë³¸ì ìœ¼ë¡œ ì•„ì´í…œì€ ìµœì†Œ 1ê°œê°€ ìˆì–´ì•¼ ì¡´ì¬í•˜ë‹ˆê¹Œ.
 	void SetItemInfo(int NewItemClassID, int NewStackCount = 1);
 	void CleanUp();
 
 public:
 	UPROPERTY()
-	int ItemClassID = 0; // ¾ÆÀÌÅÛÀÇ ID
+	int ItemClassID = 0; // ì•„ì´í…œì˜ ID
 	UPROPERTY()
-	bool Empty = true; // ºñ¾ú³ª?
+	bool Empty = true; // ë¹„ì—ˆë‚˜?
 	UPROPERTY()
-	bool Equipped = false; // ÀåÂø°¡´ÉÇÑ ¾ÆÀÌÅÛÀÎ°¡?
+	bool Equipped = false; // ì¥ì°©ê°€ëŠ¥í•œ ì•„ì´í…œì¸ê°€?
 	UPROPERTY()
-	int32 StackCount = 1; // ¾ÆÀÌÅÛÀÌ ¸î°³ Â¥¸®ÀÎ°¡?
+	int32 StackCount = 1; // ì•„ì´í…œì´ ëª‡ê°œ ì§œë¦¬ì¸ê°€?
 private:
-	// ÀÌ ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀ» ¸¸µå´Âµ¥ »ç¿ëÇÑ DT ÇàÀÇ Æ÷ÀÎÅÍ °ª.
+	// ì´ ì¸ë²¤í† ë¦¬ ì•„ì´í…œì„ ë§Œë“œëŠ”ë° ì‚¬ìš©í•œ DT í–‰ì˜ í¬ì¸í„° ê°’.
 	const FItemTableRow* ItemTableRow = nullptr;
 };

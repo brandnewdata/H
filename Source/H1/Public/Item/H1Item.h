@@ -23,8 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// ¿¡µğÅÍ µğÅ×ÀÏ ÆĞ³Î¿¡¼­ °ªÀ» ¼öÁ¤ÇÏ¸é ÀÌ ÇÔ¼ö°¡ È£ÃâµÈ´Ù.
-	// ¿¡µğÅÍ¿¡¼­ ÀÔ·ÂÇÑ °ªÀ¸·Î µ¥ÀÌÅÍ Å×ÀÌºí¿¡¼­ °ªÀ» °¡Á®¿Â´Ù.
+	// ì—ë””í„° ë””í…Œì¼ íŒ¨ë„ì—ì„œ ê°’ì„ ìˆ˜ì •í•˜ë©´ ì´ í•¨ìˆ˜ê°€ í˜¸ì¶œëœë‹¤.
+	// ì—ë””í„°ì—ì„œ ì…ë ¥í•œ ê°’ìœ¼ë¡œ ë°ì´í„° í…Œì´ë¸”ì—ì„œ ê°’ì„ ê°€ì ¸ì˜¨ë‹¤.
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
@@ -44,12 +44,19 @@ public:
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UArrowComponent* Arrow;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class USphereComponent* ItemSphere;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	class UStaticMeshComponent* ItemMesh;
+	class UStaticMeshComponent* ItemMesh_SM;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	class USkeletalMeshComponent* ItemMesh_SK;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int ItemClassID;
+	
 	UPROPERTY()
 	class UItemName_WS* ItemNameWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)

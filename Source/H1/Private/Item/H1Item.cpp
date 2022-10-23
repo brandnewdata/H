@@ -20,7 +20,7 @@
 // Sets default values
 AH1Item::AH1Item()
 {
-	// Ãæµ¹Ã¼ ¼³Á¤ÇÏ±â
+	// ì¶©ëŒì²´ ì„¤ì •í•˜ê¸°
 	ItemSphere = CreateDefaultSubobject<USphereComponent>(TEXT("ItemSphere"));
 	ItemSphere->SetCollisionResponseToChannel(ECC_Pawn, ECollisionResponse::ECR_Overlap);
 	ItemSphere->SetSphereRadius(150.0f);
@@ -28,20 +28,26 @@ AH1Item::AH1Item()
 	ItemSphere->OnComponentEndOverlap.AddDynamic(this, &AH1Item::OnSphereEndOverlap);
 	SetRootComponent(ItemSphere);
 
-	// TODO : ¾ÆÀÌÅÛ(Áİ±â¿ë) ¿¡·Î¿ì ÄÄÆ÷³ÍÆ® ÀÌ°Å¸Õ ºÁ¼­´Â ¾îµğ ¾²´ÀÁö ¸ğ¸£°Ú´Âµ¥ ..??
+	// TODO : ì•„ì´í…œ(ì¤ê¸°ìš©) ì—ë¡œìš° ì»´í¬ë„ŒíŠ¸ ì´ê±°ë¨¼ ë´ì„œëŠ” ì–´ë”” ì“°ëŠì§€ ëª¨ë¥´ê² ëŠ”ë° ..??
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	Arrow->SetupAttachment(RootComponent);
 
 
-	// Item Mesh~ ÀÌ¹Ì Ãæµ¹Àº ½ºÇÇ¾î°¡ Ã³¸®ÇÏ´Ï±î. pawnÇÏ°í Ãæµ¹Ã³¸®°¡ ÇÊ¿ä¾ø°í ÇÏ¸é ¿ÀÈ÷·Á ¼º´É±îÁö ³¶ºñÀÓ.
-	// ³ªÁß¿¡ ¹öÆ°¾øÀÌ Áö³ª°¡¸é ¸Ô´Â ±â´É ¸¸µç´Ù¸é º¯°æÇÒ °¡´É¼º ÀÖÀ½
-	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
-	ItemMesh->SetupAttachment(RootComponent);
-	ItemMesh->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));
-	ItemMesh->SetRelativeScale3D(FVector(1.5f));
-	ItemMesh->SetCollisionResponseToChannel(ECC_Pawn, ECollisionResponse::ECR_Ignore);
+	// Item Mesh~ ì´ë¯¸ ì¶©ëŒì€ ìŠ¤í”¼ì–´ê°€ ì²˜ë¦¬í•˜ë‹ˆê¹Œ. pawní•˜ê³  ì¶©ëŒì²˜ë¦¬ê°€ í•„ìš”ì—†ê³  í•˜ë©´ ì˜¤íˆë ¤ ì„±ëŠ¥ê¹Œì§€ ë‚­ë¹„ì„.
+	// ë‚˜ì¤‘ì— ë²„íŠ¼ì—†ì´ ì§€ë‚˜ê°€ë©´ ë¨¹ëŠ” ê¸°ëŠ¥ ë§Œë“ ë‹¤ë©´ ë³€ê²½í•  ê°€ëŠ¥ì„± ìˆìŒ
+	ItemMesh_SM = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh_SM"));
+	ItemMesh_SM->SetupAttachment(RootComponent);
+	ItemMesh_SM->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));
+	ItemMesh_SM->SetRelativeScale3D(FVector(1.5f));
+	ItemMesh_SM->SetCollisionResponseToChannel(ECC_Pawn, ECollisionResponse::ECR_Ignore);
 
-	// ¾ÆÀÌÅÛ Å¬·¡½º ID ±âº»°ªÀº 0ÀÌ´Ù.
+	ItemMesh_SK = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("ItemMesh_SK"));
+	ItemMesh_SK->SetupAttachment(RootComponent);
+	ItemMesh_SK->SetRelativeRotation(FRotator(0.0f, 0.0f, -90.0f));
+	ItemMesh_SK->SetRelativeScale3D(FVector(1.5f));
+	ItemMesh_SK->SetCollisionResponseToChannel(ECC_Pawn, ECollisionResponse::ECR_Ignore);
+
+	// ì•„ì´í…œ í´ë˜ìŠ¤ ID ê¸°ë³¸ê°’ì€ 0ì´ë‹¤.
 	ItemClassID = 0;
 
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -53,12 +59,12 @@ void AH1Item::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	// °ÔÀÓÀÌ ½ÃÀÛÇÏ¸é ÀÌ¸§Ç¥ À§Á¬À» »ı¼ºÇÑ´Ù.
+	// ê²Œì„ì´ ì‹œì‘í•˜ë©´ ì´ë¦„í‘œ ìœ„ì ¯ì„ ìƒì„±í•œë‹¤.
 	ItemNameWidget = CreateWidget<UItemName_WS>(UGameplayStatics::GetPlayerController(GetWorld(), 0), UItemName_WS::GetWidgetClassStatic());
-	// ÀÌ¸§Ç¥ À§Á¬ÀÇ ¹öÆ°ÀÌ ´­¸®¸é ¾ÆÀÌÅÛÀÌ ¼öÇàÇÏ´Â ·ÎÁ÷µéÀ» ´ãÀº ÇÔ¼ö¸¦ ÀÌ¸§Ç¥¿¡ ¸â¹ö µ¨¸®°ÔÀÌÆ®¿¡ ¹ÙÀÎµåÇÑ´Ù.
+	// ì´ë¦„í‘œ ìœ„ì ¯ì˜ ë²„íŠ¼ì´ ëˆŒë¦¬ë©´ ì•„ì´í…œì´ ìˆ˜í–‰í•˜ëŠ” ë¡œì§ë“¤ì„ ë‹´ì€ í•¨ìˆ˜ë¥¼ ì´ë¦„í‘œì— ë©¤ë²„ ë¸ë¦¬ê²Œì´íŠ¸ì— ë°”ì¸ë“œí•œë‹¤.
 	ItemNameWidget->OnItemNameButtonClicked.AddDynamic(this, &AH1Item::OnItemWidgetButtonClicked);
 
-	// ¿¡µğÅÍ¿¡¼­ ÁöÁ¤ÇÑ °ªÀ¸·Î ¾ÆÀÌÅÛÀ» ¼³Á¤ÇÑ´Ù. (DT¿¡¼­ ºÒ·¯¿È)
+	// ì—ë””í„°ì—ì„œ ì§€ì •í•œ ê°’ìœ¼ë¡œ ì•„ì´í…œì„ ì„¤ì •í•œë‹¤. (DTì—ì„œ ë¶ˆëŸ¬ì˜´)
 	SetItemInfo(ItemClassID, StackCount);
 }
 
@@ -67,16 +73,16 @@ void AH1Item::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// ¾ÆÀÌÅÛÀÌ ¸Ê¿¡¼­ ÀÌµ¿ÇÏ´Â °ÍÀ» µû¶ó¼­ ÀÌ¸§Ç¥µµ ÀÌµ¿ÇÑ´Ù.
+	// ì•„ì´í…œì´ ë§µì—ì„œ ì´ë™í•˜ëŠ” ê²ƒì„ ë”°ë¼ì„œ ì´ë¦„í‘œë„ ì´ë™í•œë‹¤.
 	AH1PlayerController* H1PlayerController = Cast<AH1PlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (IsValid(ItemNameWidget) && ItemNameWidget->GetIsVisible()/*->GetVisibility() == ESlateVisibility::Visible*/)
 	{
 		FVector2D ScreenPos;
 		
-		// 3D »óÀÇ ¾ÆÀÌÅÛ À§Ä¡·ÎºÎÅÍ ½ºÅ©¸°»ó¿¡¼­ ¾ÆÀÌÅÛ À§Ä¡¸¦ ¾ò¾î¿Â´Ù. 
+		// 3D ìƒì˜ ì•„ì´í…œ ìœ„ì¹˜ë¡œë¶€í„° ìŠ¤í¬ë¦°ìƒì—ì„œ ì•„ì´í…œ ìœ„ì¹˜ë¥¼ ì–»ì–´ì˜¨ë‹¤. 
 		if (H1PlayerController->ProjectWorldLocationToScreen(GetActorLocation(), ScreenPos))
 		{
-			// ÀÌ¸§Ç¥ À§Á¬ÀÇ À§Ä¡¸¦ ¾ò¾î¿Â ½ºÅ©¸°»óÀÇ ¾ÆÀÌÅÛ À§Ä¡·Î ¾÷µ¥ÀÌÆ® ÇÑ´Ù.
+			// ì´ë¦„í‘œ ìœ„ì ¯ì˜ ìœ„ì¹˜ë¥¼ ì–»ì–´ì˜¨ ìŠ¤í¬ë¦°ìƒì˜ ì•„ì´í…œ ìœ„ì¹˜ë¡œ ì—…ë°ì´íŠ¸ í•œë‹¤.
 			ItemNameWidget->SetPositionInViewport(ScreenPos);
 		}
 	}
@@ -87,7 +93,7 @@ void AH1Item::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 
-	// ¼Ó¼ºÀÌ À¯È¿ÇÏ¸é ¼Ó¼ºÀ¸·ÎºÎÅÍ ¼Ó¼º ÀÌ¸§À» ¾ò¾î ¿É´Ï´Ù.
+	// ì†ì„±ì´ ìœ íš¨í•˜ë©´ ì†ì„±ìœ¼ë¡œë¶€í„° ì†ì„± ì´ë¦„ì„ ì–»ì–´ ì˜µë‹ˆë‹¤.
 	const FName PropertyName = (PropertyChangedEvent.Property != nullptr) ? PropertyChangedEvent.Property->GetFName() : NAME_None;
 
 	if (PropertyName == GET_MEMBER_NAME_CHECKED(AH1Item, ItemClassID))
@@ -115,7 +121,19 @@ bool AH1Item::SetItemInfo(int DataTableID, int NewStackCount)
 		return false;
 
 	ItemClassID = ItemTable->ItemClassID;
-	ItemMesh->SetStaticMesh(Cast<UStaticMesh>(ItemTable->ItemModel.TryLoad()));
+
+	if (ItemTable->MeshType == EMeshType::SkeletalMesh)
+	{
+		ItemMesh_SK->SetSkeletalMesh(Cast<USkeletalMesh>(ItemTable->ItemModel.TryLoad()));
+		ItemMesh_SK->SetVisibility(true);
+		ItemMesh_SM->SetVisibility(false);
+	}
+	else // ì•„ë‹ˆë©´ ìŠ¤íƒœí‹± ë©”ì‹œ
+	{
+		ItemMesh_SM->SetStaticMesh(Cast<UStaticMesh>(ItemTable->ItemModel.TryLoad()));
+		ItemMesh_SM->SetVisibility(true);
+		ItemMesh_SK->SetVisibility(false);
+	}
 
 	ItemClassID = DataTableID;
 	StackCount = NewStackCount;
@@ -143,7 +161,7 @@ bool AH1Item::SetItemInfo(int DataTableID, int NewStackCount)
 
 void AH1Item::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	// ÀÌ ¹üÀ§¿¡ ¾È¿¡ µé¾î¿À¸é ¾ÆÀÌÅÛÀÇ ÀÌ¸§À» Ç¥½ÃÇÏ´Â UI¸¦ ¶ç¿ó´Ï´Ù.
+	// ì´ ë²”ìœ„ì— ì•ˆì— ë“¤ì–´ì˜¤ë©´ ì•„ì´í…œì˜ ì´ë¦„ì„ í‘œì‹œí•˜ëŠ” UIë¥¼ ë„ì›ë‹ˆë‹¤.
 	if (OtherComp->ComponentHasTag(FName(TEXT("ItemPickingBoundary"))) == false)
 		return;
 
@@ -163,7 +181,7 @@ void AH1Item::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 
 void AH1Item::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	// ¹üÀ§ ¹ÛÀ¸·Î ³ª°¡¸é ¾ÆÀÌÅÛ ÀÌ¸§ UI¸¦ Áö¿ó´Ï´Ù.
+	// ë²”ìœ„ ë°–ìœ¼ë¡œ ë‚˜ê°€ë©´ ì•„ì´í…œ ì´ë¦„ UIë¥¼ ì§€ì›ë‹ˆë‹¤.
 	if (OtherComp->ComponentHasTag(FName(TEXT("ItemPickingBoundary"))) == false)
 		return;
 
